@@ -1,6 +1,8 @@
 package route
 
 import (
+	"log"
+
 	"xorm.io/xorm"
 
 	"quest/controller"
@@ -10,19 +12,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Register() *gin.Engine {
-	route := gin.Default()
+func RegisterUser(route *gin.Engine, engine *xorm.Engine) {
+	log.Println("[User] route registered")
+	// 添加用户路由
+	addUserRoute(route, engine)
+}
 
-	engine, err := xorm.NewEngine("sqlite3", "./local.db")
-	if err != nil {
-		panic(err)
-	}
-	defer engine.Close()
-
+func addUserRoute(route *gin.Engine, engine *xorm.Engine) {
 	userModel := model.UserModel{DB: engine}
 	userService := service.UserService{UserModel: userModel}
 	userController := controller.UserController{UserService: userService}
 	route.GET("/users/:id", userController.GetUser)
-
-	return route
 }
