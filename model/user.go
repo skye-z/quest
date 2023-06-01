@@ -1,26 +1,26 @@
 package model
 
-import (
-	"database/sql"
-)
+import "xorm.io/xorm"
 
 type User struct {
-	ID    int    `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+	Pass string `json:"-"`
 }
 
 type UserModel struct {
-	DB *sql.DB
+	DB *xorm.Engine
 }
 
-func (um UserModel) GetUser(id int) (User, error) {
-	query := "SELECT id, name, email FROM users WHERE id = ?"
-	row := um.DB.QueryRow(query, id)
+func (model UserModel) GetUser(id int) (User, error) {
+	query := "SELECT id, name, pass FROM user WHERE id = ?"
 	var user User
-	err := row.Scan(&user.ID, &user.Name, &user.Email)
+	row, err := model.DB.Where(query, id).Get(&user)
 	if err != nil {
 		return User{}, err
 	}
-	return user, nil
+	if row {
+		return user, nil
+	}
+	return User{}, nil
 }

@@ -1,7 +1,8 @@
 package route
 
 import (
-	"database/sql"
+	"xorm.io/xorm"
+
 	"quest/controller"
 	"quest/model"
 	"quest/service"
@@ -12,13 +13,13 @@ import (
 func Register() *gin.Engine {
 	route := gin.Default()
 
-	db, err := sql.Open("mysql", "root:password@/myapp")
+	engine, err := xorm.NewEngine("sqlite3", "./local.db")
 	if err != nil {
 		panic(err)
 	}
-	defer db.Close()
+	defer engine.Close()
 
-	userModel := model.UserModel{DB: db}
+	userModel := model.UserModel{DB: engine}
 	userService := service.UserService{UserModel: userModel}
 	userController := controller.UserController{UserService: userService}
 	route.GET("/users/:id", userController.GetUser)
