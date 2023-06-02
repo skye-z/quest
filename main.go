@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"quest/config"
 	"quest/route"
 	"quest/service"
 
@@ -20,21 +21,19 @@ func main() {
  \___\_\_,_/\__/___/\__/ 
 
 = Developed by SkyeZhang =`)
-
 	log.Println("[Core] release model")
 	// 关闭调试
-	gin.SetMode(gin.ReleaseMode)
+	// gin.SetMode(gin.ReleaseMode)
+	// 初始化系统配置
+	config.Init()
 	// 初始化数据库
 	engine := loadDBEngine()
 	go service.InitDatabase(engine)
 	log.Println("[Core] service starting")
 	// 注册路由
 	r := register(engine)
-
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "3000"
-	}
+	// 获取端口号
+	port := getPort()
 	log.Println("[Core] service started, port is", port)
 	r.Run(":" + port)
 	engine.Close()
@@ -52,4 +51,15 @@ func register(engine *xorm.Engine) *gin.Engine {
 	r := gin.Default()
 	route.RegisterUser(r, engine)
 	return r
+}
+
+func getPort() string {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = config.GetString("basic.port")
+	}
+	if port == "" {
+		port = "3000"
+	}
+	return port
 }
