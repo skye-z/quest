@@ -41,7 +41,7 @@ func main() {
 }
 
 func loadDBEngine() *xorm.Engine {
-	engine, err := xorm.NewEngine("sqlite", "./local.db")
+	engine, err := xorm.NewEngine("sqlite", "./local.store")
 	if err != nil {
 		panic(err)
 	}

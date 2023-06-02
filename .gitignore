@@ -5,3 +5,4 @@
 *.dylib
 # product
 quest
+local.store

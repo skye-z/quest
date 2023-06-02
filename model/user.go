@@ -1,9 +1,13 @@
 package model
 
-import "xorm.io/xorm"
+import (
+	"fmt"
+
+	"xorm.io/xorm"
+)
 
 type User struct {
-	ID   int    `json:"id"`
+	Id   int64  `json:"id"`
 	Name string `json:"name"`
 	Pass string `json:"-"`
 }
@@ -12,15 +16,52 @@ type UserModel struct {
 	DB *xorm.Engine
 }
 
-func (model UserModel) GetUser(id int) (User, error) {
-	query := "SELECT id, name, pass FROM user WHERE id = ?"
-	var user User
-	row, err := model.DB.Where(query, id).Get(&user)
+// 获取用户
+func (model UserModel) GetUser(user *User) error {
+	has, err := model.DB.Get(user)
+	if !has {
+		return err
+	}
+	return nil
+}
+
+// 获取用户列表
+func (model UserModel) GetUserList(name string, pass string, page int, num int) ([]User, error) {
+	var users []User
+	var err error
+	if len(name) == 0 {
+		err = model.DB.Limit(num, page).Find(&users)
+	} else if len(pass) == 32 {
+		err = model.DB.Where("name = ? and pass = ?", fmt.Sprintf("%%%s%%", name), pass).Limit(num, page).Find(&users)
+	} else {
+		err = model.DB.Where("name like ?", fmt.Sprintf("%%%s%%", name)).Limit(num, page).Find(&users)
+	}
 	if err != nil {
-		return User{}, err
+		return nil, err
 	}
-	if row {
-		return user, nil
+	return users, nil
+}
+
+// 添加用户
+func (model UserModel) AddUser(user *User) bool {
+	_, err := model.DB.Insert(user)
+	return err != nil
+}
+
+// 编辑用户
+func (model UserModel) EditUser(user *User) bool {
+	if user.Id == 0 {
+		return false
 	}
-	return User{}, nil
+	_, err := model.DB.ID(user.Id).Update(user)
+	return err != nil
+}
+
+// 删除用户
+func (model UserModel) DelUser(user *User) bool {
+	if user.Id == 0 {
+		return false
+	}
+	_, err := model.DB.Delete(user)
+	return err != nil
 }
