@@ -1,9 +1,8 @@
 package controller
 
 import (
-	"net/http"
+	"quest/model"
 	"quest/service"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,18 +11,26 @@ type UserController struct {
 	UserService service.UserService
 }
 
-func (uc UserController) GetUser(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid id"})
+type LoginRequest struct {
+	Name string `json:"name"`
+	Pass string `json:"Pass"`
+}
+
+type LoginResponse struct {
+	User  *model.User `json:"user"`
+	Token string      `json:"token"`
+}
+
+func (uc UserController) Login(ctx *gin.Context) {
+	var form LoginRequest
+	if err := ctx.ShouldBindJSON(&form); err != nil {
+		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-
-	user, err := uc.UserService.GetUser(id)
+	user, token, err := uc.UserService.GetUserLoginInfo(form.Name, form.Pass)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
+		ctx.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-
-	c.JSON(http.StatusOK, user)
+	ctx.JSON(200, LoginResponse{User: user, Token: token})
 }

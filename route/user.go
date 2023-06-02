@@ -22,5 +22,5 @@ func addUserRoute(route *gin.Engine, engine *xorm.Engine) {
 	userModel := model.UserModel{DB: engine}
 	userService := service.UserService{UserModel: userModel}
 	userController := controller.UserController{UserService: userService}
-	route.GET("/users/:id", userController.GetUser)
+	route.POST("/user/login", userController.Login)
 }
