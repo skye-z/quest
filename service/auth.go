@@ -2,8 +2,7 @@ package service
 
 import (
 	"fmt"
-	"quest/common"
-	"quest/config"
+	"quest/global"
 	"quest/model"
 	"strconv"
 	"strings"
@@ -19,54 +18,57 @@ func AuthHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		code := ctx.Request.Header.Get("Authorization")
 		if code == "" {
-			common.ReturnError(ctx, common.Errors.NotLoginError)
+			global.ReturnError(ctx, global.Errors.NotLoginError)
 			return
 		}
 
 		info := jwt.MapClaims{}
 		// 密钥
-		secret := config.GetString("token.secret")
+		secret := global.GetString("token.secret")
 		token, err := jwt.ParseWithClaims(code, &info, func(token *jwt.Token) (interface{}, error) {
 			return []byte(secret), nil
 		})
 		if err != nil {
-			common.ReturnError(ctx, common.Errors.TokenNotAvailableError)
+			global.ReturnError(ctx, global.Errors.TokenNotAvailableError)
 			return
 		}
 		if !token.Valid {
-			common.ReturnError(ctx, common.Errors.TokenInvalidError)
+			global.ReturnError(ctx, global.Errors.TokenInvalidError)
 			return
 		}
 		iss, err := info.GetIssuer()
 		if err != nil {
-			common.ReturnError(ctx, common.Errors.TokenNotAvailableError)
+			global.ReturnError(ctx, global.Errors.TokenNotAvailableError)
 			return
 		}
 		if iss != IssuerName {
-			common.ReturnError(ctx, common.Errors.TokenIllegalError)
+			global.ReturnError(ctx, global.Errors.TokenIllegalError)
 			return
 		}
 		sub, err := info.GetSubject()
 		if err != nil {
-			common.ReturnError(ctx, common.Errors.TokenNotAvailableError)
+			global.ReturnError(ctx, global.Errors.TokenNotAvailableError)
 			return
 		}
 		subs := strings.Split(sub, "@")
-		uid, err := strconv.Atoi(subs[1])
+		uid, err := strconv.ParseInt(subs[1], 10, 64)
 		if err != nil {
-			common.ReturnError(ctx, common.Errors.TokenNotAvailableError)
+			global.ReturnError(ctx, global.Errors.TokenNotAvailableError)
 			return
 		}
-		ctx.Set("token", subs[0])
-		ctx.Set("uid", uid)
+		user := model.User{
+			Id:   uid,
+			Name: subs[0],
+		}
+		ctx.Set("user", user)
 	}
 }
 
 func GenerateToken(user *model.User) (string, int64, error) {
 	// 密钥
-	secret := config.GetString("token.secret")
+	secret := global.GetString("token.secret")
 	// 有效小时
-	expTime := config.GetInt("token.exp")
+	expTime := global.GetInt("token.exp")
 	// 过期时间
 	exp := time.Now().Add(time.Hour * time.Duration(expTime)).Unix()
 	tc := jwt.NewWithClaims(jwt.SigningMethodHS256,
@@ -83,7 +85,7 @@ func GenerateToken(user *model.User) (string, int64, error) {
 func ValidateToken(code string) (bool, int, string, error) {
 	info := jwt.MapClaims{}
 	// 密钥
-	secret := config.GetString("token.secret")
+	secret := global.GetString("token.secret")
 	token, err := jwt.ParseWithClaims(code, &info, func(token *jwt.Token) (interface{}, error) {
 		return []byte(secret), nil
 	})

@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 
-	"quest/config"
-	"quest/route"
+	"quest/global"
+	"quest/router"
 	"quest/service"
 
 	"github.com/gin-gonic/gin"
@@ -25,7 +25,7 @@ func main() {
 	// 关闭调试
 	// gin.SetMode(gin.ReleaseMode)
 	// 初始化系统配置
-	config.Init()
+	global.InitConfig()
 	// 初始化数据库
 	engine := loadDBEngine()
 	go service.InitDatabase(engine)
@@ -49,14 +49,14 @@ func loadDBEngine() *xorm.Engine {
 
 func register(engine *xorm.Engine) *gin.Engine {
 	r := gin.Default()
-	route.RegisterUser(r, engine)
+	router.RegisterRoute(r, engine)
 	return r
 }
 
 func getPort() string {
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = config.GetString("basic.port")
+		port = global.GetString("basic.port")
 	}
 	if port == "" {
 		port = "12999"

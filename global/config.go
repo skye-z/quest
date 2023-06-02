@@ -5,7 +5,7 @@ BetaX Server Monitor
 Copyright © 2023 SkyeZhang <skai-zhang@hotmail.com>
 */
 
-package config
+package global
 
 import (
 	"crypto/rand"
@@ -14,7 +14,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func Init() {
+func InitConfig() {
 	viper.SetConfigName("config")
 	viper.SetConfigType("ini")
 	viper.AddConfigPath(".")

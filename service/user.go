@@ -1,7 +1,6 @@
 package service
 
 import (
-	"log"
 	"quest/model"
 )
 
@@ -23,11 +22,11 @@ func (service UserService) GetUserLoginInfo(name string, pass string) (*model.Us
 		return nil, "", 0, err
 	}
 
-	// 测试
-	state, uid, name, err := ValidateToken(token)
-	log.Println("state: %b\tuserId: %v", state, uid)
-
 	return &user, token, exp, nil
+}
+
+func (service UserService) GetUserList(name string, page int, num int) ([]model.User, error) {
+	return service.UserModel.GetUserList(name, "", page, num)
 }
 
 func (service UserService) GetUser(id int) (*model.User, error) {
