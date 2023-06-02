@@ -5,6 +5,12 @@ Quest is a smart software for question bank management and mock exams.
 [![](https://img.shields.io/badge/Go-1.20+-%2300ADD8?style=flat&logo=go)](go.work)
 [![](https://img.shields.io/badge/Quest-1.0.0-green)](control)
 
+## Minimum System Requirements
+
+Single core, 16MB RAM, 64MB storage is sufficient
+
+This is a very low requirement for modern computers, You can run it on almost any device
+
 ## Features
 1. Allows users to import their own question banks and then generate test papers from them for mock exams;
 2. Automatically adjust the difficulty and scope of the test papers according to the user’s preferences and level;
