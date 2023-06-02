@@ -40,12 +40,12 @@ func (uc UserController) Login(ctx *gin.Context) {
 	ctx.JSON(200, loginResponse{User: user, Token: token, Expire: exp, Time: time.Now().Unix()})
 }
 
-type listResponse struct {
+type userListResponse struct {
 	List []model.User `json:"list"`
 	Time int64        `json:"time"`
 }
 
-func (uc UserController) GetList(ctx *gin.Context) {
+func (uc UserController) GetUserList(ctx *gin.Context) {
 	user, state := ctx.Keys["user"].(model.User)
 	if !state {
 		global.ReturnError(ctx, global.Errors.TokenIllegalError)
@@ -82,5 +82,5 @@ func (uc UserController) GetList(ctx *gin.Context) {
 		global.ReturnError(ctx, global.Errors.UnexpectedError)
 		return
 	}
-	ctx.JSON(200, listResponse{List: users, Time: time.Now().Unix()})
+	ctx.JSON(200, userListResponse{List: users, Time: time.Now().Unix()})
 }
