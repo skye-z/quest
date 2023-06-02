@@ -20,6 +20,8 @@ func AuthHandler() gin.HandlerFunc {
 		if code == "" {
 			global.ReturnError(ctx, global.Errors.NotLoginError)
 			return
+		} else if strings.Contains(code, " ") {
+			code = code[strings.Index(code, " ")+1:]
 		}
 
 		info := jwt.MapClaims{}

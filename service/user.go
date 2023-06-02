@@ -26,7 +26,14 @@ func (service UserService) GetUserLoginInfo(name string, pass string) (*model.Us
 }
 
 func (service UserService) GetUserList(name string, page int, num int) ([]model.User, error) {
-	return service.UserModel.GetUserList(name, "", page, num)
+	users, err := service.UserModel.GetUserList(name, "", page, num)
+	if err != nil {
+		return make([]model.User, 0), err
+	}
+	if users == nil {
+		return make([]model.User, 0), nil
+	}
+	return users, nil
 }
 
 func (service UserService) GetUser(id int) (*model.User, error) {

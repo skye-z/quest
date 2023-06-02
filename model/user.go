@@ -30,7 +30,7 @@ func (model UserModel) GetUserList(name string, pass string, page int, num int) 
 	var users []User
 	var err error
 	if len(name) == 0 {
-		err = model.DB.Limit(num, page).Find(&users)
+		err = model.DB.Limit(page*num, (page-1)*num).Find(&users)
 	} else if len(pass) == 32 {
 		err = model.DB.Where("name = ? and pass = ?", fmt.Sprintf("%%%s%%", name), pass).Limit(num, page).Find(&users)
 	} else {

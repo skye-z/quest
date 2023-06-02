@@ -5,6 +5,7 @@ import (
 	"quest/model"
 	"quest/service"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,6 +23,7 @@ type loginResponse struct {
 	User   *model.User `json:"user"`
 	Token  string      `json:"token"`
 	Expire int64       `json:"expire"`
+	Time   int64       `json:"time"`
 }
 
 func (uc UserController) Login(ctx *gin.Context) {
@@ -35,12 +37,12 @@ func (uc UserController) Login(ctx *gin.Context) {
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(200, loginResponse{User: user, Token: token, Expire: exp})
+	ctx.JSON(200, loginResponse{User: user, Token: token, Expire: exp, Time: time.Now().Unix()})
 }
 
-type LoginRequest struct {
-	Name string `json:"name"`
-	Pass string `json:"Pass"`
+type listResponse struct {
+	List []model.User `json:"list"`
+	Time int64        `json:"time"`
 }
 
 func (uc UserController) GetList(ctx *gin.Context) {
@@ -80,5 +82,5 @@ func (uc UserController) GetList(ctx *gin.Context) {
 		global.ReturnError(ctx, global.Errors.UnexpectedError)
 		return
 	}
-	ctx.JSON(200, users)
+	ctx.JSON(200, listResponse{List: users, Time: time.Now().Unix()})
 }

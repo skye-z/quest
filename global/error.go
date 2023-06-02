@@ -3,12 +3,12 @@ package global
 import "fmt"
 
 type CustomError struct {
-	code    int
-	message string
+	Code    int    `json:"code"`
+	Message string `json:"message"`
 }
 
 func (e *CustomError) Error() string {
-	return fmt.Sprintf("message: %s, code: %d", e.message, e.code)
+	return fmt.Sprintf("message: %s, code: %d", e.Message, e.Code)
 }
 
 type CustomErrors struct {
