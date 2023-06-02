@@ -17,8 +17,9 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	User  *model.User `json:"user"`
-	Token string      `json:"token"`
+	User   *model.User `json:"user"`
+	Token  string      `json:"token"`
+	Expire int64       `json:"expire"`
 }
 
 func (uc UserController) Login(ctx *gin.Context) {
@@ -27,10 +28,10 @@ func (uc UserController) Login(ctx *gin.Context) {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	user, token, err := uc.UserService.GetUserLoginInfo(form.Name, form.Pass)
+	user, token, exp, err := uc.UserService.GetUserLoginInfo(form.Name, form.Pass)
 	if err != nil {
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(200, LoginResponse{User: user, Token: token})
+	ctx.JSON(200, LoginResponse{User: user, Token: token, Expire: exp})
 }

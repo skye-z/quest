@@ -59,7 +59,7 @@ func getPort() string {
 		port = config.GetString("basic.port")
 	}
 	if port == "" {
-		port = "3000"
+		port = "12999"
 	}
 	return port
 }

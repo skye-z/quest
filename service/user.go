@@ -1,34 +1,33 @@
 package service
 
 import (
+	"log"
 	"quest/model"
-
-	"github.com/golang-jwt/jwt/v5"
 )
 
 type UserService struct {
 	UserModel model.UserModel
 }
 
-func (service UserService) GetUserLoginInfo(name string, pass string) (*model.User, string, error) {
+func (service UserService) GetUserLoginInfo(name string, pass string) (*model.User, string, int64, error) {
 	users, err := service.UserModel.GetUserList(name, pass, 0, 1)
 	if err != nil {
-		return nil, "", err
+		return nil, "", 0, err
 	}
 	if len(users) != 1 {
-		return nil, "", nil
+		return nil, "", 0, nil
 	}
 	user := users[0]
-	info := jwt.MapClaims{
-		"iss": "skye-quest-auth",
-		"sub": user.Name,
-	}
-	tc := jwt.NewWithClaims(jwt.SigningMethodES256, info)
-	token, err := tc.SignedString([]byte("secret"))
+	token, exp, err := GenerateToken(&user)
 	if err != nil {
-		return nil, "", err
+		return nil, "", 0, err
 	}
-	return &user, token, nil
+
+	// 测试
+	state, uid, name, err := ValidateToken(token)
+	log.Println("state: %b\tuserId: %v", state, uid)
+
+	return &user, token, exp, nil
 }
 
 func (service UserService) GetUser(id int) (*model.User, error) {
