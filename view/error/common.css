@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+
+#box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 30px);
+}
+
+#info{
+    text-align: center;
+}
+
+#title{
+    font-size: 100px;
+    font-weight: bold;
+}
+
+#tips{
+    color: #757575;
+    margin-bottom: 10vh;
+}
+
+#power{
+    width: 100vw;
+    text-align: center;
+    font-size: 12px;
+    color: #757575;
+}
+
+#power a{
+    text-decoration: none;
+}

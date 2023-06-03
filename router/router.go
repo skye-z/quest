@@ -2,6 +2,7 @@ package router
 
 import (
 	"log"
+	"net/http"
 	"quest/controller"
 	"quest/model"
 	"quest/service"
@@ -11,7 +12,8 @@ import (
 )
 
 func RegisterRoute(route *gin.Engine, engine *xorm.Engine) {
-	route.Static("/app", "./view")
+	// 公用路由
+	addCommonRoute(route, engine)
 	userModel := model.UserModel{DB: engine}
 	userService := service.UserService{UserModel: userModel}
 	userController := controller.UserController{UserService: userService}
@@ -25,12 +27,22 @@ func RegisterRoute(route *gin.Engine, engine *xorm.Engine) {
 
 }
 
-func addPublicRoute(route *gin.Engine, engine *xorm.Engine, uc controller.UserController) {
-	log.Println("[Core] public route registered")
+func addCommonRoute(route *gin.Engine, engine *xorm.Engine) {
+	route.Static("/app", "./view")
+	route.LoadHTMLGlob("./view/error/*.html")
 	route.GET("/", func(ctx *gin.Context) {
 		ctx.Request.URL.Path = "/app"
 		route.HandleContext(ctx)
 	})
+	route.NoRoute(func(ctx *gin.Context) {
+		ctx.HTML(http.StatusOK, "404.html", gin.H{
+			"title": "404",
+		})
+	})
+}
+
+func addPublicRoute(route *gin.Engine, engine *xorm.Engine, uc controller.UserController) {
+	log.Println("[Core] public route registered")
 	// 登录
 	route.POST("/user/login", uc.Login)
 }
