@@ -23,7 +23,7 @@ func main() {
 = Developed by SkyeZhang =`)
 	log.Println("[Core] release model")
 	// 关闭调试
-	// gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.ReleaseMode)
 	// 初始化系统配置
 	global.InitConfig()
 	// 初始化数据库

@@ -8,28 +8,22 @@ import (
 )
 
 func InitDatabase(engine *xorm.Engine) {
-	log.Println("[DB] init user table")
+	log.Println("[DB] start loading")
 	err := engine.Sync2(new(model.User))
 	if err != nil {
 		panic(err)
 	}
-
-	log.Println("[DB] init subject table")
 	err = engine.Sync2(new(model.Subject))
 	if err != nil {
 		panic(err)
 	}
-
-	log.Println("[DB] init question table")
 	err = engine.Sync2(new(model.Question))
 	if err != nil {
 		panic(err)
 	}
-
-	log.Println("[DB] init exam table")
 	err = engine.Sync2(new(model.Exam))
 	if err != nil {
 		panic(err)
 	}
-	log.Println("[DB] init completed")
+	log.Println("[DB] loading completed")
 }
