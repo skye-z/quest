@@ -11,6 +11,7 @@ import (
 )
 
 func RegisterRoute(route *gin.Engine, engine *xorm.Engine) {
+	route.Static("/app", "./view")
 	userModel := model.UserModel{DB: engine}
 	userService := service.UserService{UserModel: userModel}
 	userController := controller.UserController{UserService: userService}
@@ -26,6 +27,10 @@ func RegisterRoute(route *gin.Engine, engine *xorm.Engine) {
 
 func addPublicRoute(route *gin.Engine, engine *xorm.Engine, uc controller.UserController) {
 	log.Println("[Core] public route registered")
+	route.GET("/", func(ctx *gin.Context) {
+		ctx.Request.URL.Path = "/app"
+		route.HandleContext(ctx)
+	})
 	// 登录
 	route.POST("/user/login", uc.Login)
 }
@@ -38,11 +43,11 @@ func addPrivateRoute(route gin.IRoutes, engine *xorm.Engine, uc controller.UserC
 	sc := controller.SubjectController{SubjectService: subjectService}
 
 	// 管理-获取用户列表
-	route.GET("/user/list", uc.GetUserList)
+	route.GET("/api/user/list", uc.GetUserList)
 	// 获取科目列表
-	route.GET("/subject/list", sc.GetSubjectList)
+	route.GET("/api/subject/list", sc.GetSubjectList)
 	// 获取题目列表
-	// route.GET("/question/list", uc.GetList)
+	// route.GET("/api/question/list", uc.GetList)
 	// 获取考试列表
-	// route.GET("/exam/list", uc.GetList)
+	// route.GET("/api/exam/list", uc.GetList)
 }
