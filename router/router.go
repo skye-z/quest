@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"quest/controller"
+	"quest/global"
 	"quest/model"
 	"quest/service"
 
@@ -43,8 +44,16 @@ func addCommonRoute(route *gin.Engine, engine *xorm.Engine) {
 
 func addPublicRoute(route *gin.Engine, engine *xorm.Engine, uc controller.UserController) {
 	log.Println("[Core] public route registered")
+	route.GET("/api/init", func(ctx *gin.Context) {
+		appName := global.GetString("basic.name")
+		info := map[string]string{
+			"name":    appName,
+			"version": global.Version,
+		}
+		ctx.JSON(200, info)
+	})
 	// 登录
-	route.POST("/user/login", uc.Login)
+	route.POST("/api/user/login", uc.Login)
 }
 
 func addPrivateRoute(route gin.IRoutes, engine *xorm.Engine, uc controller.UserController) {
@@ -54,12 +63,20 @@ func addPrivateRoute(route gin.IRoutes, engine *xorm.Engine, uc controller.UserC
 	subjectService := service.SubjectService{SubjectModel: subjectModel}
 	sc := controller.SubjectController{SubjectService: subjectService}
 
+	questionModel := model.QuestionModel{DB: engine}
+	questionService := service.QuestionService{QuestionModel: questionModel}
+	qc := controller.QuestionController{QuestionService: questionService}
+
+	examModel := model.ExamModel{DB: engine}
+	examService := service.ExamService{ExamModel: examModel}
+	ec := controller.ExamController{ExamService: examService}
+
 	// 管理-获取用户列表
 	route.GET("/api/user/list", uc.GetUserList)
 	// 获取科目列表
 	route.GET("/api/subject/list", sc.GetSubjectList)
 	// 获取题目列表
-	// route.GET("/api/question/list", uc.GetList)
+	route.GET("/api/question/list", qc.GetQuestionList)
 	// 获取考试列表
-	// route.GET("/api/exam/list", uc.GetList)
+	route.GET("/api/exam/list", ec.GetExamList)
 }

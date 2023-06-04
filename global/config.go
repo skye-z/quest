@@ -9,10 +9,13 @@ package global
 
 import (
 	"crypto/rand"
+	"encoding/base64"
 	"fmt"
 
 	"github.com/spf13/viper"
 )
+
+const Version = "1.0.0"
 
 func InitConfig() {
 	viper.SetConfigName("config")
@@ -51,6 +54,8 @@ func GetInt32(key string) int32 {
 }
 
 func createDefault() {
+	// 系统名称
+	viper.SetDefault("basic.name", "Quest云题库")
 	// 服务进程号
 	viper.SetDefault("basic.port", "12999")
 	// 令牌密钥
@@ -70,5 +75,5 @@ func generateSecret() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return string(key), nil
+	return base64.StdEncoding.EncodeToString(key), nil
 }

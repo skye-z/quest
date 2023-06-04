@@ -15,12 +15,14 @@ import (
 )
 
 func main() {
-	fmt.Println(`   ____               __ 
-  / __ \__ _____ ___ / /_
- / /_/ / // / -_|_-</ __/
- \___\_\_,_/\__/___/\__/ 
+	fmt.Println(`    ____               __ 
+   / __ \__ _____ ___ / /_
+  / /_/ / // / -_|_-</ __/
+  \___\_\_,_/\__/___/\__/ 
 
-= Developed by SkyeZhang =`)
+== Developed by SkyeZhang ==
+Git: github.com/skye-z/quest
+Version: ` + global.Version + "\n")
 	log.Println("[Core] release model")
 	// 关闭调试
 	gin.SetMode(gin.ReleaseMode)

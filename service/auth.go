@@ -1,6 +1,7 @@
 package service
 
 import (
+	"encoding/base64"
 	"fmt"
 	"quest/global"
 	"quest/model"
@@ -28,7 +29,8 @@ func AuthHandler() gin.HandlerFunc {
 		// 密钥
 		secret := global.GetString("token.secret")
 		token, err := jwt.ParseWithClaims(code, &info, func(token *jwt.Token) (interface{}, error) {
-			return []byte(secret), nil
+			key, err := base64.StdEncoding.DecodeString(secret)
+			return key, err
 		})
 		if err != nil {
 			global.ReturnError(ctx, global.Errors.TokenNotAvailableError)
@@ -80,7 +82,8 @@ func GenerateToken(user *model.User) (string, int64, error) {
 			"sub": fmt.Sprintf("%s@%v", user.Name, user.Id),
 		},
 	)
-	token, err := tc.SignedString([]byte(secret))
+	key, err := base64.StdEncoding.DecodeString(secret)
+	token, err := tc.SignedString(key)
 	return token, exp, err
 }
 
@@ -89,7 +92,8 @@ func ValidateToken(code string) (bool, int, string, error) {
 	// 密钥
 	secret := global.GetString("token.secret")
 	token, err := jwt.ParseWithClaims(code, &info, func(token *jwt.Token) (interface{}, error) {
-		return []byte(secret), nil
+		key, err := base64.StdEncoding.DecodeString(secret)
+		return key, err
 	})
 	if err != nil {
 		return false, 0, "", err

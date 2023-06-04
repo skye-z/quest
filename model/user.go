@@ -7,9 +7,11 @@ import (
 )
 
 type User struct {
-	Id   int64  `json:"id"`
-	Name string `json:"name"`
-	Pass string `json:"-"`
+	Id    int64  `json:"id"`
+	Name  string `json:"name"`
+	Admin bool   `json:"admin"`
+	Edit  bool   `json:"edit"`
+	Pass  string `json:"-"`
 }
 
 type UserModel struct {

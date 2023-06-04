@@ -1,9 +1,11 @@
 <!doctype html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Auth - Quest</title>
+  <script src="../common/jquery-3.7.0.js"></script>
   <script src="../common/tailwind-3.3.2.js"></script>
   <script>
     tailwind.config = {
@@ -16,16 +18,96 @@
       }
     }
   </script>
-  <style type="text/tailwindcss">
-    @layer utilities {
-      .content-auto {
-        content-visibility: auto;
-      }
-    }
-  </style>
 </head>
+
 <body>
-    <div>登录</div>
-    <div>功能入口: 登录账户</div>
+  <div class="min-h-screen bg-gray-100 flex flex-col justify-center sm:py-12">
+    <div id="loading" class="fixed w-full bg-gray-100">
+      <div class="p-10 xs:p-0 mx-auto md:w-full md:max-w-md animate-pulse">
+        <div class="h-8 w-64 bg-gray-300 rounded-lg mx-auto mb-5"></div>
+        <div class="bg-white shadow w-full rounded-lg divide-y divide-gray-200">
+          <div class="px-5 py-7">
+            <div class="h-5 w-14 bg-gray-300 rounded-lg mb-3"></div>
+            <div class="h-9 w-full bg-gray-300 rounded-lg mb-5"></div>
+            <div class="h-5 w-10 bg-gray-300 rounded-lg mb-3"></div>
+            <div class="h-9 w-full bg-gray-300 rounded-lg mb-5"></div>
+            <div class="h-9 w-full bg-gray-300 rounded-lg"></div>
+          </div>
+          <div class="p-5">
+            <div class="h-5 w-60 bg-gray-300 rounded-lg mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
+      <h1 class="font-bold text-center text-2xl mb-5 appName">Loading...</h1>
+      <div class="bg-white shadow w-full rounded-lg divide-y divide-gray-200">
+        <div class="px-5 py-7">
+          <label class="font-semibold text-sm text-gray-600 pb-1 block">用户名</label>
+          <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" name="username" />
+          <label class="font-semibold text-sm text-gray-600 pb-1 block">密码</label>
+          <input type="password" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" name="password" />
+          <button type="button" id="login"
+            class="transition duration-200 bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center">
+            <svg class="btn-load hidden animate-spin h-5 w-5 text-white mx-auto" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+            <span class="btn-txt">登录</span>
+          </button>
+        </div>
+        <div class="text-center p-5 text-sm text-gray-400">
+          忘记密码或注册账户请联系管理员
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
+<script src="../common/common.js"></script>
+<script>
+  var stateLogin = false;
+  (function () {
+    $('#login').on('click', function () {
+      if (stateLogin) return false
+      stateLogin = true
+      $('input').attr('disabled', 'true')
+      $('#login').attr('disabled', 'true')
+      $('#login .btn-txt').hide()
+      $('#login .btn-load').show()
+      submit()
+    })
+  })()
+
+  function submit() {
+    var name = $('input[name=username]').val()
+    var pass = $('input[name=password]').val()
+    $.ajax({
+      type: 'post',
+      url: '/api/user/login',
+      contentType: 'text/json',
+      dataType: 'json',
+      data: JSON.stringify({
+        name, pass
+      }),
+      success: function (res) {
+        console.log(res)
+      },
+      complete: function () {
+        setTimeout(() => submited(), 500);
+      }
+    });
+  }
+
+  function submited() {
+    $('#login').removeAttr('disabled')
+    $('input').removeAttr('disabled')
+    $('#login .btn-load').hide()
+    $('#login .btn-txt').show()
+    stateLogin = false
+  }
+</script>
+
 </html>

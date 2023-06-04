@@ -32,9 +32,17 @@ func (uc UserController) Login(ctx *gin.Context) {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
+	if len(form.Name) == 0 || len(form.Pass) == 0 {
+		ctx.JSON(200, gin.H{"message": "用户名或密码不能为空"})
+		return
+	}
 	user, token, exp, err := uc.UserService.GetUserLoginInfo(form.Name, form.Pass)
 	if err != nil {
 		ctx.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	if user == nil {
+		ctx.JSON(200, gin.H{"message": "用户名或密码错误"})
 		return
 	}
 	ctx.JSON(200, loginResponse{User: user, Token: token, Expire: exp, Time: time.Now().Unix()})
