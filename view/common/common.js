@@ -19,7 +19,3 @@ function init() {
         }
     })
 }
-
-function showAlerts(){
-    
-}
