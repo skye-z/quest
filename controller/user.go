@@ -36,6 +36,10 @@ func (uc UserController) Login(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{"message": "用户名或密码不能为空"})
 		return
 	}
+	if len(form.Pass) != 32 {
+		ctx.JSON(200, gin.H{"message": "禁止传输明文密码"})
+		return
+	}
 	user, token, exp, err := uc.UserService.GetUserLoginInfo(form.Name, form.Pass)
 	if err != nil {
 		ctx.JSON(500, gin.H{"error": err.Error()})
