@@ -54,6 +54,8 @@ func GetInt32(key string) int32 {
 }
 
 func createDefault() {
+	// 安装状态
+	viper.SetDefault("basic.install", "0")
 	// 系统名称
 	viper.SetDefault("basic.name", "Quest云题库")
 	// 服务进程号
