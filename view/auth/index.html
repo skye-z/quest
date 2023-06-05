@@ -3,8 +3,9 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <title>登录</title>
+  <meta content="#1f2937" name="apple-mobile-web-app-status-bar-style">   
   <script src="../common/jquery-3.7.0.js"></script>
   <script src="../common/tailwind-3.3.2.js"></script>
   <script>
@@ -150,15 +151,15 @@
 
   function submit() {
     if (stateLogin) return false
+    var name = $('input[name=username]').val()
+    var pass = $('input[name=password]').val()
+    if (name == '') return showError('用户名不能为空')
+    if (pass == '') return showError('密码不能为空')
     stateLogin = true
     $('input').attr('disabled', 'true')
     $('#login').attr('disabled', 'true')
     $('#login .btn-txt').hide()
     $('#login .btn-load').show()
-    var name = $('input[name=username]').val()
-    var pass = $('input[name=password]').val()
-    if (name == '') return showError('用户名不能为空')
-    if (pass == '') return showError('密码不能为空')
     pass = md5(pass)
     $.ajax({
       type: 'post',
