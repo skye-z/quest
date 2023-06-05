@@ -7,15 +7,8 @@
   <title>考试</title>
   <script src="../common/jquery-3.7.0.js"></script>
   <script src="../common/tailwind-3.3.2.js"></script>
+  <link href="../common/common.css" type="text/css" rel="stylesheet" />
   <style>
-    .line1 {
-      -webkit-box-orient: vertical;
-      text-overflow: ellipsis;
-      -webkit-line-clamp: 1;
-      display: -webkit-box;
-      overflow: hidden;
-    }
-
     #selectText {
       max-width: 220px;
     }
@@ -51,7 +44,7 @@
         <p>科目:</p>
         <h2 id="selectText" class="font-semibold line1">点此选择考试科目</h2>
         <div id="selectBox"
-          class="hidden border-gray-600 bg-gray-800 absolute top-8 -left-1 z-20 w-48 rounded-xl border p-2 transition-all duration-300 opacity-0 translate-y-1">
+          class="hidden overflow-y-auto h-64 border-gray-600 bg-gray-800 absolute top-8 -left-1 z-20 w-48 rounded-xl border p-2 transition-all duration-300 opacity-0 translate-y-1">
         </div>
       </div>
     </div>

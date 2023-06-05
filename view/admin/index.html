@@ -7,6 +7,7 @@
   <title>管理</title>
   <script src="../common/jquery-3.7.0.js"></script>
   <script src="../common/tailwind-3.3.2.js"></script>
+  <link href="../common/common.css" type="text/css" rel="stylesheet" />
 </head>
 
 <body class="bg-gray-700 text-slate-200">
@@ -42,35 +43,63 @@
       </svg>
     </div>
   </div>
-  <div style="min-height: calc(100vh - 170px);" class="mx-auto pt-5 w-full max-w-6xl px-4">
-    <div class="grid grid-rows-3 grid-flow-col gap-5">
-      <div class="sm:col-span-1 rounded-2xl h-10 flex items-center justify-center transition-all duration-300 cursor-pointer bg-gray-600 hover:bg-gray-800">
-        <div>导入题目</div>
+  <div style="min-height: calc(100vh - 170px);" class="mx-auto pt-3 w-full max-w-6xl px-4">
+    <div class="sm:flex">
+      <div class="sm:mr-3 mb-3">
+        <div
+          class="sm:col-span-1 mb-3 rounded-2xl h-10 flex items-center justify-center transition-all duration-300 cursor-pointer bg-gray-600 hover:bg-gray-800">
+          <div>导入题目</div>
+        </div>
+        <div class="sm:col-span-1 sm:row-span-2 rounded-xl duration-300 bg-gray-600 mb-3">
+          <div class="pl-3 pt-2 border-b pb-2 border-gray-500">科目管理</div>
+          <div id="subjectList" class="overflow-y-auto max-h-80"></div>
+        </div>
+        <div class="sm:col-span-1 sm:row-span-2 rounded-xl duration-300 bg-gray-600 p-3">
+          <label class="font-semibold text-sm pb-1 block">科目名称</label>
+          <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-2 bg-gray-500 border-none text-gray-100 text-sm w-full" name="subName" />
+          <label class="font-semibold text-sm pb-1 block">描述标签</label>
+          <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-3 bg-gray-500 border-none text-gray-100 text-sm w-full" name="subTag" />
+          <button type="button" id="login"
+            class="transition duration-200 bg-blue-600 hover:bg-blue-500 focus:bg-blue-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center">
+            添加
+          </button>
+        </div>
       </div>
-      <div class="sm:col-span-1 sm:row-span-2 rounded-2xl p-5 duration-300 bg-gray-600">
-        <div>科目管理</div>
-        <div>科目列表</div>
-        <div>添加科目</div>
-      </div>
-      <div class="sm:col-span-3 sm:row-span-3 rounded-2xl p-5 duration-300 bg-gray-600">
-        <div>题目管理</div>
-        <div>暂不支持</div>
+      <div class="sm:col-span-3 sm:row-span-3 w-full rounded-xl duration-300 bg-gray-600"
+        style="min-height: calc(100vh - 120px);">
+        <div class="pl-3 pt-2 border-b pb-2 border-gray-500">科目管理</div>
+        <div class="flex items-center justify-center h-96">
+          <div>此功能暂不支持</div>
+        </div>
       </div>
     </div>
   </div>
 </body>
 <script src="../common/common.js"></script>
 <script>
+  (function () {
+    if (checkLogin()) getSubjectList();
+  })()
+
   var token = '';
   var user = {};
-  (function () {
+  function checkLogin() {
     token = localStorage.getItem('accessToken')
-    if (token == '' || token == undefined) jump('auth')
-    user = JSON.parse(localStorage.getItem('cacheUser'))
-    $('#userName').text(user.name.toUpperCase())
-    $('#userRole').text(user.admin ? '管理员' : '同学')
-    if (!user.admin) window.location.href = '/app'
-  })()
+    if (token == '' || token == undefined) return jump('auth')
+    else {
+      user = JSON.parse(localStorage.getItem('cacheUser'))
+      $('#userName').text(user.name.toUpperCase())
+      $('#userRole').text(user.admin ? '管理员' : '同学')
+      if (user.admin) {
+        $('#menu').removeClass('lg:grid-cols-3');
+        $('#menu').addClass('lg:grid-cols-4');
+        $('#appAdmin').show()
+      } else {
+        $('#appAdmin').remove()
+      }
+      return true
+    }
+  }
 
   function jump(path) {
     window.location.href = '/app/' + path
@@ -79,6 +108,27 @@
   function exit() {
     localStorage.clear()
     jump('auth')
+  }
+
+  var subjectList = []
+  function getSubjectList() {
+    $.ajax({
+      url: '/api/subject/list',
+      method: "GET",
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).done(function (res) {
+      if (res.list) {
+        subjectList = res.list
+        for (let i in subjectList) {
+          var item = subjectList[i];
+          $('#subjectList').append(`<div class="flex items-center justify-between mb-3 px-3 py-2 hover:bg-gray-500"><div><div class="text-md line1 w-56">${item.name}</div><div class="text-sm text-gray-400">${item.tag}</div></div><svg class="text-red-600 w-8 h-8 p-1 cursor-pointer hover:text-red-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" /></svg></div>`)
+        }
+      } else {
+
+      }
+    });
   }
 </script>
 
