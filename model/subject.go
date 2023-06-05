@@ -41,7 +41,7 @@ func (model SubjectModel) GetSubjectList() ([]Subject, error) {
 // 添加科目
 func (model SubjectModel) AddSubject(subject *Subject) bool {
 	_, err := model.DB.Insert(subject)
-	return err != nil
+	return err == nil
 }
 
 // 编辑科目
@@ -50,7 +50,7 @@ func (model SubjectModel) EditSubject(subject *Subject) bool {
 		return false
 	}
 	_, err := model.DB.ID(subject.Id).Update(subject)
-	return err != nil
+	return err == nil
 }
 
 // 删除科目
@@ -59,5 +59,5 @@ func (model SubjectModel) DelSubject(subject *Subject) bool {
 		return false
 	}
 	_, err := model.DB.Delete(subject)
-	return err != nil
+	return err == nil
 }

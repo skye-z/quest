@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <title>管理</title>
-  <meta content="#1f2937" name="apple-mobile-web-app-status-bar-style">   
+  <meta content="#1f2937" name="apple-mobile-web-app-status-bar-style">
   <script src="../common/jquery-3.7.0.js"></script>
   <script src="../common/tailwind-3.3.2.js"></script>
   <link href="../common/common.css" type="text/css" rel="stylesheet" />
@@ -53,14 +53,18 @@
         </div>
         <div class="sm:col-span-1 sm:row-span-2 rounded-xl duration-300 bg-gray-600 mb-3">
           <div class="pl-3 pt-2 border-b pb-2 border-gray-500">科目</div>
-          <div id="subjectList" class="overflow-y-auto max-h-80 h-24"></div>
+          <div id="subjectList" class="overflow-y-auto max-h-80" style="min-height: 100px;"></div>
         </div>
         <div class="sm:col-span-1 sm:row-span-2 rounded-xl duration-300 bg-gray-600 p-3">
           <label class="font-semibold text-sm pb-1 block">科目名称</label>
-          <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-2 bg-gray-500 border-none text-gray-100 text-sm w-full" name="subName" />
+          <input type="text"
+            class="border rounded-lg px-3 py-2 mt-1 mb-2 bg-gray-500 border-none text-gray-100 text-sm w-full"
+            name="subName" />
           <label class="font-semibold text-sm pb-1 block">描述标签</label>
-          <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-3 bg-gray-500 border-none text-gray-100 text-sm w-full" name="subTag" />
-          <button type="button" id="login"
+          <input type="text"
+            class="border rounded-lg px-3 py-2 mt-1 mb-3 bg-gray-500 border-none text-gray-100 text-sm w-full"
+            name="subTag" />
+          <button type="button" id="login" onclick="addSubject()"
             class="transition duration-200 bg-blue-600 hover:bg-blue-500 focus:bg-blue-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center">
             添加
           </button>
@@ -75,17 +79,56 @@
       </div>
     </div>
   </div>
+
+  <div class="relative z-10 dialog dialog-error hidden ease-out duration-300 opacity-0">
+    <div class="fixed inset-0 bg-gray-800 bg-opacity-75 transition-opacity"></div>
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <div
+          class="relative transform overflow-hidden rounded-lg bg-gray text-left shadow-xl transition-all w-full max-w-md">
+          <div class="bg-white p-4 sm:p-4 sm:pb-4">
+            <div class="sm:flex sm:items-start">
+              <div
+                class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+              </div>
+              <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">添加失败</h3>
+                <div class="mt-2">
+                  <p class="text-sm text-gray-500 dialog-message"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 px-2 py-4 sm:flex sm:flex-row-reverse sm:px-4">
+            <button type="button" onclick="closeDialog()"
+              class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:w-auto">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 <script src="../common/common.js"></script>
 <script>
   (function () {
-    if (checkLogin()) getSubjectList();
+    if (checkLogin()) {
+      getSubjectList();
+      $('input[name=subName],input[name=subTag]').keydown(function (event) {
+        if (event.keyCode == 13) {
+          addSubject()
+        }
+      })
+    }
   })()
 
-  var token = '';
   var user = {};
   function checkLogin() {
-    token = localStorage.getItem('accessToken')
+    var token = localStorage.getItem('accessToken')
     if (token == '' || token == undefined) return jump('auth')
     else {
       user = JSON.parse(localStorage.getItem('cacheUser'))
@@ -113,11 +156,12 @@
 
   var subjectList = []
   function getSubjectList() {
+    $('#subjectList').empty()
     $.ajax({
       url: '/api/subject/list',
       method: "GET",
       headers: {
-        Authorization: 'Bearer ' + token
+        Authorization: 'Bearer ' + localStorage.getItem('accessToken')
       },
     }).done(function (res) {
       if (res.list) {
@@ -130,6 +174,52 @@
 
       }
     });
+  }
+
+  function addSubject() {
+    var name = $('input[name=subName]').val()
+    var tag = $('input[name=subTag]').val()
+    if (name == '') return showError('科目名称不能为空')
+    $.ajax({
+      type: 'post',
+      url: '/api/subject/add',
+      contentType: 'text/json',
+      dataType: 'json',
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+      },
+      data: JSON.stringify({
+        name, tag
+      }),
+      success: function (res) {
+        if (res.state) {
+          getSubjectList();
+          $('input[name=subName]').val('')
+          $('input[name=subTag]').val('')
+        } else {
+          showError(res.message ? res.message : '发生意料之外的错误')
+        }
+      },
+      complete: function () {
+
+      }
+    });
+  }
+
+  function showError(msg) {
+    $('.dialog.dialog-error .dialog-message').text(msg)
+    $('.dialog.dialog-error').show()
+    setTimeout(function () {
+      $('.dialog.dialog-error').addClass('opacity-100')
+    }, 100)
+    return false;
+  }
+
+  function closeDialog() {
+    $('.dialog').removeClass('opacity-100')
+    setTimeout(function () {
+      $('.dialog').hide()
+    }, 100)
   }
 </script>
 
