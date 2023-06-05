@@ -30,7 +30,7 @@ func (model QuestionModel) GetQuestionList(sid int, page int, num int) ([]Questi
 // 添加题目
 func (model QuestionModel) AddQuestion(question *Question) bool {
 	_, err := model.DB.Insert(question)
-	return err != nil
+	return err == nil
 }
 
 // 编辑题目
@@ -39,7 +39,7 @@ func (model QuestionModel) EditQuestion(question *Question) bool {
 		return false
 	}
 	_, err := model.DB.ID(question.Id).Update(question)
-	return err != nil
+	return err == nil
 }
 
 // 删除题目
@@ -48,5 +48,5 @@ func (model QuestionModel) DelQuestion(question *Question) bool {
 		return false
 	}
 	_, err := model.DB.Delete(question)
-	return err != nil
+	return err == nil
 }

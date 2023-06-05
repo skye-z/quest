@@ -42,7 +42,7 @@ func (model ExamModel) GetExamList() ([]Exam, error) {
 // 添加考试
 func (model ExamModel) AddExam(exam *Exam) bool {
 	_, err := model.DB.Insert(exam)
-	return err != nil
+	return err == nil
 }
 
 // 编辑考试
@@ -51,7 +51,7 @@ func (model ExamModel) EditExam(exam *Exam) bool {
 		return false
 	}
 	_, err := model.DB.ID(exam.Id).Update(exam)
-	return err != nil
+	return err == nil
 }
 
 // 删除考试
@@ -60,5 +60,5 @@ func (model ExamModel) DelExam(exam *Exam) bool {
 		return false
 	}
 	_, err := model.DB.Delete(exam)
-	return err != nil
+	return err == nil
 }

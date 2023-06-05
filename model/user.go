@@ -47,7 +47,7 @@ func (model UserModel) GetUserList(name string, pass string, page int, num int) 
 // 添加用户
 func (model UserModel) AddUser(user *User) bool {
 	_, err := model.DB.Insert(user)
-	return err != nil
+	return err == nil
 }
 
 // 编辑用户
@@ -56,7 +56,7 @@ func (model UserModel) EditUser(user *User) bool {
 		return false
 	}
 	_, err := model.DB.ID(user.Id).Update(user)
-	return err != nil
+	return err == nil
 }
 
 // 删除用户
@@ -65,5 +65,5 @@ func (model UserModel) DelUser(user *User) bool {
 		return false
 	}
 	_, err := model.DB.Delete(user)
-	return err != nil
+	return err == nil
 }
