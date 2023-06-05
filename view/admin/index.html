@@ -1,31 +1,85 @@
 <!doctype html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>管理</title>
+  <script src="../common/jquery-3.7.0.js"></script>
   <script src="../common/tailwind-3.3.2.js"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            clifford: '#da373d',
-          }
-        }
-      }
-    }
-  </script>
-  <style type="text/tailwindcss">
-    @layer utilities {
-      .content-auto {
-        content-visibility: auto;
-      }
-    }
-  </style>
 </head>
-<body>
-    <div>管理</div>
-    <div>功能入口: 科目、题目、考试、用户管理</div>
+
+<body class="bg-gray-700 text-slate-200">
+  <div id="loading" class="fixed w-full h-screen bg-gray-800 z-10 flex items-center justify-center">
+    <svg class="animate-spin h-10 w-10 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+      </path>
+    </svg>
+  </div>
+  <div class="relative flex h-12 w-full items-center justify-between px-4 bg-gray-800">
+    <a class="flex items-center" href="/app">
+      <svg class="shrink-0 text-primary-600 h-9 shrink-0 pr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+        fill="currentColor" class="w-6 h-6">
+        <path
+          d="M11.7 2.805a.75.75 0 01.6 0A60.65 60.65 0 0122.83 8.72a.75.75 0 01-.231 1.337 49.949 49.949 0 00-9.902 3.912l-.003.002-.34.18a.75.75 0 01-.707 0A50.009 50.009 0 007.5 12.174v-.224c0-.131.067-.248.172-.311a54.614 54.614 0 014.653-2.52.75.75 0 00-.65-1.352 56.129 56.129 0 00-4.78 2.589 1.858 1.858 0 00-.859 1.228 49.803 49.803 0 00-4.634-1.527.75.75 0 01-.231-1.337A60.653 60.653 0 0111.7 2.805z" />
+        <path
+          d="M13.06 15.473a48.45 48.45 0 017.666-3.282c.134 1.414.22 2.843.255 4.285a.75.75 0 01-.46.71 47.878 47.878 0 00-8.105 4.342.75.75 0 01-.832 0 47.877 47.877 0 00-8.104-4.342.75.75 0 01-.461-.71c.035-1.442.121-2.87.255-4.286A48.4 48.4 0 016 13.18v1.27a1.5 1.5 0 00-.14 2.508c-.09.38-.222.753-.397 1.11.452.213.901.434 1.346.661a6.729 6.729 0 00.551-1.608 1.5 1.5 0 00.14-2.67v-.645a48.549 48.549 0 013.44 1.668 2.25 2.25 0 002.12 0z" />
+        <path
+          d="M4.462 19.462c.42-.419.753-.89 1-1.394.453.213.902.434 1.347.661a6.743 6.743 0 01-1.286 1.794.75.75 0 11-1.06-1.06z" />
+      </svg>
+      <div class="pr-6 font-sans sm:flex max-sm:hidden appName">
+        Loading...
+      </div>
+    </a>
+    <div class="flex">
+      <div id="userName" class="mr-1 text-gray-400"></div>
+      <div id="userRole" class="mr-2 text-gray-400"></div>
+      <svg onclick="exit()" class="w-6 h-6 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none"
+        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9" />
+      </svg>
+    </div>
+  </div>
+  <div style="min-height: calc(100vh - 170px);" class="mx-auto pt-5 w-full max-w-6xl px-4">
+    <div class="grid grid-rows-3 grid-flow-col gap-5">
+      <div class="sm:col-span-1 rounded-2xl h-10 flex items-center justify-center transition-all duration-300 cursor-pointer bg-gray-600 hover:bg-gray-800">
+        <div>导入题目</div>
+      </div>
+      <div class="sm:col-span-1 sm:row-span-2 rounded-2xl p-5 duration-300 bg-gray-600">
+        <div>科目管理</div>
+        <div>科目列表</div>
+        <div>添加科目</div>
+      </div>
+      <div class="sm:col-span-3 sm:row-span-3 rounded-2xl p-5 duration-300 bg-gray-600">
+        <div>题目管理</div>
+        <div>暂不支持</div>
+      </div>
+    </div>
+  </div>
 </body>
+<script src="../common/common.js"></script>
+<script>
+  var token = '';
+  var user = {};
+  (function () {
+    token = localStorage.getItem('accessToken')
+    if (token == '' || token == undefined) jump('auth')
+    user = JSON.parse(localStorage.getItem('cacheUser'))
+    $('#userName').text(user.name.toUpperCase())
+    $('#userRole').text(user.admin ? '管理员' : '同学')
+    if (!user.admin) window.location.href = '/app'
+  })()
+
+  function jump(path) {
+    window.location.href = '/app/' + path
+  }
+
+  function exit() {
+    localStorage.clear()
+    jump('auth')
+  }
+</script>
+
 </html>
