@@ -31,7 +31,9 @@
   <div id="loading" class="fixed w-full h-screen bg-gray-800 z-10 flex items-center justify-center">
     <svg class="animate-spin h-10 w-10 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      <path class="opacity-75" fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+      </path>
     </svg>
   </div>
   <div class="relative flex h-12 w-full items-center justify-between px-4 bg-gray-800">
@@ -49,42 +51,59 @@
         Loading...
       </div>
     </div>
-    <svg onclick="exit()" class="w-6 h-6 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9" />
-    </svg>
-    
+    <div class="flex">
+      <div id="userName" class="mr-1 text-gray-400"></div>
+      <div id="userRole" class="mr-2 text-gray-400"></div>
+      <svg onclick="exit()" class="w-6 h-6 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none"
+        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9" />
+      </svg>
+    </div>
+
   </div>
   <div style="min-height: calc(100vh - 170px);">
-    <div class="mt-20 mb-20 text-center font-heading text-2xl font-semibold leading-normal leading-normal text-muted-800">
+    <div
+      class="mt-20 mb-20 text-center font-heading text-2xl font-semibold leading-normal leading-normal text-muted-800">
       请选择您要进行的操作
     </div>
     <div class="mx-auto w-full max-w-6xl px-4 text-center">
-      <div class="grid gap-6 lg:grid-cols-4 md:grid-cols-2">
-        <div class="rounded-2xl p-5 transition-all duration-300 cursor-pointer bg-gray-600 hover:bg-gray-800">
-          <svg class="mx-auto w-20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495" />
-          </svg>          
+      <div id="menu" class="grid gap-6 lg:grid-cols-3 md:grid-cols-2">
+        <div onclick="jump('admin')" id="appAdmin" class="hidden rounded-2xl p-5 transition-all duration-300 cursor-pointer bg-gray-600 hover:bg-gray-800">
+          <svg class="mx-auto w-20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495" />
+          </svg>
           <p class="text-xl font-medium text-muted-800 mt-2">管理</p>
           <p class="text-sm font-medium text-gray-400">管理科目、题目、考试和用户</p>
         </div>
-        <div onclick="jump('search')" class="rounded-2xl p-5 transition-all duration-300 cursor-pointer bg-gray-600 hover:bg-gray-800">
-          <svg class="mx-auto w-20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-          </svg>          
+        <div onclick="jump('search')"
+          class="rounded-2xl p-5 transition-all duration-300 cursor-pointer bg-gray-600 hover:bg-gray-800">
+          <svg class="mx-auto w-20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          </svg>
           <p class="text-xl font-medium text-muted-800 mt-2">查题</p>
           <p class="text-sm font-medium text-gray-400">通过题干或答案查询题目</p>
         </div>
-        <div onclick="jump('question')" class="rounded-2xl p-5 transition-all duration-300 cursor-pointer bg-gray-600 hover:bg-gray-800">
-          <svg class="mx-auto w-20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-          </svg>          
+        <div onclick="jump('question')"
+          class="rounded-2xl p-5 transition-all duration-300 cursor-pointer bg-gray-600 hover:bg-gray-800">
+          <svg class="mx-auto w-20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+          </svg>
           <p class="text-xl font-medium text-muted-800 mt-2">刷题</p>
           <p class="text-sm font-medium text-gray-400">查看指定科目下的所有题目</p>
         </div>
-        <div onclick="jump('exam')" class="rounded-2xl p-5 transition-all duration-300 cursor-pointer bg-gray-600 hover:bg-gray-800">
-          <svg class="mx-auto w-20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
-          </svg>          
+        <div onclick="jump('exam')"
+          class="rounded-2xl p-5 transition-all duration-300 cursor-pointer bg-gray-600 hover:bg-gray-800">
+          <svg class="mx-auto w-20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
+          </svg>
           <p class="text-xl font-medium text-muted-800 mt-2">考试</p>
           <p class="text-sm font-medium text-gray-400">使用题库生成特定科目模拟考试</p>
         </div>
@@ -95,18 +114,30 @@
 <script src="common/common.js"></script>
 <script>
   var token = '';
-  (function(){
+  var user = {};
+  (function () {
     token = localStorage.getItem('accessToken')
     if (token == '' || token == undefined) jump('auth')
+    user = JSON.parse(localStorage.getItem('cacheUser'))
+    $('#userName').text(user.name.toUpperCase())
+    $('#userRole').text(user.admin ? '管理员':'同学')
+    if(user.admin) { 
+      $('#menu').removeClass('lg:grid-cols-3');
+      $('#menu').addClass('lg:grid-cols-4');
+      $('#appAdmin').show()
+    } else{
+      $('#appAdmin').remove()
+    }
   })()
-  
-  function jump(path){
-    window.location.href = '/app/'+path
+
+  function jump(path) {
+    window.location.href = '/app/' + path
   }
-  
-  function exit(){
+
+  function exit() {
     localStorage.clear()
     jump('auth')
   }
 </script>
+
 </html>
