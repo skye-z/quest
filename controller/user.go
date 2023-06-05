@@ -16,7 +16,7 @@ type UserController struct {
 
 type loginRequest struct {
 	Name string `json:"name"`
-	Pass string `json:"Pass"`
+	Pass string `json:"pass"`
 }
 
 type loginResponse struct {
