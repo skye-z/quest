@@ -75,6 +75,8 @@ func addPrivateRoute(route gin.IRoutes, engine *xorm.Engine, uc controller.UserC
 	route.GET("/api/user/list", uc.GetUserList)
 	// 获取科目列表
 	route.GET("/api/subject/list", sc.GetSubjectList)
+	// 添加科目
+	route.POST("/api/subject/add", sc.AddSubject)
 	// 获取题目列表
 	route.GET("/api/question/list", qc.GetQuestionList)
 	// 获取考试列表

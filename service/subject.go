@@ -18,3 +18,12 @@ func (service SubjectService) GetSubjectList() ([]model.Subject, error) {
 	}
 	return subs, nil
 }
+
+func (service SubjectService) AddSubject(name string, tag string) bool {
+	sub := model.Subject{
+		Name: name,
+		Tag:  tag,
+	}
+	state := service.SubjectModel.AddSubject(&sub)
+	return state
+}
