@@ -1,6 +1,6 @@
 # Quest - Exercise Assistant
 
-Quest is a smart software for question bank management and mock exams. 
+Quest is a ultra mini system for question bank management and mock exams. 
 
 [![](https://img.shields.io/badge/Go-1.20+-%2300ADD8?style=flat&logo=go)](go.work)
 [![](https://img.shields.io/badge/Quest-1.0.0-green)](control)
