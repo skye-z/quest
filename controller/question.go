@@ -19,6 +19,7 @@ type questionListResponse struct {
 	Time int64            `json:"time"`
 }
 
+// 获取题目列表
 func (sc QuestionController) GetQuestionList(ctx *gin.Context) {
 	sid := ctx.Query("sid")
 	page := ctx.Query("page")
@@ -33,10 +34,14 @@ func (sc QuestionController) GetQuestionList(ctx *gin.Context) {
 		global.ReturnError(ctx, global.Errors.ParamIllegalError)
 		return
 	}
-	var err error
 	var list []model.Question
 	if len(num) == 0 {
+		var err error
 		list, err = sc.QuestionService.GetQuestionList(iSid, iPage, 10)
+		if err != nil {
+			global.ReturnError(ctx, global.Errors.UnexpectedError)
+			return
+		}
 	} else {
 		iNum, err := strconv.Atoi(page)
 		if err != nil {
@@ -44,10 +49,10 @@ func (sc QuestionController) GetQuestionList(ctx *gin.Context) {
 			return
 		}
 		list, err = sc.QuestionService.GetQuestionList(iSid, iPage, iNum)
-	}
-	if err != nil {
-		global.ReturnError(ctx, global.Errors.UnexpectedError)
-		return
+		if err != nil {
+			global.ReturnError(ctx, global.Errors.UnexpectedError)
+			return
+		}
 	}
 	ctx.JSON(200, questionListResponse{List: list, Time: time.Now().Unix()})
 }

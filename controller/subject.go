@@ -44,7 +44,7 @@ func (sc SubjectController) AddSubject(ctx *gin.Context) {
 		return
 	}
 	if len(form.Name) == 0 {
-		ctx.JSON(200, gin.H{"message": "科目名称不能为空"})
+		global.ReturnMessage(ctx, false, "科目名称不能为空")
 		return
 	}
 	if len(form.Tag) == 0 {

@@ -26,6 +26,7 @@ type loginResponse struct {
 	Time   int64       `json:"time"`
 }
 
+// 登录
 func (uc UserController) Login(ctx *gin.Context) {
 	var form loginRequest
 	if err := ctx.ShouldBindJSON(&form); err != nil {
@@ -57,6 +58,7 @@ type userListResponse struct {
 	Time int64        `json:"time"`
 }
 
+// 获取用户列表
 func (uc UserController) GetUserList(ctx *gin.Context) {
 	user, state := ctx.Keys["user"].(model.User)
 	if !state {
@@ -82,6 +84,10 @@ func (uc UserController) GetUserList(ctx *gin.Context) {
 	var users []model.User
 	if len(num) == 0 {
 		users, err = uc.UserService.GetUserList(name, iPage, 10)
+		if err != nil {
+			global.ReturnError(ctx, global.Errors.UnexpectedError)
+			return
+		}
 	} else {
 		iNum, err := strconv.Atoi(page)
 		if err != nil {
@@ -89,10 +95,32 @@ func (uc UserController) GetUserList(ctx *gin.Context) {
 			return
 		}
 		users, err = uc.UserService.GetUserList(name, iPage, iNum)
-	}
-	if err != nil {
-		global.ReturnError(ctx, global.Errors.UnexpectedError)
-		return
+		if err != nil {
+			global.ReturnError(ctx, global.Errors.UnexpectedError)
+			return
+		}
 	}
 	ctx.JSON(200, userListResponse{List: users, Time: time.Now().Unix()})
+}
+
+// 添加用户
+func (uc UserController) AddUser(ctx *gin.Context) {
+	var form model.User
+	if err := ctx.ShouldBindJSON(&form); err != nil {
+		ctx.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	if len(form.Name) == 0 {
+		global.ReturnMessage(ctx, false, "用户名不能为空")
+		return
+	}
+	if len(form.Nickname) == 0 {
+		form.Nickname = form.Name
+	}
+	if len(form.Pass) == 0 {
+		global.ReturnMessage(ctx, false, "密码不能为空")
+		return
+	}
+	state := uc.UserService.UserModel.AddUser(&form)
+	ctx.JSON(200, addResponse{State: state, Time: time.Now().Unix()})
 }
