@@ -74,11 +74,11 @@ func addPrivateRoute(route gin.IRoutes, engine *xorm.Engine, uc controller.UserC
 	// 管理-获取用户列表
 	route.GET("/api/user/list", uc.GetUserList)
 	// 管理-添加用户
-	// route.POST("/api/user/add", uc.GetUserList)
+	route.POST("/api/user/add", uc.AddUser)
 	// 管理-删除用户
 	route.DELETE("/api/user/:id", uc.DelUser)
 	// 管理-编辑用户
-	// route.POST("/api/user/:id", uc.GetUserList)
+	route.POST("/api/user/:id", uc.EditUser)
 	// 获取科目列表
 	route.GET("/api/subject/list", sc.GetSubjectList)
 	// 管理-添加科目

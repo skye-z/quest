@@ -144,3 +144,28 @@ func (uc UserController) DelUser(ctx *gin.Context) {
 	state := uc.UserService.DelUser(uid)
 	ctx.JSON(200, addResponse{State: state, Time: time.Now().Unix()})
 }
+
+// 编辑用户
+func (uc UserController) EditUser(ctx *gin.Context) {
+	id := ctx.Param("id")
+	if len(id) == 0 {
+		global.ReturnMessage(ctx, false, "用户编号不能为空")
+		return
+	}
+	uid, _ := strconv.ParseInt(id, 10, 64)
+	var form model.User
+	if err := ctx.ShouldBindJSON(&form); err != nil {
+		ctx.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	if len(form.Name) == 0 {
+		global.ReturnMessage(ctx, false, "用户名不能为空")
+		return
+	}
+	if len(form.Nickname) == 0 {
+		form.Nickname = form.Name
+	}
+	form.Id = uid
+	state := uc.UserService.UserModel.EditUser(&form)
+	ctx.JSON(200, addResponse{State: state, Time: time.Now().Unix()})
+}
