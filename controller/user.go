@@ -132,3 +132,15 @@ func (uc UserController) AddUser(ctx *gin.Context) {
 	state := uc.UserService.UserModel.AddUser(&form)
 	ctx.JSON(200, addResponse{State: state, Time: time.Now().Unix()})
 }
+
+// 删除用户
+func (uc UserController) DelUser(ctx *gin.Context) {
+	uid := ctx.Param("id")
+	if len(uid) == 0 {
+		global.ReturnMessage(ctx, false, "用户编号不能为空")
+		return
+	}
+
+	state := uc.UserService.DelUser(uid)
+	ctx.JSON(200, addResponse{State: state, Time: time.Now().Unix()})
+}
