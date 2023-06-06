@@ -56,3 +56,15 @@ func (qc QuestionController) GetQuestionList(ctx *gin.Context) {
 	}
 	ctx.JSON(200, questionListResponse{List: list, Time: time.Now().Unix()})
 }
+
+// 删除题目
+func (qc QuestionController) DelQuestion(ctx *gin.Context) {
+	qid := ctx.Param("id")
+	if len(qid) == 0 {
+		global.ReturnMessage(ctx, false, "题目编号不能为空")
+		return
+	}
+
+	state := qc.QuestionService.DelQuestion(qid)
+	ctx.JSON(200, addResponse{State: state, Time: time.Now().Unix()})
+}
