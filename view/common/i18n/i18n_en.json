@@ -1,0 +1,10 @@
+{
+    "auth.title": "Sign in",
+    "auth.username": "User Name",
+    "auth.password": "Password",
+    "auth.button": "Sign in",
+    "auth.tips": "Need password or account help? Contact admin.",
+    "auth.error": "Sign in failed",
+    "auth.success": "Sign in successful",
+    "auth.dialog.button": "Confirm"
+}
