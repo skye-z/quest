@@ -47,6 +47,11 @@ func (sc SubjectController) AddSubject(ctx *gin.Context) {
 		global.ReturnMessage(ctx, false, "科目名称不能为空")
 		return
 	}
+	sub := sc.SubjectService.GetSubject(form.Name)
+	if sub != nil {
+		global.ReturnMessage(ctx, false, "科目已存在")
+		return
+	}
 	if len(form.Tag) == 0 {
 		form.Tag = ""
 	}

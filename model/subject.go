@@ -15,8 +15,8 @@ type SubjectModel struct {
 }
 
 // 获取科目
-func (model SubjectModel) GetSubject(id int64) (*Subject, error) {
-	subject := &Subject{Id: id}
+func (model SubjectModel) GetSubject(name string) (*Subject, error) {
+	subject := &Subject{Name: name}
 
 	has, err := model.DB.Get(subject)
 	if !has {

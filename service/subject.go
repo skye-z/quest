@@ -8,6 +8,13 @@ type SubjectService struct {
 	SubjectModel model.SubjectModel
 }
 
+// 获取指定科目
+func (service SubjectService) GetSubject(name string) *model.Subject {
+	sub, _ := service.SubjectModel.GetSubject(name)
+	return sub
+}
+
+// 获取科目列表
 func (service SubjectService) GetSubjectList() ([]model.Subject, error) {
 	subs, err := service.SubjectModel.GetSubjectList()
 	if err != nil {
@@ -19,6 +26,7 @@ func (service SubjectService) GetSubjectList() ([]model.Subject, error) {
 	return subs, nil
 }
 
+// 添加科目
 func (service SubjectService) AddSubject(name string, tag string) bool {
 	sub := model.Subject{
 		Name: name,
