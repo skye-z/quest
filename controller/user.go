@@ -114,6 +114,14 @@ func (uc UserController) AddUser(ctx *gin.Context) {
 		global.ReturnMessage(ctx, false, "用户名不能为空")
 		return
 	}
+	user := model.User{
+		Name: form.Name,
+	}
+	uc.UserService.UserModel.GetUser(&user)
+	if user.Id != 0 {
+		global.ReturnMessage(ctx, false, "用户已存在")
+		return
+	}
 	if len(form.Nickname) == 0 {
 		form.Nickname = form.Name
 	}

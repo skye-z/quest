@@ -36,8 +36,10 @@ func (service UserService) GetUserList(name string, page int, num int) ([]model.
 	return users, nil
 }
 
-func (service UserService) GetUser(id int) (*model.User, error) {
-	var user = model.User{}
+func (service UserService) GetUser(id int64) (*model.User, error) {
+	var user = model.User{
+		Id: id,
+	}
 	err := service.UserModel.GetUser(&user)
 	if err != nil {
 		return nil, err
