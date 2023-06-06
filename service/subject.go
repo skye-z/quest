@@ -2,6 +2,7 @@ package service
 
 import (
 	"quest/model"
+	"strconv"
 )
 
 type SubjectService struct {
@@ -33,5 +34,18 @@ func (service SubjectService) AddSubject(name string, tag string) bool {
 		Tag:  tag,
 	}
 	state := service.SubjectModel.AddSubject(&sub)
+	return state
+}
+
+// 删除科目
+func (service SubjectService) DelSubject(id string) bool {
+	sid, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		return false
+	}
+	sub := model.Subject{
+		Id: sid,
+	}
+	state := service.SubjectModel.DelSubject(&sub)
 	return state
 }
