@@ -82,7 +82,7 @@ func GenerateToken(user *model.User) (string, int64, error) {
 			"sub": fmt.Sprintf("%s@%v", user.Name, user.Id),
 		},
 	)
-	key, err := base64.StdEncoding.DecodeString(secret)
+	key, _ := base64.StdEncoding.DecodeString(secret)
 	token, err := tc.SignedString(key)
 	return token, exp, err
 }
