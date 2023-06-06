@@ -4,6 +4,7 @@ import (
 	"quest/global"
 	"quest/model"
 	"quest/service"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -57,9 +58,6 @@ func (sc SubjectController) AddSubject(ctx *gin.Context) {
 		global.ReturnMessage(ctx, false, "科目已存在")
 		return
 	}
-	if len(form.Tag) == 0 {
-		form.Tag = ""
-	}
 	state := sc.SubjectService.AddSubject(form.Name, form.Tag)
 	ctx.JSON(200, addResponse{State: state, Time: time.Now().Unix()})
 }
@@ -73,5 +71,27 @@ func (sc SubjectController) DelSubject(ctx *gin.Context) {
 	}
 
 	state := sc.SubjectService.DelSubject(sid)
+	ctx.JSON(200, addResponse{State: state, Time: time.Now().Unix()})
+}
+
+// 编辑科目
+func (sc SubjectController) EditSubject(ctx *gin.Context) {
+	id := ctx.Param("id")
+	if len(id) == 0 {
+		global.ReturnMessage(ctx, false, "科目编号不能为空")
+		return
+	}
+	sid, _ := strconv.ParseInt(id, 10, 64)
+	var form model.Subject
+	if err := ctx.ShouldBindJSON(&form); err != nil {
+		ctx.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	if len(form.Name) == 0 {
+		global.ReturnMessage(ctx, false, "科目名称不能为空")
+		return
+	}
+	form.Id = sid
+	state := sc.SubjectService.SubjectModel.EditSubject(&form)
 	ctx.JSON(200, addResponse{State: state, Time: time.Now().Unix()})
 }

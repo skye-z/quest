@@ -86,23 +86,23 @@ func addPrivateRoute(route gin.IRoutes, engine *xorm.Engine, uc controller.UserC
 	// 管理-删除科目
 	route.DELETE("/api/subject/:id", sc.DelSubject)
 	// 管理-编辑科目
-	// route.POST("/api/subject/:id", sc.AddSubject)
+	route.POST("/api/subject/:id", sc.EditSubject)
 	// 获取题目列表
 	route.GET("/api/question/list", qc.GetQuestionList)
 	// 管理-导入题目
-	// route.POST("/api/question/import", qc.GetQuestionList)
+	route.POST("/api/question/import", qc.ImportQuestion)
 	// 管理-添加题目
-	// route.POST("/api/question/add", qc.GetQuestionList)
+	route.POST("/api/question/add", qc.AddQuestion)
 	// 管理-删除题目
 	route.DELETE("/api/question/:id", qc.DelQuestion)
 	// 管理-编辑题目
-	// route.POST("/api/question/:id", sc.AddSubject)
+	route.POST("/api/question/:id", qc.EditQuestion)
 	// 获取考试列表
 	route.GET("/api/exam/list", ec.GetExamList)
 	// 管理-添加考试
-	// route.POST("/api/exam/add", ec.GetQuestionList)
+	route.POST("/api/exam/add", ec.AddExam)
 	// 管理-删除考试
 	route.DELETE("/api/exam/:id", ec.DelExam)
 	// 管理-编辑考试
-	// route.POST("/api/exam/:id", ec.AddSubject)
+	route.POST("/api/exam/:id", ec.EditExam)
 }

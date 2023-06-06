@@ -4,8 +4,8 @@ import "xorm.io/xorm"
 
 type Exam struct {
 	Id        int64   `json:"id"`
-	User      int     `json:"uid"`
-	Subject   int     `json:"sid"`
+	User      int64   `json:"uid"`
+	Subject   int64   `json:"sid"`
 	Questions string  `json:"questions"`
 	Answers   string  `json:"answers"`
 	Score     float32 `json:"score"`

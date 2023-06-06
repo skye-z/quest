@@ -4,7 +4,7 @@ import "xorm.io/xorm"
 
 type Question struct {
 	Id       int64   `json:"id"`
-	Subject  int     `json:"sid"`
+	Subject  int64   `json:"sid"`
 	Level    int     `json:"level"`
 	Type     int     `json:"type"`
 	Question string  `json:"question"`
