@@ -173,7 +173,7 @@
       }),
       success: function (res) {
         if (res.token && res.user) {
-          showSuccess('欢迎回来, ' + res.user.name + (res.user.admin ? ' 管理员' : ' 同学') + ', 正在跳转中')
+          showSuccess('欢迎回来, ' + res.user.nickname + (res.user.admin ? ' 老师' : ' 同学') + ', 正在跳转中')
           localStorage.setItem('accessToken', res.token)
           localStorage.setItem('cacheUser', JSON.stringify(res.user))
           setTimeout(function () {
