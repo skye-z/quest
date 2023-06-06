@@ -84,7 +84,7 @@ func addPrivateRoute(route gin.IRoutes, engine *xorm.Engine, uc controller.UserC
 	// 管理-添加科目
 	route.POST("/api/subject/add", sc.AddSubject)
 	// 管理-删除科目
-	// route.DELETE("/api/subject/:id", sc.AddSubject)
+	route.DELETE("/api/subject/:id", sc.DelSubject)
 	// 管理-编辑科目
 	// route.POST("/api/subject/:id", sc.AddSubject)
 	// 获取题目列表
