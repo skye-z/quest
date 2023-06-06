@@ -2,6 +2,7 @@ package service
 
 import (
 	"quest/model"
+	"strconv"
 )
 
 type ExamService struct {
@@ -17,4 +18,17 @@ func (service ExamService) GetExamList() ([]model.Exam, error) {
 		return make([]model.Exam, 0), nil
 	}
 	return subs, nil
+}
+
+// 删除考试
+func (service ExamService) DelExam(id string) bool {
+	eid, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		return false
+	}
+	sub := model.Exam{
+		Id: eid,
+	}
+	state := service.ExamModel.DelExam(&sub)
+	return state
 }
