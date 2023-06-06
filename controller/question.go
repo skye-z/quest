@@ -20,7 +20,7 @@ type questionListResponse struct {
 }
 
 // 获取题目列表
-func (sc QuestionController) GetQuestionList(ctx *gin.Context) {
+func (qc QuestionController) GetQuestionList(ctx *gin.Context) {
 	sid := ctx.Query("sid")
 	page := ctx.Query("page")
 	num := ctx.Query("number")
@@ -28,7 +28,7 @@ func (sc QuestionController) GetQuestionList(ctx *gin.Context) {
 		global.ReturnError(ctx, global.Errors.ParamEmptyError)
 		return
 	}
-	iSid, err1 := strconv.Atoi(sid)
+	iSid, err1 := strconv.ParseInt(sid, 10, 64)
 	iPage, err2 := strconv.Atoi(page)
 	if err1 != nil || err2 != nil {
 		global.ReturnError(ctx, global.Errors.ParamIllegalError)
@@ -37,7 +37,7 @@ func (sc QuestionController) GetQuestionList(ctx *gin.Context) {
 	var list []model.Question
 	if len(num) == 0 {
 		var err error
-		list, err = sc.QuestionService.GetQuestionList(iSid, iPage, 10)
+		list, err = qc.QuestionService.GetQuestionList(iSid, iPage, 10)
 		if err != nil {
 			global.ReturnError(ctx, global.Errors.UnexpectedError)
 			return
@@ -48,7 +48,7 @@ func (sc QuestionController) GetQuestionList(ctx *gin.Context) {
 			global.ReturnError(ctx, global.Errors.ParamIllegalError)
 			return
 		}
-		list, err = sc.QuestionService.GetQuestionList(iSid, iPage, iNum)
+		list, err = qc.QuestionService.GetQuestionList(iSid, iPage, iNum)
 		if err != nil {
 			global.ReturnError(ctx, global.Errors.UnexpectedError)
 			return

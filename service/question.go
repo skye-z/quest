@@ -8,7 +8,7 @@ type QuestionService struct {
 	QuestionModel model.QuestionModel
 }
 
-func (service QuestionService) GetQuestionList(sid int, page int, num int) ([]model.Question, error) {
+func (service QuestionService) GetQuestionList(sid int64, page int, num int) ([]model.Question, error) {
 	subs, err := service.QuestionModel.GetQuestionList(sid, page, num)
 	if err != nil {
 		return make([]model.Question, 0), err
