@@ -1,6 +1,6 @@
 import {
     createRouter,
-    createWebHashHistory
+    createWebHistory
 } from 'vue-router'
 
 const Home = () => import('../views/Home.vue')
@@ -11,7 +11,7 @@ const Question = () => import('../views/Question.vue')
 const Exam = () => import('../views/Exam.vue')
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(import.meta.env.VITE_APP_PATH),
     routes: [
         {
             name: 'Home',

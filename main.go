@@ -65,6 +65,18 @@ func register(engine *xorm.Engine) *gin.Engine {
 	// 加载模版页面
 	templ := template.Must(template.New("").ParseFS(f, "page/error/*.html"))
 	r.SetHTMLTemplate(templ)
+	// 配置404
+	r.NoRoute(func(ctx *gin.Context) {
+		data, err := f.ReadFile("page/dist/index.html")
+		if err != nil {
+			ctx.HTML(http.StatusOK, "404.html", gin.H{
+				"title": "404",
+			})
+			return
+		}
+		ctx.Data(http.StatusOK, "text/html; charset=utf-8", data)
+	})
+
 	// 注册路由
 	router.RegisterRoute(r, engine)
 	return r

@@ -2,7 +2,6 @@ package router
 
 import (
 	"log"
-	"net/http"
 	"quest/controller"
 	"quest/global"
 	"quest/model"
@@ -32,11 +31,6 @@ func addCommonRoute(route *gin.Engine, engine *xorm.Engine) {
 	route.GET("/", func(ctx *gin.Context) {
 		ctx.Request.URL.Path = "/app"
 		route.HandleContext(ctx)
-	})
-	route.NoRoute(func(ctx *gin.Context) {
-		ctx.HTML(http.StatusOK, "404.html", gin.H{
-			"title": "404",
-		})
 	})
 }
 
