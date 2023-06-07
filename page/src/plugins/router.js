@@ -1,5 +1,5 @@
 import {
-	createRouter,
+    createRouter,
     createWebHashHistory
 } from 'vue-router'
 
@@ -11,7 +11,7 @@ const Question = () => import('../views/Question.vue')
 const Exam = () => import('../views/Exam.vue')
 
 const router = createRouter({
-	history: createWebHashHistory(),
+    history: createWebHashHistory(),
     routes: [
         {
             name: 'Home',
@@ -71,8 +71,11 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _from, next) => {
+    let name = localStorage.getItem('app:config:name')
+    if (name == undefined) name = 'Quest云题库'
     if (!to.meta.auth || Boolean(localStorage.getItem("user:access:token")) || to.name == "Auth") {
         document.title = to.meta.title === undefined ? '' : to.meta.title
+        document.title = (to.meta.title === undefined ? '未知页面 - ' : to.meta.title + ' - ') + name
         next()
     } else {
         next('/auth')
