@@ -29,8 +29,6 @@ func RegisterRoute(route *gin.Engine, engine *xorm.Engine) {
 }
 
 func addCommonRoute(route *gin.Engine, engine *xorm.Engine) {
-	route.Static("/app", "./view")
-	route.LoadHTMLGlob("./view/error/*.html")
 	route.GET("/", func(ctx *gin.Context) {
 		ctx.Request.URL.Path = "/app"
 		route.HandleContext(ctx)

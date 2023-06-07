@@ -1,8 +1,12 @@
 package main
 
 import (
+	"embed"
 	"fmt"
+	"html/template"
+	"io/fs"
 	"log"
+	"net/http"
 	"os"
 
 	"quest/global"
@@ -14,15 +18,19 @@ import (
 	"xorm.io/xorm"
 )
 
-func main() {
-	fmt.Println(`    ____               __ 
-   / __ \__ _____ ___ / /_
-  / /_/ / // / -_|_-</ __/
-  \___\_\_,_/\__/___/\__/ 
+//go:embed page/error/* page/dist/*
+var f embed.FS
 
-== Developed by SkyeZhang ==
-Git: github.com/skye-z/quest
-Version: ` + global.Version + "\n")
+func main() {
+	fmt.Print(`┌────────────────────────────┐
+│    ____               __   │
+│   / __ \__ _____ ___ / /_  │
+│  / /_/ / // / -_|_-</ __/  │
+│  \___\_\_,_/\__/___/\__/   │
+│                            │
+│   github.com/skye-z/quest  │
+└────────────────────────────┘
+Version: ` + global.Version + "\n\n")
 	log.Println("[Core] release model")
 	// 关闭调试
 	gin.SetMode(gin.ReleaseMode)
@@ -51,6 +59,13 @@ func loadDBEngine() *xorm.Engine {
 
 func register(engine *xorm.Engine) *gin.Engine {
 	r := gin.Default()
+	// 加载静态资源
+	fp, _ := fs.Sub(f, "page/dist")
+	r.StaticFS("/app", http.FS(fp))
+	// 加载模版页面
+	templ := template.Must(template.New("").ParseFS(f, "page/error/*.html"))
+	r.SetHTMLTemplate(templ)
+	// 注册路由
 	router.RegisterRoute(r, engine)
 	return r
 }

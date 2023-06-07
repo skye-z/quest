@@ -7,3 +7,6 @@
 quest
 local.store
 config.ini
+# vue
+node_modules/
+dist/

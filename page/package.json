@@ -1,0 +1,22 @@
+{
+  "name": "quest",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --base=/app/",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.2.47"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.1.0",
+    "naive-ui": "^2.34.4",
+    "unplugin-auto-import": "^0.16.4",
+    "unplugin-vue-components": "^0.25.1",
+    "vfonts": "^0.0.3",
+    "vite": "^4.3.9"
+  }
+}
