@@ -12,6 +12,13 @@ function post(url, data) {
     })
 }
 
+export const init = () => {
+    return request({
+        url: '/init',
+        method: 'GET'
+    })
+}
+
 export const user = {
     login: (name, pass) => {
         return post('/user/login', {

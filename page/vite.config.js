@@ -24,4 +24,13 @@ export default defineConfig({
       resolvers: [NaiveUiResolver()]
     })
   ],
+  server:{
+    proxy: {
+      '/api': {
+        target: "http://localhost:12999/api",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    },
+  }
 })

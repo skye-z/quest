@@ -16,15 +16,12 @@ request.interceptors.request.use(
     }
 )
 
-// request.interceptors.response.use(
-//     response => {
-//         let code = parseInt(response.data.code);
-//         if (code === 1000003 || code === 1000004) {
-            
-//         } else return response.data
-//     }, () => {
-//         throw "网络异常";
-//     }
-// )
+request.interceptors.response.use(
+    response => {
+        return response.data
+    }, () => {
+        throw "网络异常";
+    }
+)
 
 export default request
