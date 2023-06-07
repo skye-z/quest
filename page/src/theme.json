@@ -1,0 +1,14 @@
+{
+  "Button": {
+    "borderRadiusTiny": "8px",
+    "borderRadiusSmall": "8px",
+    "borderRadiusMedium": "8px",
+    "borderRadiusLarge": "8px"
+  },
+  "Input":{
+    "borderRadius": "8px"
+  },
+  "common": {
+    "fontWeightStrong": "600"
+  }
+}
