@@ -1,5 +1,10 @@
 <template>
   <n-config-provider :theme="dark" :locale="i18n.main" :date-locale="i18n.date" :theme-overrides="theme">
+    <n-dialog-provider>
+      <n-message-provider>
+        <global-api />
+      </n-message-provider>
+    </n-dialog-provider>
     <router-view v-slot="{ Component }">
       <transition name="fade">
         <component :is="Component" />
@@ -13,14 +18,15 @@
 import { init } from './plugins/api'
 import { darkTheme, zhCN, dateZhCN, NThemeEditor } from 'naive-ui'
 import theme from './theme.json'
+import GlobalApi from './components/globalApi.vue'
 
 export default {
   name: "App",
-  components: { NThemeEditor },
+  components: { GlobalApi, NThemeEditor },
   data: () => ({
     dark: darkTheme,
     theme,
-    i18n:{
+    i18n: {
       main: zhCN,
       date: dateZhCN
     }

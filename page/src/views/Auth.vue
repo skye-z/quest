@@ -5,15 +5,16 @@
             <div id="auth-card">
                 <n-form ref="form" size="large" :show-require-mark="false" :model="form" :rules="rules">
                     <n-form-item label="用户名" path="name">
-                        <n-input v-model:value="form.name" placeholder="请输入用户名" type="text" />
+                        <n-input v-model:value="form.name" :disabled="form.loading" placeholder="请输入用户名" type="text" />
                     </n-form-item>
                     <n-form-item label="密码" path="pass">
-                        <n-input v-model:value="form.pass" placeholder="请输入密码" type="password" />
+                        <n-input v-model:value="form.pass" @keyup.enter="submit" :disabled="form.loading"
+                            placeholder="请输入密码" type="password" />
                     </n-form-item>
                 </n-form>
                 <div id="auth-tools" class="flex justify-between align-center">
                     <div class="flex align-center text-gray">
-                        <n-switch class="mr-5" /> 记住我
+                        <n-switch v-model:value="form.remember" :disabled="form.login" class="mr-5" /> 记住我
                     </div>
                     <n-button :loading="form.loading" @click="submit" text-color="#1f2937" id="auth-btn" type="primary">
                         <template #icon>
@@ -34,6 +35,7 @@
   
 <script>
 import { AirplaneTakeOff16Filled } from '@vicons/fluent'
+import { user } from '../plugins/api'
 
 export default {
     name: "Auth",
@@ -47,6 +49,7 @@ export default {
         form: {
             name: '',
             pass: '',
+            remember: false,
             loading: false
         },
         rules: {
@@ -68,10 +71,40 @@ export default {
                 name: localStorage.getItem('app:config:name'),
                 version: localStorage.getItem('app:config:version')
             }
+            let last = localStorage.getItem('user:last:login')
+            if (last) {
+                this.form.name = last
+                this.form.remember = true
+            }
             this.loading = false;
         },
         submit() {
             this.form.loading = true
+            this.$refs.form.validate((errors) => {
+                if (!errors) this.login()
+            })
+        },
+        login() {
+            user.login(this.form.name, this.form.pass).then(res => {
+                if (res.token && res.user) {
+                    window.$message.success('欢迎回来, ' + res.user.nickname + (res.user.admin ? '老师' : '同学') + ', 正在跳转中');
+                    localStorage.setItem('user:access:token', res.token)
+                    localStorage.setItem('user:info', JSON.stringify(res.user))
+                    if (this.form.remember) localStorage.setItem('user:last:login', this.form.name)
+                    else localStorage.removeItem('user:last:login')
+                    setTimeout(() => {
+                        this.$router.push('/home')
+                    }, 2000)
+                } else {
+                    setTimeout(() => {
+                        window.$message.warning(res.message ? res.message : '发生意料之外的错误')
+                        this.form.loading = false
+                    }, 1000)
+                }
+            }).catch(() => {
+                window.$message.error('网络异常')
+                this.form.loading = false
+            })
         }
     },
     mounted() {
@@ -108,7 +141,7 @@ export default {
     padding: 20px 20px 0 20px;
 }
 
-#auth-tools{
+#auth-tools {
     margin: 0 20px 25px 20px;
 }
 

@@ -3,12 +3,12 @@ import {
     createWebHistory
 } from 'vue-router'
 
-const Home = () => import('../views/Home.vue')
-const Auth = () => import('../views/Auth.vue')
-const Admin = () => import('../views/Admin.vue')
-const Search = () => import('../views/Search.vue')
-const Question = () => import('../views/Question.vue')
-const Exam = () => import('../views/Exam.vue')
+const Home = () => import('../views/home.vue')
+const Auth = () => import('../views/auth.vue')
+const Admin = () => import('../views/admin.vue')
+const Search = () => import('../views/search.vue')
+const Question = () => import('../views/question.vue')
+const Exam = () => import('../views/exam.vue')
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.VITE_APP_PATH),
