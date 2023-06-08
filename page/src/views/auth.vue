@@ -1,5 +1,6 @@
 <template>
     <div id="auth-box" class="no-select">
+        <loading ref="loading" />
         <div class="text-center">
             <div id="app-name">{{ app.name }}</div>
             <div id="auth-card">
@@ -35,13 +36,13 @@
   
 <script>
 import { AirplaneTakeOff16Filled } from '@vicons/fluent'
+import Loading from "../components/loading.vue"
 import { user } from '../plugins/api'
 
 export default {
     name: "Auth",
-    components: { AirplaneTakeOff16Filled },
+    components: { Loading,AirplaneTakeOff16Filled },
     data: () => ({
-        loading: true,
         app: {
             name: 'Quest云题库',
             version: '1.0.0'
@@ -76,7 +77,9 @@ export default {
                 this.form.name = last
                 this.form.remember = true
             }
-            this.loading = false;
+            setTimeout(() => {
+                this.$refs.loading.hide()
+            }, 500);
         },
         submit() {
             this.form.loading = true
@@ -87,7 +90,7 @@ export default {
         login() {
             user.login(this.form.name, this.form.pass).then(res => {
                 if (res.token && res.user) {
-                    window.$message.success('欢迎回来, ' + res.user.nickname + (res.user.admin ? '老师' : '同学') + ', 正在跳转中');
+                    window.$message.success('Hi ' + res.user.nickname + (res.user.admin ? '老师' : '同学') + ', 欢迎回来');
                     localStorage.setItem('user:access:token', res.token)
                     localStorage.setItem('user:info', JSON.stringify(res.user))
                     if (this.form.remember) localStorage.setItem('user:last:login', this.form.name)

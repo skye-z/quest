@@ -5,11 +5,7 @@
         <global-api />
       </n-message-provider>
     </n-dialog-provider>
-    <router-view v-slot="{ Component }">
-      <transition name="fade">
-        <component :is="Component" />
-      </transition>
-    </router-view>
+    <router-view />
     <NThemeEditor />
   </n-config-provider>
 </template>
