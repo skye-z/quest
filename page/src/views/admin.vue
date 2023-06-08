@@ -191,15 +191,15 @@ export default {
                         for (let i in res.cpu) all += res.cpu[i]
                         all = (all / res.cpu.length)
                         let level = 1;
-                        if (all > 65) level = 2
-                        else if (all > 90) level = 3
+                        if (all > 90) level = 3
+                        else if (all > 65) level = 2
                         res.cpu = all.toFixed(2)
                         res.level = level
                     }
                     if (res.memory) {
                         let level = 1;
-                        if (res.memory.usedPercent > 65) level = 2
-                        else if (res.memory.usedPercent > 90) level = 3
+                        if (res.memory.usedPercent > 90) level = 3
+                        else if (res.memory.usedPercent > 65) level = 2
                         res.memory = {
                             free: res.memory.available / 1024 / 1024,
                             percent: res.memory.usedPercent.toFixed(2),
@@ -208,8 +208,8 @@ export default {
                     }
                     if (res.disk) {
                         let level = 1;
-                        if (res.disk.usedPercent > 65) level = 2
-                        else if (res.disk.usedPercent > 90) level = 3
+                        if (res.disk.usedPercent > 90) level = 3
+                        else if (res.disk.usedPercent > 65) level = 2
                         res.disk = {
                             free: res.disk.free / 1024 / 1024,
                             percent: res.disk.usedPercent.toFixed(2),
