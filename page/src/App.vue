@@ -29,8 +29,10 @@ export default {
   }),
   methods: {
     checkLogin() {
+      let path = window.location.pathname;
       let token = localStorage.getItem('user:access:token')
       if (token == '' || token == undefined) this.$router.push('/auth')
+      else if(path == '/' || path == '/app' || path == '/app/') this.$router.push('/home')
     },
     initConfig() {
       init().then(res => {
