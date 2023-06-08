@@ -105,7 +105,6 @@ export default {
                     }, 1000)
                 }
             }).catch(() => {
-                window.$message.error('网络异常')
                 this.form.loading = false
             })
         }

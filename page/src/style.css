@@ -48,8 +48,20 @@ a:hover {
   justify-content: space-between;
 }
 
+.mt-10{
+  margin-top: 10px;
+}
+
+.mr-10{
+  margin-right: 10px;
+}
+
 .mb-10{
   margin-bottom: 10px;
+}
+
+.ml-10{
+  margin-left: 10px;
 }
 
 .mr-5{
@@ -65,9 +77,18 @@ a:hover {
   user-select: none;
 }
 
+.line1 {
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  overflow: hidden;
+}
+
 .app-body{
+  min-height: calc(100vh - 125px);
   max-width: 1200px;
-  min-height: calc(100vh - 105px);
+  padding: 10px;
   margin: 0 auto;
 }
 

@@ -18,8 +18,16 @@ request.interceptors.request.use(
 
 request.interceptors.response.use(
     response => {
-        return response.data
+        if (response.data && response.data.code){
+            let code = parseInt(response.data.code);
+            if (code >= 10100 && code <= 10103) {
+                window.$message.warning(response.data.message);
+                localStorage.removeItem("user:access:token");
+                router.push("/auth");
+            } else return response.data
+        } else return response.data
     }, () => {
+        window.$message.error('网络异常')
         throw "网络异常";
     }
 )
