@@ -6,19 +6,19 @@
       </n-message-provider>
     </n-dialog-provider>
     <router-view />
-    <NThemeEditor />
+    <!-- <NThemeEditor /> -->
   </n-config-provider>
 </template>
 
 <script>
 import { init } from './plugins/api'
-import { darkTheme, zhCN, dateZhCN, NThemeEditor } from 'naive-ui'
+import { darkTheme, zhCN, dateZhCN } from 'naive-ui'
 import theme from './theme.json'
 import GlobalApi from './components/globalApi.vue'
 
 export default {
   name: "App",
-  components: { GlobalApi, NThemeEditor },
+  components: { GlobalApi },
   data: () => ({
     dark: darkTheme,
     theme,
