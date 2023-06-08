@@ -47,3 +47,14 @@ CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o quest -ldflags '-s -w'
 ```
 
 Default administrator account: admin / admin
+
+## Firewall pass
+
+If you find that you cannot access other devices after startup, please check whether the firewall is enabled. If so, please pass the port
+
+### Firewall
+
+```shell
+firewall-cmd --add-port=12999/tcp --permanent
+firewall-cmd --reload
+```
