@@ -33,13 +33,7 @@ export default {
             name: 'Quest云题库',
             version: '1.0.0'
         },
-        user: {
-            id: 0,
-            nickname: '',
-            name: '',
-            admin: false,
-            edit: false
-        },
+        user: {},
         subject: 0,
         subjects: []
     }),
