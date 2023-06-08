@@ -23,6 +23,7 @@ import HeadBar from "../components/headBar.vue";
 import FootBar from "../components/footBar.vue";
 import { Warning24Filled } from '@vicons/fluent'
 import { subject } from '../plugins/api'
+import { init,getSubjectList } from "../plugins/common"
 
 export default {
     name: "Exam",
@@ -43,46 +44,16 @@ export default {
         subjects: []
     }),
     methods: {
-        init() {
-            this.app = {
-                name: localStorage.getItem('app:config:name'),
-                version: localStorage.getItem('app:config:version')
-            }
-            let user = localStorage.getItem('user:info')
-            if (user) this.user = JSON.parse(user)
-            this.getSubjectList()
-            setTimeout(() => {
-                this.$refs.loading.hide()
-            }, 500);
-        },
         jump(name) {
             this.$router.push('/' + name)
-        },
-        getSubjectList() {
-            subject.getList().then(res => {
-                if (res.list) {
-                    let list = []
-                    for (let i in res.list) {
-                        let item = res.list[i]
-                        list[i] = {
-                            label: item.name,
-                            value: item.id
-                        }
-                    }
-                    this.subjects = list
-                } else {
-                    window.$message.warning(res.message ? res.message : '发生意料之外的错误')
-                }
-            }).catch(() => {
-
-            })
         },
         selectSubject(value) {
             this.subject = value
         }
     },
     mounted() {
-        this.init()
+        init(this);
+        getSubjectList(this,subject)
     }
 };
 </script>

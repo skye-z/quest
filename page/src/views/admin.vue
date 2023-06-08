@@ -16,6 +16,7 @@ import Loading from "../components/loading.vue";
 import HeadBar from "../components/headBar.vue";
 import FootBar from "../components/footBar.vue";
 import { Warning24Filled } from '@vicons/fluent'
+import { init } from "../plugins/common"
 
 export default {
     name: "Admin",
@@ -34,23 +35,12 @@ export default {
         }
     }),
     methods: {
-        init() {
-            this.app = {
-                name: localStorage.getItem('app:config:name'),
-                version: localStorage.getItem('app:config:version')
-            }
-            let user = localStorage.getItem('user:info')
-            if (user) this.user = JSON.parse(user)
-            setTimeout(() => {
-                this.$refs.loading.hide()
-            }, 500);
-        },
         jump(name) {
             this.$router.push('/' + name)
         }
     },
     mounted() {
-        this.init()
+        init(this)
     }
 };
 </script>
