@@ -17,21 +17,21 @@
                         <BookOpen24Regular />
                     </n-icon>
                     <div class="menu-name">刷题</div>
-                    <div class="menu-tips">查看指定科目下的所有题目</div>
+                    <div class="menu-tips">浏览指定科目所有的题目</div>
                 </div>
                 <div @click="jump('exam')" class="menu-item text-center">
                     <n-icon size="80">
                         <BookClock24Regular />
                     </n-icon>
                     <div class="menu-name">考试</div>
-                    <div class="menu-tips">使用题库生成特定科目模拟考试</div>
+                    <div class="menu-tips">使用题库生成模拟考试</div>
                 </div>
                 <div v-if="user.admin" @click="jump('admin')" class="menu-item text-center">
                     <n-icon size="80">
                         <Settings24Regular />
                     </n-icon>
                     <div class="menu-name">管理</div>
-                    <div class="menu-tips">管理科目、题目、考试和用户</div>
+                    <div class="menu-tips">系统运行监控与数据管理</div>
                 </div>
             </div>
         </div>
@@ -109,7 +109,7 @@ export default {
 @media (max-width:768px) {
     .menu-item {
         margin: 10px auto 0 auto;
-        max-width: 170px;
+        max-width: 145px;
     }
 
     .menu-tips {
