@@ -19,6 +19,21 @@ export const init = () => {
     })
 }
 
+export const sys = {
+    getInfo: () => {
+        return request({
+            url: '/sys/info',
+            method: 'GET'
+        })
+    },
+    getUse: () => {
+        return request({
+            url: '/sys/use',
+            method: 'GET'
+        })
+    }
+}
+
 export const user = {
     login: (name, pass) => {
         return post('/user/login', {

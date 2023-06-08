@@ -32,6 +32,10 @@ a:hover {
   color: #9ca3af;
 }
 
+.float-right{
+  float: right;
+}
+
 .flex{
   display: flex;
 }
@@ -48,6 +52,14 @@ a:hover {
   justify-content: space-between;
 }
 
+.mt-5{
+  margin-top: 5px;
+}
+
+.mr-5{
+  margin-right: 5px;
+}
+
 .mt-10{
   margin-top: 10px;
 }
@@ -62,10 +74,6 @@ a:hover {
 
 .ml-10{
   margin-left: 10px;
-}
-
-.mr-5{
-  margin-right: 5px;
 }
 
 .no-select {

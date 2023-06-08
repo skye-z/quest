@@ -51,6 +51,8 @@ func addPublicRoute(route *gin.Engine, engine *xorm.Engine, uc controller.UserCo
 func addPrivateRoute(route gin.IRoutes, engine *xorm.Engine, uc controller.UserController) {
 	log.Println("[Core] private route registered")
 
+	sys := controller.SystemController{}
+
 	subjectModel := model.SubjectModel{DB: engine}
 	subjectService := service.SubjectService{SubjectModel: subjectModel}
 	sc := controller.SubjectController{SubjectService: subjectService}
@@ -63,6 +65,10 @@ func addPrivateRoute(route gin.IRoutes, engine *xorm.Engine, uc controller.UserC
 	examService := service.ExamService{ExamModel: examModel}
 	ec := controller.ExamController{ExamService: examService}
 
+	// 管理-获取系统信息
+	route.GET("/api/sys/info", sys.GetSystemInfo)
+	// 管理-获取系统占用情况
+	route.GET("/api/sys/use", sys.GetSystemUse)
 	// 管理-获取用户列表
 	route.GET("/api/user/list", uc.GetUserList)
 	// 管理-添加用户
