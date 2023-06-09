@@ -82,7 +82,7 @@ export const subject = {
             name, tag
         })
     },
-    edit: (id, tag) => {
+    edit: (id, name, tag) => {
         return post('/subject/' + id, {
             name, tag
         })

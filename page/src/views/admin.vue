@@ -71,38 +71,9 @@
             </div>
             <div class="admin-box flex">
                 <div class="admin-left full-width">
-                    <div class="card mb-10">
-                        <n-button class="float-right mt-5 mr-5" size="small" type="primary" round>
-                            <template #icon>
-                                <n-icon>
-                                    <AddCircle24Regular />
-                                </n-icon>
-                            </template>
-                            添加
-                        </n-button>
-                        <div class="card-name">科目 <span class="text-gray">{{ subjects.length }}</span></div>
-                        <n-scrollbar style="height: 300px">
-                            <div class="subject-item flex align-center justify-between" v-for="item in subjects"
-                                @click="editSubject(item)">
-                                <div>
-                                    <div class="subject-name line1">{{ item.name }}</div>
-                                    <div v-if="item.tag.length > 0">
-                                        <n-tag class="mr-5" v-for="tag in item.tags" size="small" type="success"
-                                            :bordered="false">{{ tag }}</n-tag>
-                                    </div>
-                                </div>
-                                <n-button @click.stop="removeSubject(item.id, item.name)" strong secondary circle
-                                    type="error">
-                                    <template #icon>
-                                        <n-icon>
-                                            <DeleteForeverRound />
-                                        </n-icon>
-                                    </template>
-                                </n-button>
-                            </div>
-                        </n-scrollbar>
-                    </div>
-                    <div class="card">
+                    <subject-manage />
+                    <user-manage />
+                    <!-- <div class="card">
                         <n-button class="float-right mt-5 mr-5" size="small" type="primary" round>
                             <template #icon>
                                 <n-icon>
@@ -113,7 +84,7 @@
                         </n-button>
                         <div class="card-name">用户</div>
                         <div class="user-list"></div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="admin-right full-width">
                     <div class="card mb-10">
@@ -143,14 +114,17 @@
 import Loading from "../components/loading.vue";
 import HeadBar from "../components/headBar.vue";
 import FootBar from "../components/footBar.vue";
-import { DeleteForeverRound } from '@vicons/material'
+import SubjectManage from "../components/subjectManage.vue"
+import UserManage from "../components/userManage.vue"
+import { DeleteForeverRound, CloseRound, CheckRound } from '@vicons/material'
 import { Warning24Filled, AddCircle24Regular } from '@vicons/fluent'
-import { sys, subject } from '../plugins/api'
+import { sys } from '../plugins/api'
 import { init } from "../plugins/common"
+
 
 export default {
     name: "Admin",
-    components: { Loading, HeadBar, FootBar, Warning24Filled, DeleteForeverRound, AddCircle24Regular },
+    components: { Loading, HeadBar, FootBar,SubjectManage,UserManage, Warning24Filled, DeleteForeverRound, CloseRound, CheckRound, AddCircle24Regular },
     data: () => ({
         timer: 0,
         system: {},
@@ -159,8 +133,7 @@ export default {
             name: 'Quest云题库',
             version: '1.0.0'
         },
-        user: {},
-        subjects: []
+        user: {}
     }),
     methods: {
         jump(name) {
@@ -230,42 +203,6 @@ export default {
             else if (num > 1024) return parseFloat(num / 1024).toFixed(0) + 'GB'
             else return num + 'MB'
         },
-        getSubjectList() {
-            subject.getList().then(res => {
-                if (res.list) {
-                    let list = [];
-                    for (let i in res.list) {
-                        let item = res.list[i]
-                        let tags = [];
-                        if (item.tag.indexOf(',') > -1) tags = item.tag.split(',')
-                        else if (item.tag.indexOf('，') > -1) tags = item.tag.split(',')
-                        else if (item.tag.indexOf(' ') > -1) tags = item.tag.split(' ')
-                        else if (item.tag) tags.push(item.tag)
-                        item.tags = tags
-                        list.push(item)
-                    }
-                    this.subjects = res.list
-                } else {
-                    window.$message.warning(res.message ? res.message : '发生意料之外的错误')
-                }
-            }).catch(() => {
-
-            })
-        },
-        editSubject(item) {
-            console.log(item)
-        },
-        removeSubject(id, name) {
-            window.$dialog.warning({
-                title: '操作确认',
-                content: '确认要删除《' + name + '》科目?',
-                positiveText: '确认',
-                negativeText: '取消',
-                onPositiveClick: () => {
-
-                }
-            })
-        },
         distance(timestamp) {
             if (timestamp === undefined || timestamp == null)
                 return "无数据";
@@ -299,7 +236,6 @@ export default {
     mounted() {
         init(this)
         this.getSysInfo()
-        this.getSubjectList()
     },
     beforeRouteLeave() {
         console.log('leave')
@@ -313,16 +249,6 @@ export default {
     padding-top: 30vh;
     font-size: 24px;
     width: 100%;
-}
-
-.card {
-    background-color: #3c4a5f;
-    border-radius: 8px;
-}
-
-.card-name {
-    border-bottom: #556276 1px solid;
-    padding: 10px;
 }
 
 .sys-item {
@@ -368,20 +294,6 @@ export default {
     margin-right: 10px;
     max-width: 292px;
     min-width: 292px;
-}
-
-.subject-list {
-    height: 300px;
-}
-
-.subject-item {
-    border-top: #556276 1px solid;
-    cursor: pointer;
-    padding: 10px;
-}
-
-.subject-item:hover {
-    background-color: #45546a;
 }
 
 .user-list {

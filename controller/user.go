@@ -70,45 +70,37 @@ func (uc UserController) GetUserList(ctx *gin.Context) {
 		return
 	}
 	name := ctx.Query("name")
-	page := ctx.Query("page")
-	if len(page) == 0 {
-		global.ReturnError(ctx, global.Errors.ParamEmptyError)
-		return
-	}
-	iPage, err := strconv.Atoi(page)
+	users, err := uc.UserService.GetUserList(name, 1, 100)
 	if err != nil {
-		global.ReturnError(ctx, global.Errors.ParamIllegalError)
+		global.ReturnError(ctx, global.Errors.UnexpectedError)
 		return
-	}
-	num := ctx.Query("number")
-	var users []model.User
-	if len(num) == 0 {
-		users, err = uc.UserService.GetUserList(name, iPage, 10)
-		if err != nil {
-			global.ReturnError(ctx, global.Errors.UnexpectedError)
-			return
-		}
-	} else {
-		iNum, err := strconv.Atoi(page)
-		if err != nil {
-			global.ReturnError(ctx, global.Errors.ParamIllegalError)
-			return
-		}
-		users, err = uc.UserService.GetUserList(name, iPage, iNum)
-		if err != nil {
-			global.ReturnError(ctx, global.Errors.UnexpectedError)
-			return
-		}
 	}
 	ctx.JSON(200, userListResponse{List: users, Time: time.Now().Unix()})
 }
 
+type FormUser struct {
+	Id       int64  `json:"id"`
+	Nickname string `json:"nickname"`
+	Name     string `json:"name"`
+	Admin    bool   `json:"admin"`
+	Edit     bool   `json:"edit"`
+	Pass     string `json:"pass"`
+}
+
 // 添加用户
 func (uc UserController) AddUser(ctx *gin.Context) {
-	var form model.User
-	if err := ctx.ShouldBindJSON(&form); err != nil {
+	var addObj FormUser
+	if err := ctx.ShouldBindJSON(&addObj); err != nil {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
+	}
+	var form model.User = model.User{
+		Id:       addObj.Id,
+		Nickname: addObj.Nickname,
+		Name:     addObj.Name,
+		Admin:    addObj.Admin,
+		Edit:     addObj.Edit,
+		Pass:     addObj.Pass,
 	}
 	if len(form.Name) == 0 {
 		global.ReturnMessage(ctx, false, "用户名不能为空")
@@ -153,10 +145,17 @@ func (uc UserController) EditUser(ctx *gin.Context) {
 		return
 	}
 	uid, _ := strconv.ParseInt(id, 10, 64)
-	var form model.User
-	if err := ctx.ShouldBindJSON(&form); err != nil {
+	var addObj FormUser
+	if err := ctx.ShouldBindJSON(&addObj); err != nil {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
+	}
+	var form model.User = model.User{
+		Nickname: addObj.Nickname,
+		Name:     addObj.Name,
+		Admin:    addObj.Admin,
+		Edit:     addObj.Edit,
+		Pass:     addObj.Pass,
 	}
 	if len(form.Name) == 0 {
 		global.ReturnMessage(ctx, false, "用户名不能为空")

@@ -28,6 +28,10 @@ a:hover {
   text-align: center;
 }
 
+.text-right{
+  text-align: right;
+}
+
 .text-gray{
   color: #9ca3af;
 }
@@ -60,6 +64,10 @@ a:hover {
   margin-right: 5px;
 }
 
+.ml-5{
+  margin-left: 5px;
+}
+
 .mt-10{
   margin-top: 10px;
 }
@@ -74,6 +82,10 @@ a:hover {
 
 .ml-10{
   margin-left: 10px;
+}
+
+.mb-20{
+  margin-bottom: 20px;
 }
 
 .no-select {
@@ -102,4 +114,22 @@ a:hover {
 
 .full-width{
   width: 100%;
+}
+
+.card {
+    background-color: #3c4a5f;
+    border-radius: 8px;
+}
+
+.card-name {
+    border-bottom: #556276 1px solid;
+    padding: 10px;
+}
+
+.n-card-header{
+  padding: 20px 20px 15px 20px !important;
+}
+
+.n-card__content{
+  padding: 0 20px 20px 20px !important;
 }
