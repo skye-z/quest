@@ -26,7 +26,7 @@
 <script>
 import { DeleteForeverRound, CheckRound, SearchRound } from '@vicons/material'
 import { AddCircle24Regular } from '@vicons/fluent'
-import { question } from '../plugins/api'
+import { question } from '../../plugins/api'
 export default {
     components: { DeleteForeverRound, CheckRound, SearchRound, AddCircle24Regular },
     data: () => ({
