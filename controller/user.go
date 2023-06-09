@@ -161,6 +161,14 @@ func (uc UserController) EditUser(ctx *gin.Context) {
 		global.ReturnMessage(ctx, false, "用户名不能为空")
 		return
 	}
+	user := model.User{
+		Name: form.Name,
+	}
+	uc.UserService.UserModel.GetUser(&user)
+	if user.Id != 0 && user.Id != uid {
+		global.ReturnMessage(ctx, false, "用户名已存在")
+		return
+	}
 	if len(form.Nickname) == 0 {
 		form.Nickname = form.Name
 	}
