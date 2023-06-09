@@ -1,6 +1,13 @@
 <template>
-    <div id="app-foot" class="text-center full-width text-gray">Powered by <a href="https://github.com/skye-z/quest"
-            target="_blank">Quest</a> v{{ app.version }}</div>
+    <div id="app-foot" class="text-center full-width text-gray">
+        <span>Powered by </span>
+        <a href="https://github.com/skye-z/quest" target="_blank">
+            <n-gradient-text type="info">
+                Quest
+            </n-gradient-text>
+        </a>
+        <span> v{{ app.version }}</span>
+    </div>
 </template>
 <script>
 export default {
@@ -16,7 +23,7 @@ export default {
 };
 </script>
 <style scoped>
-#app-foot{
+#app-foot {
     padding: 10px 0;
 }
 </style>

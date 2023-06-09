@@ -38,8 +38,10 @@ func addPublicRoute(route *gin.Engine, engine *xorm.Engine, uc controller.UserCo
 	log.Println("[Core] public route registered")
 	route.GET("/api/init", func(ctx *gin.Context) {
 		appName := global.GetString("basic.name")
+		appMask := global.GetString("basic.mask")
 		info := map[string]string{
 			"name":    appName,
+			"mask":    appMask,
 			"version": global.Version,
 		}
 		ctx.JSON(200, info)

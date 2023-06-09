@@ -25,7 +25,8 @@
                             </div>
                         </div>
                         <div v-else>N/A</div>
-                        <div class="sys-value" :class="{ level2: use.level == 2, level3: use.level == 3 }">{{ use.cpu }}%</div>
+                        <div class="sys-value" :class="{ level2: use.level == 2, level3: use.level == 3 }">{{ use.cpu }}%
+                        </div>
                     </div>
                 </div>
                 <div class="sys-item card mr-10 mb-10 full-width">
@@ -326,7 +327,7 @@ export default {
 
 .sys-item {
     padding: 10px 10px 8px 10px;
-    width: calc( 100% - 20px );
+    width: calc(100% - 20px);
     position: relative;
 }
 
@@ -365,6 +366,8 @@ export default {
 
 .admin-left {
     margin-right: 10px;
+    max-width: 292px;
+    min-width: 292px;
 }
 
 .subject-list {
@@ -395,12 +398,39 @@ export default {
 
 .admin-right {}
 
-@media (max-width:670px) {
-    .sys-item{
+@media (max-width:970px) {
+    .sys-box {
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        display: flex;
+    }
+
+    .sys-item {
+        width: calc(50% - 25px);
         margin-right: 0;
     }
 
-    .sys-box,
+}
+
+@media (max-width:500px) {
+
+    .sys-item {
+        width: calc(100% - 20px);
+        margin-right: 0;
+    }
+
+    .sys-box {
+        display: block;
+    }
+
+}
+
+@media (max-width:670px) {
+    .admin-left {
+        max-width: none;
+    }
+
     .admin-box {
         display: block;
     }

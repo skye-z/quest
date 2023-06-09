@@ -1,5 +1,7 @@
 <template>
   <n-config-provider :theme="dark" :locale="i18n.main" :date-locale="i18n.date" :theme-overrides="theme">
+    <n-watermark v-if="mask" :content="mask" cross fullscreen
+    :font-size="16" :line-height="16" :width="300" :height="250" :x-offset="5" :y-offset="60" :rotate="-15"/>
     <n-dialog-provider>
       <n-message-provider>
         <global-api />
@@ -25,7 +27,8 @@ export default {
     i18n: {
       main: zhCN,
       date: dateZhCN
-    }
+    },
+    mask: ''
   }),
   methods: {
     checkLogin() {
@@ -36,6 +39,7 @@ export default {
     },
     initConfig() {
       init().then(res => {
+        this.mask = res.mask
         localStorage.setItem('app:config:name', res.name)
         localStorage.setItem('app:config:version', res.version)
         this.checkLogin()

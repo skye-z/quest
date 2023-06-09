@@ -58,6 +58,8 @@ func createDefault() {
 	viper.SetDefault("basic.install", "0")
 	// 系统名称
 	viper.SetDefault("basic.name", "Quest云题库")
+	// 页面遮罩
+	viper.SetDefault("basic.mask", "")
 	// 服务进程号
 	viper.SetDefault("basic.port", "12999")
 	// 令牌密钥
