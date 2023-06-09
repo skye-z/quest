@@ -73,49 +73,24 @@
                 <div class="admin-left full-width">
                     <subject-manage />
                     <user-manage />
-                    <!-- <div class="card">
-                        <n-button class="float-right mt-5 mr-5" size="small" type="primary" round>
-                            <template #icon>
-                                <n-icon>
-                                    <AddCircle24Regular />
-                                </n-icon>
-                            </template>
-                            添加
-                        </n-button>
-                        <div class="card-name">用户</div>
-                        <div class="user-list"></div>
-                    </div> -->
                 </div>
                 <div class="admin-right full-width">
-                    <div class="card mb-10">
-                        <n-button class="float-right mt-5 mr-5" size="small" type="primary" round>
-                            <template #icon>
-                                <n-icon>
-                                    <AddCircle24Regular />
-                                </n-icon>
-                            </template>
-                            添加
-                        </n-button>
-                        <div class="card-name">题目</div>
-                        <div class="question-list"></div>
-                    </div>
-                    <div class="card">
-                        <div class="card-name">考试</div>
-                        <div class="exam-list"></div>
-                    </div>
+                    <question-manage />
+                    <exam-manage />
                 </div>
             </div>
         </div>
         <foot-bar :app="app" />
     </div>
 </template>
-  
 <script>
 import Loading from "../components/loading.vue";
 import HeadBar from "../components/headBar.vue";
 import FootBar from "../components/footBar.vue";
 import SubjectManage from "../components/subjectManage.vue"
 import UserManage from "../components/userManage.vue"
+import QuestionManage from "../components/questionManage.vue"
+import ExamManage from "../components/examManage.vue"
 import { DeleteForeverRound, CloseRound, CheckRound } from '@vicons/material'
 import { Warning24Filled, AddCircle24Regular } from '@vicons/fluent'
 import { sys } from '../plugins/api'
@@ -124,7 +99,7 @@ import { init } from "../plugins/common"
 
 export default {
     name: "Admin",
-    components: { Loading, HeadBar, FootBar,SubjectManage,UserManage, Warning24Filled, DeleteForeverRound, CloseRound, CheckRound, AddCircle24Regular },
+    components: { Loading, HeadBar, FootBar,SubjectManage,UserManage,QuestionManage,ExamManage, Warning24Filled, DeleteForeverRound, CloseRound, CheckRound, AddCircle24Regular },
     data: () => ({
         timer: 0,
         system: {},
@@ -231,7 +206,6 @@ export default {
             }
             return '刚刚';
         },
-
     },
     mounted() {
         init(this)
@@ -296,18 +270,6 @@ export default {
     min-width: 292px;
 }
 
-.user-list {
-    height: 300px;
-}
-
-.question-list {
-    height: 300px;
-}
-
-.exam-list {
-    height: 300px;
-}
-
 .admin-right {}
 
 @media (max-width:970px) {
@@ -345,10 +307,6 @@ export default {
 
     .admin-box {
         display: block;
-    }
-
-    .user-list {
-        margin-bottom: 10px;
     }
 }
 </style>

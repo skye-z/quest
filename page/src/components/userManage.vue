@@ -1,18 +1,27 @@
 <template>
     <div>
         <div class="card mb-10">
-            <n-button @click="add" class="float-right mt-5 mr-5" size="small" type="primary" round>
-                <template #icon>
-                    <n-icon>
-                        <AddCircle24Regular />
-                    </n-icon>
-                </template>
-                添加
-            </n-button>
+            <div class="flex align-center float-right mt-5 mr-5">
+                <n-button size="small" strong secondary circle class="mr-5">
+                    <template #icon>
+                        <n-icon>
+                            <SearchRound />
+                        </n-icon>
+                    </template>
+                </n-button>
+                <n-button @click="add" size="small" type="primary" round>
+                    <template #icon>
+                        <n-icon>
+                            <AddCircle24Regular />
+                        </n-icon>
+                    </template>
+                    添加
+                </n-button>
+            </div>
             <div class="card-name">用户 <span class="text-gray">{{ list.length }}</span></div>
             <n-spin :show="loading">
                 <n-scrollbar style="height: 300px">
-                    <div class="subject-item flex align-center justify-between" v-for="item in list" @click="edit(item)">
+                    <div class="user-item flex align-center justify-between" v-for="item in list" @click="edit(item)">
                         <div>
                             <div class="line1">
                                 <span>{{ item.nickname }}</span> <n-text depth="3">@{{ item.name }}</n-text>
@@ -44,8 +53,8 @@
                     <n-input v-model:value="form.nickname" @keyup.enter="submit" maxlength="18" placeholder="留空将默认使用用户名" />
                 </n-form-item>
                 <n-form-item path="pass" label="密码">
-                    <n-input v-model:value="form.pass" @keyup.enter="submit"
-                        minlength="8" maxlength="24" :placeholder="'请输入8到24个字符'+(form.id ?', 留空则不修改':'')" />
+                    <n-input v-model:value="form.pass" @keyup.enter="submit" minlength="8" maxlength="24"
+                        :placeholder="'请输入8到24个字符' + (form.id ? ', 留空则不修改' : '')" />
                 </n-form-item>
                 <div class="flex align-center justify-between mb-20">
                     <div class="flex align-center">
@@ -73,11 +82,11 @@
     </div>
 </template>
 <script>
-import { DeleteForeverRound, CheckRound } from '@vicons/material'
+import { DeleteForeverRound, CheckRound, SearchRound } from '@vicons/material'
 import { AddCircle24Regular } from '@vicons/fluent'
 import { user } from '../plugins/api'
 export default {
-    components: { DeleteForeverRound, CheckRound, AddCircle24Regular },
+    components: { DeleteForeverRound, CheckRound, SearchRound, AddCircle24Regular },
     data: () => ({
         loading: true,
         list: [],
@@ -197,13 +206,13 @@ export default {
 };
 </script>
 <style scoped>
-.subject-item {
+.user-item {
     border-top: #556276 1px solid;
     cursor: pointer;
     padding: 10px;
 }
 
-.subject-item:hover {
+.user-item:hover {
     background-color: #45546a;
 }
 </style>
