@@ -107,14 +107,14 @@ export const question = {
             sid, list
         })
     },
-    add: (sid, level, type, question, options, answer, score) => {
+    add: (sid, level, type, question, options, answer) => {
         return post('/question/add', {
-            sid, level, type, question, options, answer, score
+            sid, level, type, question, options, answer
         })
     },
-    edit: (id, sid, level, type, question, options, answer, score) => {
+    edit: (id, sid, level, type, question, options, answer) => {
         return post('/question/' + id, {
-            sid, level, type, question, options, answer, score
+            sid, level, type, question, options, answer
         })
     },
     remove: (id) => {

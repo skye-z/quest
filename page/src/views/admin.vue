@@ -10,7 +10,7 @@
                     <user-manage />
                 </div>
                 <div class="admin-right full-width">
-                    <question-manage />
+                    <question-manage :subjects="subjects" />
                     <exam-manage />
                 </div>
             </div>
@@ -27,7 +27,8 @@ import SubjectManage from "../components/manage/subjectManage.vue"
 import UserManage from "../components/manage/userManage.vue"
 import QuestionManage from "../components/manage/questionManage.vue"
 import ExamManage from "../components/manage/examManage.vue"
-import { init } from "../plugins/common"
+import { subject } from '../plugins/api'
+import { init,getSubjectList } from "../plugins/common"
 
 export default {
     name: "Admin",
@@ -37,13 +38,15 @@ export default {
             name: 'Quest云题库',
             version: '1.0.0'
         },
-        user: {}
+        user: {},
+        subjects: []
     }),
     methods: {
 
     },
     mounted() {
         init(this)
+        getSubjectList(this,subject)
     },
     beforeRouteLeave() {
         this.$refs.system.stop()
