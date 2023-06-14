@@ -19,9 +19,16 @@ type QuestionModel struct {
 // 获取题目列表
 func (model QuestionModel) GetQuestionList(sid int64, page int, num int) ([]Question, error) {
 	var questions []Question
-	err := model.DB.Where("sid = ?", sid).Limit(num, page).Find(&questions)
-	if err != nil {
-		return nil, err
+	if sid < 0 {
+		err := model.DB.Limit(page*num, (page-1)*num).Find(&questions)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		err := model.DB.Where("sid = ?", sid).Limit(page*num, (page-1)*num).Find(&questions)
+		if err != nil {
+			return nil, err
+		}
 	}
 	return questions, nil
 }
