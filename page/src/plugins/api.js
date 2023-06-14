@@ -96,9 +96,9 @@ export const subject = {
 }
 
 export const question = {
-    getList: () => {
+    getList: (page,number) => {
         return request({
-            url: '/question/list',
+            url: '/question/list?page='+page+'&number='+number,
             method: 'GET'
         })
     },

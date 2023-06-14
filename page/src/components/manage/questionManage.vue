@@ -19,7 +19,32 @@
                 </n-button>
             </div>
             <div class="card-name">题目</div>
-            <div class="question-list"></div>
+            <n-spin :show="loading">
+                <n-scrollbar style="height: 300px">
+                    <div class="question-item flex align-center justify-between" v-for="item in list" @click="edit(item)">
+                        <div>
+                            <div class="line1">{{ item.question }}</div>
+                            <n-tag v-if="item.level == 1 || item.level == 2" :bordered="item.level == 1" size="small"
+                                type="success">{{ item.level == 1 ? '极易' : '容易' }}</n-tag>
+                            <n-tag v-else-if="item.level == 3" size="small" type="warning">一般</n-tag>
+                            <n-tag v-else-if="item.level == 4 || item.level == 5" :bordered="item.level == 4" size="small"
+                                type="error">{{ item.level == 4 ? '较难' : '极难' }}</n-tag>
+                            <n-tag class="ml-5" :bordered="false" type="info" size="small">{{ options.type[item.type -
+                                1].label }}</n-tag>
+                            <n-text depth="3" class="ml-10">
+                                <n-ellipsis style="max-width: 190px">#{{ item.subject }}</n-ellipsis>
+                            </n-text>
+                        </div>
+                        <n-button @click.stop="remove(item.id, item.question)" strong secondary circle type="error">
+                            <template #icon>
+                                <n-icon>
+                                    <DeleteForeverRound />
+                                </n-icon>
+                            </template>
+                        </n-button>
+                    </div>
+                </n-scrollbar>
+            </n-spin>
         </div>
         <n-modal v-model:show="form.show" preset="card" :style="{ width: '500px' }" :mask-closable="false">
             <template #header>
@@ -34,7 +59,7 @@
                     <n-form-item class="full-width" path="sid" label="科目">
                         <n-select v-model:value="form.sid" placeholder="请选择科目" :options="subjects" />
                     </n-form-item>
-                    <n-form-item class="ml-10" path="type" label="题型" style="width: 160px;">
+                    <n-form-item class="ml-10" path="type" label="题型" style="min-width: 90px;width: 160px;">
                         <n-select v-model:value="form.type" @update:value="updateType" placeholder="请选择"
                             :options="options.type" />
                     </n-form-item>
@@ -45,16 +70,18 @@
                 <!-- 单选题||多选题 -->
                 <template v-if="form.type == 1 || form.type == 2">
                     <div class="mb-10">
-                        <n-button @click="addOps" class="float-right" size="small" quaternary>+</n-button>
+                        <n-button @click="addOps" :disabled="form.loading" class="float-right" size="small"
+                            quaternary>+</n-button>
                         <div>选项</div>
                     </div>
                     <div class="form-ops mb-10">
                         <div v-if="form.options.length > 0" class="form-ops-item flex align-center mt-10"
                             v-for="(_item, index) in form.options">
                             <n-text class="form-ops-index text-center mr-5" type="success">{{ index + 1 }}</n-text>
-                            <n-input v-model:value="form.options[index].label" type="text" placeholder="请输入选项内容" />
-                            <n-button @click="delOps(index)" class="ml-10" size="small" type="error" secondary
-                                strong>-</n-button>
+                            <n-input v-model:value="form.options[index].label" :disabled="form.loading" type="text"
+                                placeholder="请输入选项内容" />
+                            <n-button @click="delOps(index)" :disabled="form.loading" class="ml-10" size="small"
+                                type="error" secondary strong>-</n-button>
                         </div>
                         <div v-else class="text-center"><n-text depth="3">请点击右侧加号添加选项</n-text></div>
                     </div>
@@ -79,17 +106,18 @@
                 <!-- 填空题 -->
                 <template v-if="form.type == 4">
                     <div class="mb-10">
-                        <n-button @click="addAnswer" class="float-right" size="small" quaternary>+</n-button>
+                        <n-button @click="addAnswer" :disabled="form.loading" class="float-right" size="small"
+                            quaternary>+</n-button>
                         <div>答案</div>
                     </div>
                     <div class="form-ops mb-10">
                         <div v-if="form.answer.length > 0" class="form-ops-item flex align-center mt-10"
                             v-for="(_item, index) in form.answer">
                             <n-text class="form-ops-index text-center mr-5" type="success">{{ index + 1 }}</n-text>
-                            <n-input v-model:value="form.answer[index]" type="text"
+                            <n-input v-model:value="form.answer[index]" :disabled="form.loading" type="text"
                                 :placeholder="'请输入第 ' + (index + 1) + ' 空答案内容'" />
-                            <n-button @click="delAnswer(index)" class="ml-10" size="small" type="error" secondary
-                                strong>-</n-button>
+                            <n-button @click="delAnswer(index)" :disabled="form.loading" class="ml-10" size="small"
+                                type="error" secondary strong>-</n-button>
                         </div>
                         <div v-else class="text-center"><n-text depth="3">请点击右侧加号添加每空答案</n-text></div>
                     </div>
@@ -229,7 +257,7 @@ export default {
                     value: 7
                 },
                 {
-                    label: "作文",
+                    label: "作文题",
                     value: 8
                 }
             ]
@@ -238,6 +266,28 @@ export default {
     methods: {
         getList() {
             this.loading = true
+            question.getList(1, 10).then(res => {
+                if (res.list) {
+                    for (let i in res.list) {
+                        res.list[i].subject = this.getSubject(res.list[i].sid)
+                    }
+                    setTimeout(() => {
+                        this.list = res.list
+                        this.loading = false
+                    }, 500)
+                    console.log(this.list)
+                } else {
+                    window.$message.warning(res.message ? res.message : '发生意料之外的错误')
+                }
+            }).catch(() => {
+
+            })
+        },
+        getSubject(sid) {
+            for (let i in this.subjects) {
+                if (this.subjects[i].value == sid) return this.subjects[i].label
+            }
+            return '未知科目'
         },
         add() {
             this.form = {
@@ -250,6 +300,19 @@ export default {
                 options: null,
                 answer: null
             }
+        },
+        edit(item) {
+            if (item.options != null && item.options.indexOf('[') != -1) item.options = JSON.parse(item.options)
+            if (item.answer != null) {
+                if (item.answer.indexOf('[') != -1) item.answer = JSON.parse(item.answer)
+                else if (item.answer.indexOf('1') == 0 && item.answer.length == 13) item.answer = parseInt(item.answer)
+            }
+            this.form = {
+                show: true,
+                loading: false,
+                ...item
+            }
+            console.log(item)
         },
         updateType(type) {
             this.form.options = []
@@ -273,26 +336,56 @@ export default {
         },
         checkForm(form) {
             if (form.type == 1 || form.type == 2) {
-                // 单选题||多选题
+                if (form.options == null || form.options.length < 2) {
+                    window.$message.warning('选项最少2项')
+                    return false
+                }
+                if (form.type == 2 && (form.answer == null || form.answer.length < 2)) {
+                    window.$message.warning('多选题答案最少2个')
+                    return false
+                }
             } else if (form.type == 3) {
-                // 判断题
+                if (form.answer == null) {
+                    window.$message.warning('答案不能为空')
+                    return false
+                }
             } else if (form.type == 4) {
-                // 填空题
+                if (form.answer == null || form.answer.length < 1) {
+                    window.$message.warning('答案最少1个空')
+                    return false
+                }
             } else if (form.type == 5) {
-                // 对号题
+                if (form.options == null || form.options.length < 1) {
+                    window.$message.warning('A组不能为空')
+                    return false
+                }
+                if (form.answer == null || form.answer.length < 1) {
+                    window.$message.warning('B组不能为空')
+                    return false
+                }
             } else if (form.type == 6 || form.type == 7) {
-                // 简答题||论述题
+                if (form.answer == null || form.answer.length < 1) {
+                    window.$message.warning('关键词不能为空')
+                    return false
+                }
             } else if (form.type == 8) {
-                // 作文
+                if (form.answer == null) {
+                    window.$message.warning('最低字数不能为空')
+                    return false
+                }
+            }
+            if (form.options != null && form.options instanceof Array) form.options = JSON.stringify(form.options)
+            if (form.answer != null) {
+                if (form.answer instanceof Array) form.answer = JSON.stringify(form.answer)
+                else if (typeof (form.answer) === 'number') form.answer = '' + form.answer
             }
             return true
         },
         submit() {
             this.$refs.form.validate((errors) => {
                 if (!errors) {
-                    let form = this.form;
-                    if(!this.checkForm(form)) return false;
-
+                    let form = JSON.parse(JSON.stringify(this.form));
+                    if (!this.checkForm(form)) return false;
                     this.form.loading = true
                     if (this.form.id) this.submitEdit(form)
                     else this.submitAdd(form)
@@ -360,5 +453,15 @@ export default {
 
 .form-ops-index {
     width: 24px;
+}
+
+.question-item {
+    border-top: #556276 1px solid;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.question-item:hover {
+    background-color: #45546a;
 }
 </style>
