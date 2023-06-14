@@ -79,9 +79,6 @@ func (qc QuestionController) AddQuestion(ctx *gin.Context) {
 	if form.Type == 0 {
 		form.Type = 1
 	}
-	if form.Score == 0 {
-		form.Score = 1.0
-	}
 	if len(form.Question) == 0 {
 		global.ReturnMessage(ctx, false, "题干不能为空")
 		return
@@ -128,9 +125,6 @@ func (qc QuestionController) EditQuestion(ctx *gin.Context) {
 	}
 	if form.Type == 0 {
 		form.Type = 1
-	}
-	if form.Score == 0 {
-		form.Score = 1.0
 	}
 	if len(form.Question) == 0 {
 		global.ReturnMessage(ctx, false, "题干不能为空")

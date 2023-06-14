@@ -3,14 +3,13 @@ package model
 import "xorm.io/xorm"
 
 type Question struct {
-	Id       int64   `json:"id"`
-	Subject  int64   `json:"sid"`
-	Level    int     `json:"level"`
-	Type     int     `json:"type"`
-	Question string  `json:"question"`
-	Options  string  `json:"options"`
-	Answer   string  `json:"answer"`
-	Score    float32 `json:"score"`
+	Id       int64  `json:"id"`
+	Subject  int64  `json:"sid"`
+	Level    int    `json:"level"`
+	Type     int    `json:"type"`
+	Question string `json:"question"`
+	Options  string `json:"options"`
+	Answer   string `json:"answer"`
 }
 
 type QuestionModel struct {
