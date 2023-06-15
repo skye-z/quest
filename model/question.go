@@ -37,10 +37,11 @@ func (model QuestionModel) GetQuestionList(sid int64, page int, num int) ([]Ques
 func (model QuestionModel) GetQuestionNumber(sid int64) (int64, error) {
 	var num int64
 	var err error
+	var question Question
 	if sid < 0 {
-		num, err = model.DB.Count()
+		num, err = model.DB.Count(question)
 	} else {
-		num, err = model.DB.Where("subject = ?", sid).Count()
+		num, err = model.DB.Where("subject = ?", sid).Count(question)
 	}
 	if err != nil {
 		return 0, err

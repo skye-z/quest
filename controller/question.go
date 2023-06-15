@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"log"
 	"quest/global"
 	"quest/model"
 	"quest/service"
@@ -69,6 +70,7 @@ func (qc QuestionController) GetQuestionnNumber(ctx *gin.Context) {
 		num, err = qc.QuestionService.GetQuestionNumber(sub)
 	}
 	if err != nil {
+		log.Println(err)
 		global.ReturnError(ctx, global.Errors.UnexpectedError)
 		return
 	}

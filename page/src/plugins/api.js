@@ -102,6 +102,20 @@ export const question = {
             method: 'GET'
         })
     },
+    getSubList: (sid,page,number) => {
+        return request({
+            url: '/question/list?sid='+sid+'&page='+page+'&number='+number,
+            method: 'GET'
+        })
+    },
+    getNumber: (sid) => {
+        let url = '/question/number'
+        if(sid) url += '?sid='+sid
+        return request({
+            url,
+            method: 'GET'
+        })
+    },
     import: (sid, list) => {
         return post('/question/import', {
             sid, list
