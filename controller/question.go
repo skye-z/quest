@@ -52,6 +52,29 @@ func (qc QuestionController) GetQuestionList(ctx *gin.Context) {
 	ctx.JSON(200, questionListResponse{List: list, Time: time.Now().Unix()})
 }
 
+type questionNumberResponse struct {
+	Number int64 `json:"num"`
+	Time   int64 `json:"time"`
+}
+
+// 获取题目数量
+func (qc QuestionController) GetQuestionnNumber(ctx *gin.Context) {
+	var num int64
+	var err error
+	sid := ctx.Query("sid")
+	if len(sid) == 0 {
+		num, err = qc.QuestionService.GetQuestionNumber(-1)
+	} else {
+		sub, _ := strconv.ParseInt(sid, 10, 64)
+		num, err = qc.QuestionService.GetQuestionNumber(sub)
+	}
+	if err != nil {
+		global.ReturnError(ctx, global.Errors.UnexpectedError)
+		return
+	}
+	ctx.JSON(200, questionNumberResponse{Number: num, Time: time.Now().Unix()})
+}
+
 // 导入题目
 func (qc QuestionController) ImportQuestion(ctx *gin.Context) {
 	// TODO

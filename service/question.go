@@ -21,6 +21,15 @@ func (service QuestionService) GetQuestionList(sid int64, page int, num int) ([]
 	return subs, nil
 }
 
+// 获取题目数量
+func (service QuestionService) GetQuestionNumber(sid int64) (int64, error) {
+	number, err := service.QuestionModel.GetQuestionNumber(sid)
+	if err != nil {
+		return 0, err
+	}
+	return number, nil
+}
+
 // 删除题目
 func (service QuestionService) DelQuestion(id string) bool {
 	qid, err := strconv.ParseInt(id, 10, 64)

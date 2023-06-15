@@ -25,12 +25,27 @@ func (model QuestionModel) GetQuestionList(sid int64, page int, num int) ([]Ques
 			return nil, err
 		}
 	} else {
-		err := model.DB.Where("sid = ?", sid).Limit(page*num, (page-1)*num).Find(&questions)
+		err := model.DB.Where("subject = ?", sid).Limit(page*num, (page-1)*num).Find(&questions)
 		if err != nil {
 			return nil, err
 		}
 	}
 	return questions, nil
+}
+
+// 获取题目数量
+func (model QuestionModel) GetQuestionNumber(sid int64) (int64, error) {
+	var num int64
+	var err error
+	if sid < 0 {
+		num, err = model.DB.Count()
+	} else {
+		num, err = model.DB.Where("subject = ?", sid).Count()
+	}
+	if err != nil {
+		return 0, err
+	}
+	return num, nil
 }
 
 // 添加题目

@@ -89,6 +89,8 @@ func addPrivateRoute(route gin.IRoutes, engine *xorm.Engine, uc controller.UserC
 	route.POST("/api/subject/:id", sc.EditSubject)
 	// 获取题目列表
 	route.GET("/api/question/list", qc.GetQuestionList)
+	// 获取题目数量
+	route.GET("/api/question/number", qc.GetQuestionnNumber)
 	// 管理-导入题目
 	route.POST("/api/question/import", qc.ImportQuestion)
 	// 管理-添加题目
