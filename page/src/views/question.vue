@@ -9,14 +9,16 @@
                 </n-icon>
                 <div>请先在左上方选择科目</div>
             </div>
+            <div class="tips text-center" v-else-if="questions.length == 0">
+                <n-result status="404" title="空空如也" description="这个科目下面似乎没有试题呀">
+                    <template #footer>
+                        <n-button @click="getQuestionNumber">重新获取</n-button>
+                    </template>
+                </n-result>
+            </div>
             <div v-else>
                 <div class="question-item card mb-10" v-for="item in questions">
                     <div class="float-right flex align-center">
-                        <span class="mr-10" v-if="checkState[item.id] != null">
-                            <n-text :type="checkState[item.id] == true ? 'success':'error'">
-                                {{ checkState[item.id] == true ? '🎉 答对啦':'😫 答错了'}}
-                            </n-text>
-                        </span>
                         <n-tag v-if="item.level == 1 || item.level == 2" :bordered="item.level == 1" size="small"
                             type="success">{{ item.level == 1 ? '极易' : '容易' }}</n-tag>
                         <n-tag v-else-if="item.level == 3" size="small" type="warning">一般</n-tag>
@@ -34,7 +36,7 @@
                     </div>
                     <div class="question-title">
                         <span v-if="checkState[item.id] == null">{{ item.question }}</span>
-                        <n-text v-else :type="checkState[item.id] == true ? 'success':'error'">{{ item.question }}</n-text>
+                        <n-text v-else :type="checkState[item.id] == true ? 'success' : 'error'">{{ item.question }}</n-text>
                     </div>
                     <template v-if="item.type == 1">
                         <n-radio-group @update:value="value => check(item, value)" class="mt-10"
@@ -166,7 +168,7 @@ export default {
                 if (res.num > 0) {
                     this.page = 1
                     this.getQuestionList()
-                }
+                }else window.$message.warning('未找到可用试题')
             }).catch(() => {
 
             })
