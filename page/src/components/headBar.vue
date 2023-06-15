@@ -108,6 +108,7 @@ export default {
 .subject-list {
     border-left: #3c4a5f solid 1px;
     margin-left: 10px;
+    cursor: pointer;
     padding: 0 10px;
 }
 
