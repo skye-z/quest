@@ -35,7 +35,7 @@ func (model UserModel) GetUserList(name string, pass string, page int, num int) 
 	if len(name) == 0 {
 		err = model.DB.Limit(page*num, (page-1)*num).Find(&users)
 	} else if len(pass) == 32 {
-		err = model.DB.Where("name = ? and pass = ?", name, pass).Limit(page*num, (page-1)*num).Find(&users)
+		err = model.DB.Where("name = ? and pass = ?", name, pass).Limit(1, 0).Find(&users)
 	} else {
 		err = model.DB.Where("name like ?", fmt.Sprintf("%%%s%%", name)).Limit(page*num, (page-1)*num).Find(&users)
 	}
