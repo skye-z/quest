@@ -61,7 +61,6 @@ export default {
     min-width: 292px;
 }
 
-.admin-right {}
 @media (max-width:670px) {
     .admin-left {
         max-width: none;

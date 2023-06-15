@@ -4,6 +4,14 @@ Quest is a ultra mini system for question bank management and mock exams.
 
 [![](https://img.shields.io/badge/Go-1.20+-%2300ADD8?style=flat&logo=go)](go.work)
 [![](https://img.shields.io/badge/Quest-1.0.0-green)](control)
+[![CodeQL](https://github.com/skye-z/quest/workflows/CodeQL/badge.svg)](https://github.com/skye-z/quest/security/code-scanning)
+
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=skye-z_quest&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=skye-z_quest)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=skye-z_quest&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=skye-z_quest)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=skye-z_quest&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=skye-z_quest)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=skye-z_quest&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=skye-z_quest)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=skye-z_quest&metric=bugs)](https://sonarcloud.io/summary/new_code?id=skye-z_quest)
+
 
 ## TODO
 

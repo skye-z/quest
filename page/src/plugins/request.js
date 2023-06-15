@@ -19,7 +19,7 @@ request.interceptors.request.use(
 
 request.interceptors.response.use(
     response => {
-        if (response.data && response.data.code){
+        if (response?.data?.code){
             let code = parseInt(response.data.code);
             if (code >= 10100 && code <= 10103) {
                 window.$message.warning(response.data.message);

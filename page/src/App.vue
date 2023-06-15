@@ -8,7 +8,6 @@
       </n-message-provider>
     </n-dialog-provider>
     <router-view />
-    <!-- <NThemeEditor /> -->
   </n-config-provider>
 </template>
 
@@ -59,5 +58,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

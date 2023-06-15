@@ -30,7 +30,7 @@
             </div>
         </div>
         <div id="auth-foot" class="text-center text-gray">Powered by <a href="https://github.com/skye-z/quest"
-                target="_blank">Quest</a> v{{ app.version }}</div>
+            rel="noopener" target="_blank">Quest</a> v{{ app.version }}</div>
     </div>
 </template>
   
