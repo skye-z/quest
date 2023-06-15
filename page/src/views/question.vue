@@ -27,20 +27,20 @@
                     </div>
                     <div class="question-title">{{ item.question }}</div>
                     <template v-if="item.type == 1">
-                        <n-radio-group class="mt-10" v-model:value="form[item.id]" :name="'options-' + item.id">
+                        <n-radio-group @update:value="value => check(item,value)" class="mt-10" v-model:value="form[item.id]" :name="'options-' + item.id">
                             <n-radio class="full-width" v-for="opt in item.options" :key="opt.value" :value="opt.value">
                                 {{ opt.label }}
                             </n-radio>
                         </n-radio-group>
                     </template>
                     <template v-else-if="item.type == 2">
-                        <n-checkbox-group class="mt-10" v-model:value="form[item.id]" :name="'options-' + item.id">
+                        <n-checkbox-group @update:value="value => check(item,value)" class="mt-10" v-model:value="form[item.id]" :name="'options-' + item.id">
                             <n-checkbox class="full-width" v-for="opt in item.options" :key="opt.value" :value="opt.value"
                                 :label="opt.label" />
                         </n-checkbox-group>
                     </template>
                     <template v-else-if="item.type == 3">
-                        <n-radio-group class="mt-10" v-model:value="form[item.id]" :name="'options-' + item.id">
+                        <n-radio-group @update:value="value => check(item,value)" class="mt-10" v-model:value="form[item.id]" :name="'options-' + item.id">
                             <n-radio-button value="1">
                                 正确
                             </n-radio-button>
@@ -51,7 +51,7 @@
                     </template>
                     <template v-else-if="item.type == 4">
                         <div class="question-ops">
-                            <n-input v-for="(sub, index) in item.answer" v-model:value="form[item.id][index]"
+                            <n-input v-for="(sub, index) in item.answer" @update:value="value => check(sub,value)" v-model:value="form[item.id][index]"
                                 :placeholder="'请输入第 ' + (index + 1) + ' 空'" class="mr-10 mt-10" style="width: 200px;" />
                         </div>
                     </template>
@@ -59,13 +59,13 @@
                         <div class="flex align-center" style="flex-wrap: wrap;">
                             <div class="flex align-center mr-10 mt-10" v-for="(opt, index) in item.answer">
                                 <div class="mr-10">{{ opt }}:</div>
-                                <n-select v-model:value="form[item.id][index]" :options="item.options"
+                                <n-select @update:value="value => check(opt,value)" v-model:value="form[item.id][index]" :options="item.options"
                                     style="width: 200px;" />
                             </div>
                         </div>
                     </template>
                     <template v-else-if="item.type == 6 || item.type == 7 || item.type == 8">
-                        <n-input class="mt-10" v-model:value="form[item.id]" type="textarea" label-field=""
+                        <n-input class="mt-10" v-model:value="form[item.id]" @update:value="value => check(item,value)" type="textarea" label-field=""
                             placeholder="请在此处输入答案" />
                     </template>
                 </div>
@@ -179,6 +179,10 @@ export default {
             }).catch(() => {
 
             })
+        },
+        check(item,value){
+            // 检查答案是否正确
+            console.log(item,value)
         }
     },
     mounted() {
