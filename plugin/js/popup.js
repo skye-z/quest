@@ -35,10 +35,8 @@ function checkConfig() {
     let token = localStorage.getItem('user:token')
     if (token) cache.token = token;
     let user = localStorage.getItem('user:info')
-    if (user) {
-        cache.user = JSON.parse(user)
-        initUser()
-    }
+    if (user) cache.user = JSON.parse(user)
+    initUser()
 }
 
 // 注入校验脚本
@@ -82,10 +80,13 @@ function initUser() {
     let token = localStorage.getItem('user:token');
     if (token == undefined || token == null || token == '') {
         $('#user-info').html('激活插件');
-        showError('<div class="text-center mb-5">请先登录 Quest 平台</div>', '<div class="text-small text-gray">进入平台后点击“管理”菜单即可自动登录</div>')
+        showError('<div class="text-center mb-5">请先登录 Quest 平台</div>', '<div class="text-small text-gray">进入平台后点开本插件即可自动登录</div>')
     } else {
         cache.user = JSON.parse(localStorage.getItem('user:info'));
         $('#user-info').html('已登录: ' + cache.user.nickname);
+        $('#user-info').attr('href',cache.host);
+        $('#server-state').removeClass('err')
+        $('#server-state-txt').html('在线')
         $('#site-box').removeClass('hide')
         $('#error').addClass('hide')
         cache.token = token;

@@ -46,14 +46,23 @@ body{
 }
 
 .item-info {
+    text-decoration: none;
     color: #333;
     width: 232px;
-    text-decoration: none;
 }
 
 #setting:hover,
-#foot>div:hover,
+#foot>*:hover,
 .site-item:hover {
     background-color: #f4f4f4;
     color: #000;
+}
+
+#user-info,
+#version{
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    min-width: 59px;
+    color: #333;
 }
