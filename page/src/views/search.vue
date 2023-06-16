@@ -29,11 +29,11 @@
                         <n-table style="min-width: 700px;" :bordered="false" :single-line="false">
                             <thead>
                                 <tr>
-                                    <th style="width: 70px;">编号</th>
-                                    <th style="width: 50px;text-align: center;">题型</th>
-                                    <th>题干</th>
-                                    <th style="width: 30%;">选项</th>
-                                    <th style="width: 100px;">答案</th>
+                                    <th scope="col" style="width: 70px;">编号</th>
+                                    <th scope="col" style="width: 50px;text-align: center;">题型</th>
+                                    <th scope="col">题干</th>
+                                    <th scope="col" style="width: 30%;">选项</th>
+                                    <th scope="col" style="width: 100px;">答案</th>
                                 </tr>
                             </thead>
                             <tbody>
