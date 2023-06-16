@@ -1,5 +1,5 @@
 function sendAuthInfo() {
-    var info = localStorage.getItem('user:info')
+    let info = localStorage.getItem('user:info')
     if (info) {
         info = JSON.parse(info)
         info.token = localStorage.getItem('user:access:token')

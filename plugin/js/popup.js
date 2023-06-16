@@ -121,37 +121,3 @@ function showError(tips, more) {
     $('#error').removeClass('hide')
     $('#error').html(`<div>${tips}${more == undefined ? '' : more}</div>`)
 }
-
-// ================================ //
-
-// function login() {
-//     chrome.cookies.get({
-//         name: 'JSESSIONID',
-//         url: 'http://192.168.1.160:8080/opo-shenzhen/'
-//         // url: 'http://192.168.1.2:20005/opo-shenzhen/'
-//     }, e => {
-//         if (e && e.value) {
-//             cache.token = e.value;
-//             localStorage.setItem('app:token', cache.token)
-//             checkLogin()
-//         }
-//     })
-// }
-
-// function checkLogin() {
-//     api.checkLogin().then(res => {
-//         if (res.state) {
-//             localStorage.setItem('app:user', '{"name":"' + res.message + '"}')
-//             initUser()
-//         } else {
-//             $('#site-box').addClass('hide')
-//             $('#loading').addClass('hide')
-//             showError('<div class="text-center mb-5">登录无效</div>', '<div class="text-small text-gray">请重新登录云平台后再试</div>')
-//         }
-//     }).catch(err => {
-//         console.log(err)
-//         $('#site-box').addClass('hide')
-//         $('#loading').addClass('hide')
-//         showError('<div class="text-center mb-5">平台服务异常</div>', '<div class="text-small text-gray">请点击底部“激活插件”重新尝试激活</div>')
-//     })
-// }
