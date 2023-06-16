@@ -96,23 +96,24 @@ export const subject = {
 }
 
 export const question = {
-    getList: (page,number) => {
+    getList: (sid, keyword, page, number) => {
+        let url = '/question/list?'
+        if (sid) url += 'sid=' + sid + '&'
+        if (keyword) url += 'keyword=' + keyword + '&'
+        if (page) url += 'page=' + page + '&'
+        if (number) url += 'number=' + number + '&'
+
         return request({
-            url: '/question/list?page='+page+'&number='+number,
+            url: url.substring(0, url.length - 1),
             method: 'GET'
         })
     },
-    getSubList: (sid,page,number) => {
+    getNumber: (sid, keyword) => {
+        let url = '/question/number?'
+        if (sid) url += 'sid=' + sid + '&'
+        if (keyword) url += 'keyword=' + keyword + '&'
         return request({
-            url: '/question/list?sid='+sid+'&page='+page+'&number='+number,
-            method: 'GET'
-        })
-    },
-    getNumber: (sid) => {
-        let url = '/question/number'
-        if(sid) url += '?sid='+sid
-        return request({
-            url,
+            url: url.substring(0, url.length - 1),
             method: 'GET'
         })
     },

@@ -266,7 +266,7 @@ export default {
     methods: {
         getList() {
             this.loading = true
-            question.getList(1, 10).then(res => {
+            question.getList(null, null, 1, 10).then(res => {
                 if (res.list) {
                     for (let i in res.list) {
                         res.list[i].subject = this.getSubject(res.list[i].sid)

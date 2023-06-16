@@ -201,7 +201,7 @@ export default {
             this.getQuestionNumber();
         },
         getQuestionNumber() {
-            question.getNumber(this.subject).then(res => {
+            question.getNumber(this.subject, null).then(res => {
                 this.number = res.num
                 this.checkState = {}
                 this.questions = []
@@ -215,7 +215,7 @@ export default {
             })
         },
         getQuestionList() {
-            question.getSubList(this.subject, this.page, 20).then(res => {
+            question.getList(this.subject, null, this.page, 20).then(res => {
                 for (let i in res.list) {
                     let item = res.list[i]
                     if (item.options.indexOf('[') != -1) item.options = JSON.parse(item.options)

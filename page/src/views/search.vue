@@ -10,7 +10,9 @@
                 <div>请先在左上方选择科目</div>
             </div>
             <div v-else>
-                搜索
+                <div class="card">
+                    
+                </div>
             </div>
         </div>
         <foot-bar :app="app" />
