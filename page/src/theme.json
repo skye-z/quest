@@ -8,6 +8,15 @@
   "Input":{
     "borderRadius": "8px"
   },
+  "Table":{
+    "borderRadius": "8px",
+    "tdColor": "#3d4a5f",
+    "tdColorModal": "#3d4a5f",
+    "tdColorStriped": "#3d4a5f",
+    "thColor": "#2d3d51",
+    "thColorModal": "#2d3d51",
+    "borderColor": "#556276"
+  },
   "common": {
     "fontWeightStrong": "600"
   }

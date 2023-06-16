@@ -88,6 +88,10 @@ a:hover {
   margin-bottom: 20px;
 }
 
+.pa-10{
+  padding: 10px;
+}
+
 .no-select {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -124,6 +128,22 @@ a:hover {
 .card-name {
     border-bottom: #556276 1px solid;
     padding: 10px;
+}
+
+.border-top{
+  border-top: #556276 1px solid;
+}
+
+.border-right{
+  border-right: #556276 1px solid;
+}
+
+.border-bottom{
+  border-bottom: #556276 1px solid;
+}
+
+.border-left{
+  border-left: #556276 1px solid;
 }
 
 .n-card-header{
