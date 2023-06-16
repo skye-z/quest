@@ -22,7 +22,7 @@ func (model QuestionModel) GetQuestionList(sid int64, keyword string, page int, 
 	if sid < 0 {
 		var cache *xorm.Session
 		if len(keyword) > 0 {
-			cache = model.DB.Where("question LINE ? OR options LIKE ?  OR answer LIKE ?", keyword, keyword, keyword)
+			cache = model.DB.Where("question LIKE ? OR options LIKE ?", keyword, keyword, keyword)
 		}
 		err := cache.Limit(page*num, (page-1)*num).Find(&questions)
 		if err != nil {
@@ -31,7 +31,7 @@ func (model QuestionModel) GetQuestionList(sid int64, keyword string, page int, 
 	} else {
 		var cache *xorm.Session
 		if len(keyword) > 0 {
-			cache = model.DB.Where("subject = ? AND ( question LINE ? OR options LIKE ?  OR answer LIKE ? )", sid, keyword, keyword, keyword)
+			cache = model.DB.Where("subject = ? AND ( question LIKE ? OR options LIKE ?)", sid, keyword, keyword, keyword)
 		} else {
 			cache = model.DB.Where("subject = ?", sid)
 		}
@@ -51,13 +51,13 @@ func (model QuestionModel) GetQuestionNumber(sid int64, keyword string) (int64, 
 	if sid < 0 {
 		var cache *xorm.Session
 		if len(keyword) > 0 {
-			cache = model.DB.Where("question LINE ? OR options LIKE ?  OR answer LIKE ?", keyword, keyword, keyword)
+			cache = model.DB.Where("question LIKE ? OR options LIKE ?", keyword, keyword, keyword)
 		}
 		num, err = cache.Count(question)
 	} else {
 		var cache *xorm.Session
 		if len(keyword) > 0 {
-			cache = model.DB.Where("subject = ? AND ( question LINE ? OR options LIKE ?  OR answer LIKE ? )", sid, keyword, keyword, keyword)
+			cache = model.DB.Where("subject = ? AND ( question LIKE ? OR options LIKE ?)", sid, keyword, keyword, keyword)
 		} else {
 			cache = model.DB.Where("subject = ?", sid)
 		}
