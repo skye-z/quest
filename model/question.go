@@ -17,15 +17,25 @@ type QuestionModel struct {
 }
 
 // 获取题目列表
-func (model QuestionModel) GetQuestionList(sid int64, page int, num int) ([]Question, error) {
+func (model QuestionModel) GetQuestionList(sid int64, keyword string, page int, num int) ([]Question, error) {
 	var questions []Question
 	if sid < 0 {
-		err := model.DB.Limit(page*num, (page-1)*num).Find(&questions)
+		var cache *xorm.Session
+		if len(keyword) > 0 {
+			cache = model.DB.Where("question LINE ? OR options LIKE ?  OR answer LIKE ?", keyword, keyword, keyword)
+		}
+		err := cache.Limit(page*num, (page-1)*num).Find(&questions)
 		if err != nil {
 			return nil, err
 		}
 	} else {
-		err := model.DB.Where("subject = ?", sid).Limit(page*num, (page-1)*num).Find(&questions)
+		var cache *xorm.Session
+		if len(keyword) > 0 {
+			cache = model.DB.Where("subject = ? AND ( question LINE ? OR options LIKE ?  OR answer LIKE ? )", sid, keyword, keyword, keyword)
+		} else {
+			cache = model.DB.Where("subject = ?", sid)
+		}
+		err := cache.Limit(page*num, (page-1)*num).Find(&questions)
 		if err != nil {
 			return nil, err
 		}
@@ -34,14 +44,24 @@ func (model QuestionModel) GetQuestionList(sid int64, page int, num int) ([]Ques
 }
 
 // 获取题目数量
-func (model QuestionModel) GetQuestionNumber(sid int64) (int64, error) {
+func (model QuestionModel) GetQuestionNumber(sid int64, keyword string) (int64, error) {
 	var num int64
 	var err error
 	var question Question
 	if sid < 0 {
-		num, err = model.DB.Count(question)
+		var cache *xorm.Session
+		if len(keyword) > 0 {
+			cache = model.DB.Where("question LINE ? OR options LIKE ?  OR answer LIKE ?", keyword, keyword, keyword)
+		}
+		num, err = cache.Count(question)
 	} else {
-		num, err = model.DB.Where("subject = ?", sid).Count(question)
+		var cache *xorm.Session
+		if len(keyword) > 0 {
+			cache = model.DB.Where("subject = ? AND ( question LINE ? OR options LIKE ?  OR answer LIKE ? )", sid, keyword, keyword, keyword)
+		} else {
+			cache = model.DB.Where("subject = ?", sid)
+		}
+		num, err = cache.Count(question)
 	}
 	if err != nil {
 		return 0, err

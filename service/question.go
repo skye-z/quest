@@ -10,8 +10,8 @@ type QuestionService struct {
 }
 
 // 获取题目列表
-func (service QuestionService) GetQuestionList(sid int64, page int, num int) ([]model.Question, error) {
-	subs, err := service.QuestionModel.GetQuestionList(sid, page, num)
+func (service QuestionService) GetQuestionList(sid int64, keyword string, page int, num int) ([]model.Question, error) {
+	subs, err := service.QuestionModel.GetQuestionList(sid, keyword, page, num)
 	if err != nil {
 		return make([]model.Question, 0), err
 	}
@@ -22,8 +22,8 @@ func (service QuestionService) GetQuestionList(sid int64, page int, num int) ([]
 }
 
 // 获取题目数量
-func (service QuestionService) GetQuestionNumber(sid int64) (int64, error) {
-	number, err := service.QuestionModel.GetQuestionNumber(sid)
+func (service QuestionService) GetQuestionNumber(sid int64, keyword string) (int64, error) {
+	number, err := service.QuestionModel.GetQuestionNumber(sid, keyword)
 	if err != nil {
 		return 0, err
 	}

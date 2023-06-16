@@ -33,18 +33,22 @@ func (qc QuestionController) GetQuestionList(ctx *gin.Context) {
 	if iNum == 0 {
 		iNum = 10
 	}
+	keyword := ctx.Query("keyword")
+	if len(keyword) > 0 {
+		keyword = "%" + keyword + "%"
+	}
 
 	var list []model.Question
 	sid := ctx.Query("sid")
 	if len(sid) == 0 {
-		list, err1 = qc.QuestionService.GetQuestionList(-1, iPage, iNum)
+		list, err1 = qc.QuestionService.GetQuestionList(-1, keyword, iPage, iNum)
 		if err1 != nil {
 			global.ReturnError(ctx, global.Errors.UnexpectedError)
 			return
 		}
 	} else {
 		iSid, _ := strconv.ParseInt(sid, 10, 64)
-		list, err1 = qc.QuestionService.GetQuestionList(iSid, iPage, iNum)
+		list, err1 = qc.QuestionService.GetQuestionList(iSid, keyword, iPage, iNum)
 		if err1 != nil {
 			global.ReturnError(ctx, global.Errors.UnexpectedError)
 			return
@@ -63,11 +67,15 @@ func (qc QuestionController) GetQuestionnNumber(ctx *gin.Context) {
 	var num int64
 	var err error
 	sid := ctx.Query("sid")
+	keyword := ctx.Query("keyword")
+	if len(keyword) > 0 {
+		keyword = "%" + keyword + "%"
+	}
 	if len(sid) == 0 {
-		num, err = qc.QuestionService.GetQuestionNumber(-1)
+		num, err = qc.QuestionService.GetQuestionNumber(-1, keyword)
 	} else {
 		sub, _ := strconv.ParseInt(sid, 10, 64)
-		num, err = qc.QuestionService.GetQuestionNumber(sub)
+		num, err = qc.QuestionService.GetQuestionNumber(sub, keyword)
 	}
 	if err != nil {
 		log.Println(err)

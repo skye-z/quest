@@ -61,7 +61,7 @@ func (model SubjectModel) DelSubject(subject *Subject) bool {
 
 	// 科目下有题目的话不允许删除
 	qm := QuestionModel{DB: model.DB}
-	list, _ := qm.GetQuestionList(subject.Id, 1, 1)
+	list, _ := qm.GetQuestionList(subject.Id, "", 1, 1)
 	if list != nil && len(list) > 0 {
 		return false
 	}
