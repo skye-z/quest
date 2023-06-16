@@ -1,0 +1,59 @@
+body{
+    background-color: #fff;
+}
+
+#popup {
+    height: 290px;
+    width: 300px;
+}
+
+#setting {
+    transition: all ease-out 0.3s;
+    cursor: pointer;
+    width: 60px;
+}
+
+#site-box,
+#loading,
+#error {
+    position: relative;
+    overflow: hidden;
+    height: 220px;
+}
+
+#site-list {
+    position: absolute; 
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 220px;
+    left: 0;
+}
+
+#foot>div {
+    transition: all ease-out 0.3s;
+    text-align: center;
+    min-width: 60px;
+    cursor: pointer;
+}
+
+.site-item {
+    transition: all ease-out 0.3s;
+    cursor: pointer;
+}
+
+.item-tool {
+    width: 55px;
+}
+
+.item-info {
+    color: #333;
+    width: 232px;
+    text-decoration: none;
+}
+
+#setting:hover,
+#foot>div:hover,
+.site-item:hover {
+    background-color: #f4f4f4;
+    color: #000;
+}

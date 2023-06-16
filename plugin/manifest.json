@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Quest 导入工具",
+  "version": "1.0.0",
+  "description": "Quest云题库试题导入工具",
+  "author": "skai-zhang@hotmail.com",
+  "icons": {
+    "64": "res/logo@0.5x.png",
+    "128": "res/logo.png"
+  },
+  "action": {
+    "default_popup": "page/popup.html",
+    "default_icon": {
+      "64": "res/logo@0.5x.png",
+      "128": "res/logo.png"
+    }
+  },
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "tabs"
+  ]
+}
