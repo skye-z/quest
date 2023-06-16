@@ -26,17 +26,58 @@
                             type="error">{{ item.level == 4 ? '较难' : '极难' }}</n-tag>
                         <n-tag class="ml-5" :bordered="false" type="info" size="small">{{ type[item.type -
                             1].label }}</n-tag>
-                        <n-button size="small" quaternary circle class="ml-10">
-                            <template #icon>
-                                <n-icon>
-                                    <Eye24Filled />
-                                </n-icon>
+                        <n-popover trigger="click" placement="bottom-end" :show-arrow="false">
+                            <template #trigger>
+                                <n-button size="small" quaternary circle class="ml-10">
+                                    <template #icon>
+                                        <n-icon>
+                                            <Eye24Filled />
+                                        </n-icon>
+                                    </template>
+                                </n-button>
                             </template>
-                        </n-button>
+                            <template v-if="item.type == 1">
+                                <div v-for="opt in item.options">
+                                    <div v-if="opt.value == item.answer">{{ opt.label }}</div>
+                                </div>
+                            </template>
+                            <template v-else-if="item.type == 2">
+                                <div>选择以下{{ item.answer.length }}项</div>
+                                <div v-for="(sub, index) in item.answer">
+                                    <div v-for="opt in item.options">
+                                        <div v-if="opt.value == sub">{{ index + 1 }}. {{ opt.label }}</div>
+                                    </div>
+                                </div>
+                            </template>
+                            <template v-else-if="item.type == 3">
+                                {{ item.answer == '1' ? '正确' : '错误' }}
+                            </template>
+                            <template v-else-if="item.type == 4">
+                                <div v-for="(sub, index) in item.answer">
+                                    第 {{ index + 1 }} 空: {{ sub }}
+                                </div>
+                            </template>
+                            <template v-else-if="item.type == 5">
+                                <div>对应关系如下</div>
+                                <div v-for="(sub, index) in item.answer">
+                                    {{ sub }} -> {{ item.options[index].label }}
+                                </div>
+                            </template>
+                            <template v-else-if="item.type == 6 || item.type == 7">
+                                <div>满足下列关键词即可:</div>
+                                <span v-for="(sub, index) in item.answer">
+                                    <span v-if="index != 0">、</span>{{ sub }}
+                                </span>
+                            </template>
+                            <template v-else-if="item.type == 8">
+                                <div>要求字数大于{{ item.answer }}字</div>
+                            </template>
+                        </n-popover>
                     </div>
                     <div class="question-title">
                         <span v-if="checkState[item.id] == null">{{ item.question }}</span>
-                        <n-text v-else :type="checkState[item.id] == true ? 'success' : 'error'">{{ item.question }}</n-text>
+                        <n-text v-else :type="checkState[item.id] == true ? 'success' : 'error'">{{ item.question
+                        }}</n-text>
                     </div>
                     <template v-if="item.type == 1">
                         <n-radio-group @update:value="value => check(item, value)" class="mt-10"
@@ -85,7 +126,7 @@
                             type="textarea" label-field="" placeholder="请在此处输入答案" />
                     </template>
                 </div>
-                <n-pagination v-if="number > 0" v-model:page="page" :item-count="number" />
+                <n-pagination v-if="number > 0" class="justify-center" v-model:page="page" :item-count="number" />
             </div>
         </div>
         <foot-bar :app="app" />
@@ -168,7 +209,7 @@ export default {
                 if (res.num > 0) {
                     this.page = 1
                     this.getQuestionList()
-                }else window.$message.warning('未找到可用试题')
+                } else window.$message.warning('未找到可用试题')
             }).catch(() => {
 
             })
@@ -268,6 +309,10 @@ export default {
     align-items: center;
     flex-wrap: wrap;
     display: flex;
+}
+
+.app-body {
+    max-width: 500px;
 }
 </style>
   
