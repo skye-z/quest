@@ -113,12 +113,20 @@ function loadSupportList() {
     for (let i in support) {
         $('#site-list').append('<div class="site-item flex align-center border-bottom"><a href="http://' + support[i].path + '" target="_blank" class="item-info border-left border-right pl-10 pt-5 pb-5"><div>' + support[i].name + '</div><div class="text-small text-gray line-1">' + support[i].path + '</div></a><div support-id="' + i + '" class="support-run item-tool text-small text-center">执行</div></div>')
     }
+    $('#site-list').append('<div class="text-gray text-small text-center mt-5">请求支持请在 Github 上提 Issues</div>')
     $('.support-run').on('click', function () {
         console.log('[Script] 导出脚本注入 -> ' + cache.page.id)
         let index = $(this).attr('support-id')
+        let item = support[index]
+        let url = cache.page.url.substring(cache.page.url.indexOf('://')+3)
+        url = url.substring(0,url.indexOf('/'))
+        if(item.path != url){
+            alert(item.name+'的试题导入工具仅支持在“'+item.path+'”下使用,您可点击“执行”按钮左侧进入网站')
+            return false
+        }
         chrome.scripting.executeScript({
             target: { tabId: cache.page.id },
-            files: ['js/inject/export/' + support[index].file],
+            files: ['js/inject/export/' + item.file],
         });
     })
 }

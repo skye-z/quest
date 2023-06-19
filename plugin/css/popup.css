@@ -3,7 +3,7 @@ body{
 }
 
 #popup {
-    height: 290px;
+    height: 280px;
     width: 300px;
 }
 
@@ -18,14 +18,14 @@ body{
 #error {
     position: relative;
     overflow: hidden;
-    height: 220px;
+    height: 210px;
 }
 
 #site-list {
     position: absolute; 
     overflow-x: hidden;
     overflow-y: auto;
-    height: 220px;
+    height: 210px;
     left: 0;
 }
 
