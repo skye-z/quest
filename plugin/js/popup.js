@@ -126,7 +126,11 @@ function loadSupportList() {
         }
         chrome.scripting.executeScript({
             target: { tabId: cache.page.id },
-            files: ['js/inject/export/' + item.file],
+            files: [
+                'js/common/jquery.js',
+                'js/inject/util.js',
+                'js/inject/export/' + item.file
+            ],
         });
     })
 }
