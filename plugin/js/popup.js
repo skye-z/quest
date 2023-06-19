@@ -12,9 +12,7 @@ $(function () {
         if (tabs == undefined || tabs == null || tabs.length == 0) {
             $('#error').removeClass('hide')
             $('#logo').attr('src', '../res/logo.png')
-            let more = '<div class="text-small text-gray">';
-            for (let i in allow) more += allow[i] + '、'
-            showError('<div class="text-center mb-5">仅支持在下列网站中使用</div>', (more.substring(0, more.length - 1)) + '</div>')
+            showError('<div class="text-center mb-5">当前标签页不可用</div>', '<div class="text-small text-gray">当前页面非正常 HTTP / HTTPS 网站</div>')
         } else {
             // 暂存页面信息
             cache.page = tabs[0];
@@ -36,6 +34,7 @@ function checkConfig() {
     if (token) cache.token = token;
     let user = localStorage.getItem('user:info')
     if (user) cache.user = JSON.parse(user)
+    if(cache.host) initInfo()
     initUser()
 }
 
@@ -75,18 +74,32 @@ function initListener() {
     })
 }
 
+// 获取系统信息
+function initInfo() {
+    $.ajax({
+        url: cache.host + '/api/init',
+        success: res => {
+            $('#server-state').removeClass('err')
+            $('#server-state-txt').html('在线')
+        },
+        error: err => {
+            $('#server-state').addClass('err')
+            $('#server-state-txt').html('离线')
+        }
+    });
+}
+
 // 加载用户信息
 function initUser() {
     let token = localStorage.getItem('user:token');
     if (token == undefined || token == null || token == '') {
         $('#user-info').html('激活插件');
+        $('#user-info').attr('href','javascript:;');
         showError('<div class="text-center mb-5">请先登录 Quest 平台</div>', '<div class="text-small text-gray">进入平台后点开本插件即可自动登录</div>')
     } else {
         cache.user = JSON.parse(localStorage.getItem('user:info'));
         $('#user-info').html('已登录: ' + cache.user.nickname);
-        $('#user-info').attr('href',cache.host);
-        $('#server-state').removeClass('err')
-        $('#server-state-txt').html('在线')
+        $('#user-info').attr('href', cache.host);
         $('#site-box').removeClass('hide')
         $('#error').addClass('hide')
         cache.token = token;
