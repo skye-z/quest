@@ -109,7 +109,7 @@ function analysisAnswer(item, type, options) {
             if (typeof sub[y] !== 'object') continue;
             let ats = sub[y].getElementsByClassName('answerBox-title');
             if (ats.length == 0) continue;
-            answerType = ats[0].textContent
+            let answerType = ats[0].textContent
             if (answerType.indexOf('正确') == 0) {
                 let select = sub[y].getElementsByClassName('answerBox-content')[0].textContent.trim();
                 // 单选
