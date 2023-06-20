@@ -110,7 +110,7 @@ func (qc QuestionController) AddQuestion(ctx *gin.Context) {
 		global.ReturnMessage(ctx, false, "答案不能为空")
 		return
 	}
-	if qc.QuestionService.QuestionModel.ExistQuestion(form.Subject, form.Question, form.Options) {
+	if qc.QuestionService.QuestionModel.ExistQuestion(form.Subject, form.Question) {
 		global.ReturnMessage(ctx, false, "本科目已存在此试题")
 		return
 	}

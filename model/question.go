@@ -1,6 +1,8 @@
 package model
 
-import "xorm.io/xorm"
+import (
+	"xorm.io/xorm"
+)
 
 type Question struct {
 	Id       int64  `json:"id"`
@@ -76,9 +78,9 @@ func (model QuestionModel) AddQuestion(question *Question) bool {
 }
 
 // 检查题目
-func (model QuestionModel) ExistQuestion(sid int64, keyword string, options string) bool {
+func (model QuestionModel) ExistQuestion(sid int64, keyword string) bool {
 	var question Question
-	num, _ := model.DB.Where("sid = ? AND question = ? AND options = ?", sid, keyword, options).Count(question)
+	num, _ := model.DB.Where("subject = ? AND question = ?", sid, keyword).Count(question)
 	return num != 0
 }
 
