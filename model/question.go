@@ -19,26 +19,25 @@ type QuestionModel struct {
 // 获取题目列表
 func (model QuestionModel) GetQuestionList(sid int64, keyword string, page int, num int) ([]Question, error) {
 	var questions []Question
+	var cache *xorm.Session
+	var err error
 	if sid < 0 {
-		var cache *xorm.Session
 		if len(keyword) > 0 {
 			cache = model.DB.Where("question LIKE ? OR options LIKE ?", keyword, keyword, keyword)
-		}
-		err := cache.Limit(page*num, (page-1)*num).Find(&questions)
-		if err != nil {
-			return nil, err
+			err = cache.Limit(page*num, (page-1)*num).Find(&questions)
+		} else {
+			err = model.DB.Limit(page*num, (page-1)*num).Find(&questions)
 		}
 	} else {
-		var cache *xorm.Session
 		if len(keyword) > 0 {
 			cache = model.DB.Where("subject = ? AND ( question LIKE ? OR options LIKE ?)", sid, keyword, keyword, keyword)
 		} else {
 			cache = model.DB.Where("subject = ?", sid)
 		}
-		err := cache.Limit(page*num, (page-1)*num).Find(&questions)
-		if err != nil {
-			return nil, err
-		}
+		err = cache.Limit(page*num, (page-1)*num).Find(&questions)
+	}
+	if err != nil {
+		return nil, err
 	}
 	return questions, nil
 }
@@ -48,14 +47,15 @@ func (model QuestionModel) GetQuestionNumber(sid int64, keyword string) (int64, 
 	var num int64
 	var err error
 	var question Question
+	var cache *xorm.Session
 	if sid < 0 {
-		var cache *xorm.Session
 		if len(keyword) > 0 {
 			cache = model.DB.Where("question LIKE ? OR options LIKE ?", keyword, keyword, keyword)
+			num, err = cache.Count(question)
+		} else {
+			num, err = model.DB.Count(question)
 		}
-		num, err = cache.Count(question)
 	} else {
-		var cache *xorm.Session
 		if len(keyword) > 0 {
 			cache = model.DB.Where("subject = ? AND ( question LIKE ? OR options LIKE ?)", sid, keyword, keyword, keyword)
 		} else {

@@ -3,7 +3,8 @@ let cache = {
     page: {},
     user: {},
     host: '',
-    token: ''
+    token: '',
+    system: null
 }
 
 $(function () {
@@ -24,6 +25,10 @@ $(function () {
             injectCheckScript()
         }
     })
+    $('#app-state').on('click', function () {
+        if (cache.system == null) alert('无法连接到服务器(' + cache.host + '), 请检查您的网络及服务器运行情况')
+        else alert('已连接到'+cache.system.name+'('+cache.host+'), 服务端当前为'+cache.system.version+'版本')
+    })
 });
 
 // 检查配置信息
@@ -34,7 +39,7 @@ function checkConfig() {
     if (token) cache.token = token;
     let user = localStorage.getItem('user:info')
     if (user) cache.user = JSON.parse(user)
-    if(cache.host) initInfo()
+    if (cache.host) initInfo()
     initUser()
 }
 
@@ -79,6 +84,7 @@ function initInfo() {
     $.ajax({
         url: cache.host + '/api/init',
         success: res => {
+            cache.system = res
             $('#server-state').removeClass('err')
             $('#server-state-txt').html('在线')
         },
@@ -94,7 +100,7 @@ function initUser() {
     let token = localStorage.getItem('user:token');
     if (token == undefined || token == null || token == '') {
         $('#user-info').html('激活插件');
-        $('#user-info').attr('href','javascript:;');
+        $('#user-info').attr('href', 'javascript:;');
         showError('<div class="text-center mb-5">请先登录 Quest 平台</div>', '<div class="text-small text-gray">进入平台后点开本插件即可自动登录</div>')
     } else {
         cache.user = JSON.parse(localStorage.getItem('user:info'));
@@ -118,10 +124,10 @@ function loadSupportList() {
         console.log('[Script] 导出脚本注入 -> ' + cache.page.id)
         let index = $(this).attr('support-id')
         let item = support[index]
-        let url = cache.page.url.substring(cache.page.url.indexOf('://')+3)
-        url = url.substring(0,url.indexOf('/'))
-        if(item.path != url){
-            alert(item.name+'的试题导入工具仅支持在“'+item.path+'”下使用,您可点击“执行”按钮左侧进入网站')
+        let url = cache.page.url.substring(cache.page.url.indexOf('://') + 3)
+        url = url.substring(0, url.indexOf('/'))
+        if (item.path != url) {
+            alert(item.name + '的试题导入工具仅支持在“' + item.path + '”下使用,您可点击“执行”按钮左侧进入网站')
             return false
         }
         chrome.scripting.executeScript({
