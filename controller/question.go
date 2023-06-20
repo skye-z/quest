@@ -85,11 +85,6 @@ func (qc QuestionController) GetQuestionnNumber(ctx *gin.Context) {
 	ctx.JSON(200, questionNumberResponse{Number: num, Time: time.Now().Unix()})
 }
 
-// 导入题目
-func (qc QuestionController) ImportQuestion(ctx *gin.Context) {
-	// TODO
-}
-
 // 添加题目
 func (qc QuestionController) AddQuestion(ctx *gin.Context) {
 	var form model.Question
@@ -113,6 +108,10 @@ func (qc QuestionController) AddQuestion(ctx *gin.Context) {
 	}
 	if len(form.Answer) == 0 {
 		global.ReturnMessage(ctx, false, "答案不能为空")
+		return
+	}
+	if qc.QuestionService.QuestionModel.ExistQuestion(form.Subject, form.Question, form.Options) {
+		global.ReturnMessage(ctx, false, "本科目已存在此试题")
 		return
 	}
 	state := qc.QuestionService.QuestionModel.AddQuestion(&form)

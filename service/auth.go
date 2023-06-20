@@ -14,6 +14,7 @@ import (
 )
 
 const IssuerName = "Skye>Quest.Auth"
+const tokenKey = "token.secret"
 
 func AuthHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
@@ -27,7 +28,7 @@ func AuthHandler() gin.HandlerFunc {
 
 		info := jwt.MapClaims{}
 		// 密钥
-		secret := global.GetString("token.secret")
+		secret := global.GetString(tokenKey)
 		token, err := jwt.ParseWithClaims(code, &info, func(token *jwt.Token) (interface{}, error) {
 			key, err := base64.StdEncoding.DecodeString(secret)
 			return key, err
@@ -70,7 +71,7 @@ func AuthHandler() gin.HandlerFunc {
 
 func GenerateToken(user *model.User) (string, int64, error) {
 	// 密钥
-	secret := global.GetString("token.secret")
+	secret := global.GetString(tokenKey)
 	// 有效小时
 	expTime := global.GetInt("token.exp")
 	// 过期时间
@@ -90,7 +91,7 @@ func GenerateToken(user *model.User) (string, int64, error) {
 func ValidateToken(code string) (bool, int, string, error) {
 	info := jwt.MapClaims{}
 	// 密钥
-	secret := global.GetString("token.secret")
+	secret := global.GetString(tokenKey)
 	token, err := jwt.ParseWithClaims(code, &info, func(token *jwt.Token) (interface{}, error) {
 		key, err := base64.StdEncoding.DecodeString(secret)
 		return key, err
