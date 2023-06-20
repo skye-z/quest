@@ -30,11 +30,11 @@ Quest is a ultra mini system for question bank management and mock exams.
     * [x] Question
     * [x] Search
     * [ ] Exam
-* [ ] Extension
+* [x] Extension
     * [x] Auth
     * [x] Inject
     * [x] Scan
-    * [ ] Push
+    * [x] Push
 
 ## Features
 1. Allows users to import their own question banks and then generate test papers from them for mock exams;
