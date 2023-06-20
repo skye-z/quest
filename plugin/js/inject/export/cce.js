@@ -11,7 +11,7 @@ function run() {
     let groups = getQuestionGroups();
     if (!groups || groups.length == 0) {
         updateMask('没有可用试题')
-        setTimeout(()=>closeMask(),1000)
+        setTimeout(() => closeMask(), 1000)
         return false;
     }
     let questions = [];
@@ -53,37 +53,32 @@ function getQuestions(list, group) {
             question: title,
             level: 3,
         }
-        if (group.type == 1) {
-            let options = analysisOptions(item, question)
-            if (options && options.length > 0) {
-                let answer = analysisAnswer(item, 1, options)
-                question.options = options;
-                question.answer = answer;
-            } else continue;
-        } else if (group.type == 2) {
-            let options = analysisOptions(item, question)
-            if (options && options.length > 0) {
-                let answer = analysisAnswer(item, 2, options)
-                question.options = options;
-                question.answer = answer;
-            } else continue;
-        } else if (group.type == 3) {
-            let options = analysisOptions(item, question)
-            if (options && options.length > 0) {
-                let answer = analysisAnswer(item, 3, options)
-                question.answer = answer;
-                question.options = [];
-            } else continue;
-        } else if(group.type == 4){
-
-        } else if(group.type == 5){
-
-        } else if(group.type == 6){
-
-        } else if(group.type == 7){
-
-        } else if(group.type == 8){
-
+        let options;
+        switch (group.type) {
+            case 1:
+                options = analysisOptions(item)
+                if (options && options.length > 0) {
+                    let answer = analysisAnswer(item, 1, options)
+                    question.options = options;
+                    question.answer = answer;
+                } else continue;
+                break;
+            case 2:
+                options = analysisOptions(item)
+                if (options && options.length > 0) {
+                    let answer = analysisAnswer(item, 2, options)
+                    question.options = options;
+                    question.answer = answer;
+                } else continue;
+                break;
+            case 3:
+                options = analysisOptions(item)
+                if (options && options.length > 0) {
+                    let answer = analysisAnswer(item, 3, options)
+                    question.answer = answer;
+                    question.options = [];
+                } else continue;
+                break;
         }
         list.push(question)
     }
@@ -141,6 +136,6 @@ function analysisAnswer(item, type, options) {
 function push() {
     updateMask('正在推送试题')
 
-    setTimeout(()=>updateMask('试题导入完成'),500)
-    setTimeout(()=>closeMask(),1000)
+    setTimeout(() => updateMask('试题导入完成'), 500)
+    setTimeout(() => closeMask(), 1000)
 }
