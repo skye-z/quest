@@ -1,3 +1,6 @@
 [submodule "extension"]
 	path = extension
 	url = https://github.com/skye-z/quest-extension.git
+[submodule "page"]
+	path = page
+	url = https://github.com/skye-z/quest-page.git
