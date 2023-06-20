@@ -3,9 +3,11 @@
 Quest is a ultra mini system for question bank management and mock exams. 
 
 [![](https://img.shields.io/badge/Go-1.20+-%2300ADD8?style=flat&logo=go)](go.work)
-[![](https://img.shields.io/badge/Quest-1.0.0-green)](control)
-[![CodeQL](https://github.com/skye-z/quest/workflows/CodeQL/badge.svg)](https://github.com/skye-z/quest/security/code-scanning)
+[![](https://img.shields.io/badge/Quest%20Service-1.0.0-green)](control)
+[![](https://img.shields.io/badge/Quest%20Page-1.0.0-blue)](https://github.com/skye-z/quest-page)
+[![](https://img.shields.io/badge/Quest%20Extension-1.0.0-red)](https://github.com/skye-z/quest-extension)
 
+[![CodeQL](https://github.com/skye-z/quest/workflows/CodeQL/badge.svg)](https://github.com/skye-z/quest/security/code-scanning)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=skye-z_quest&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=skye-z_quest)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=skye-z_quest&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=skye-z_quest)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=skye-z_quest&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=skye-z_quest)
@@ -26,8 +28,13 @@ Quest is a ultra mini system for question bank management and mock exams.
     * [x] Home
     * [x] Admin
     * [x] Question
-    * [ ] Search
+    * [x] Search
     * [ ] Exam
+* [ ] Extension
+    * [x] Auth
+    * [x] Inject
+    * [x] Scan
+    * [ ] Push
 
 ## Features
 1. Allows users to import their own question banks and then generate test papers from them for mock exams;
@@ -55,7 +62,6 @@ Test software: JMeter 5.5
 | 1000 | 505 | 619 | 893 | 0.00% | 3125.0/s | 145.8% | 154MB |
 
 According to the test results, although you can run it on any device, if you want to get 3000QPS you'd better use a cpu with more than 2 cores and provide 1g of RAM
-
 
 ## Compile and package
 ```shell
