@@ -32,20 +32,7 @@ func (ec ExamController) GetExamList(ctx *gin.Context) {
 // 添加考试
 func (ec ExamController) AddExam(ctx *gin.Context) {
 	var form model.Exam
-	if err := ctx.ShouldBindJSON(&form); err != nil {
-		ctx.JSON(400, gin.H{"error": err.Error()})
-		return
-	}
-	if len(form.Name) == 0 {
-		global.ReturnMessage(ctx, false, "考试名称不能为空")
-		return
-	}
-	if form.Subject == 0 {
-		global.ReturnMessage(ctx, false, "科目编号不能为空")
-		return
-	}
-	if len(form.Questions) == 0 {
-		global.ReturnMessage(ctx, false, "考题不能为空")
+	if !check(ctx, form) {
 		return
 	}
 	state := ec.ExamService.ExamModel.AddExam(&form)
@@ -73,23 +60,31 @@ func (ec ExamController) EditExam(ctx *gin.Context) {
 	}
 	eid, _ := strconv.ParseInt(id, 10, 64)
 	var form model.Exam
-	if err := ctx.ShouldBindJSON(&form); err != nil {
-		ctx.JSON(400, gin.H{"error": err.Error()})
-		return
-	}
-	if len(form.Name) == 0 {
-		global.ReturnMessage(ctx, false, "考试名称不能为空")
-		return
-	}
-	if form.Subject == 0 {
-		global.ReturnMessage(ctx, false, "科目编号不能为空")
-		return
-	}
-	if len(form.Questions) == 0 {
-		global.ReturnMessage(ctx, false, "考题不能为空")
+	if !check(ctx, form) {
 		return
 	}
 	form.Id = eid
 	state := ec.ExamService.ExamModel.EditExam(&form)
 	ctx.JSON(200, addResponse{State: state, Time: time.Now().Unix()})
+}
+
+// 校验数据
+func check(ctx *gin.Context, form model.Exam) bool {
+	if err := ctx.ShouldBindJSON(&form); err != nil {
+		ctx.JSON(400, gin.H{"error": err.Error()})
+		return false
+	}
+	if len(form.Name) == 0 {
+		global.ReturnMessage(ctx, false, "考试名称不能为空")
+		return false
+	}
+	if form.Subject == 0 {
+		global.ReturnMessage(ctx, false, "科目编号不能为空")
+		return false
+	}
+	if len(form.Questions) == 0 {
+		global.ReturnMessage(ctx, false, "考题不能为空")
+		return false
+	}
+	return true
 }
