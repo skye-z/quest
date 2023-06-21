@@ -32,7 +32,7 @@ func InitDatabase(engine *xorm.Engine) {
 			Name:     "admin",
 			Nickname: "管理员",
 			Admin:    true,
-			Pass:     "21232f297a57a5a743894a0e4a801fc3",
+			Pass:     "25d55ad283aa400af464c76d713c07ad",
 		}
 		userModel.AddUser(&adminUser)
 		global.Set("basic.install", "1")
