@@ -32,7 +32,7 @@ func (ec ExamController) GetExamList(ctx *gin.Context) {
 // 添加考试
 func (ec ExamController) AddExam(ctx *gin.Context) {
 	var form model.Exam
-	if !check(ctx, form) {
+	if !check(ctx, &form) {
 		return
 	}
 	state := ec.ExamService.ExamModel.AddExam(&form)
@@ -60,7 +60,7 @@ func (ec ExamController) EditExam(ctx *gin.Context) {
 	}
 	eid, _ := strconv.ParseInt(id, 10, 64)
 	var form model.Exam
-	if !check(ctx, form) {
+	if !check(ctx, &form) {
 		return
 	}
 	form.Id = eid
@@ -69,7 +69,7 @@ func (ec ExamController) EditExam(ctx *gin.Context) {
 }
 
 // 校验数据
-func check(ctx *gin.Context, form model.Exam) bool {
+func check(ctx *gin.Context, form *model.Exam) bool {
 	if err := ctx.ShouldBindJSON(&form); err != nil {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return false
