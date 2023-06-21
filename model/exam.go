@@ -3,12 +3,10 @@ package model
 import "xorm.io/xorm"
 
 type Exam struct {
-	Id        int64   `json:"id"`
-	User      int64   `json:"uid"`
-	Subject   int64   `json:"sid"`
-	Questions string  `json:"questions"`
-	Answers   string  `json:"answers"`
-	Score     float32 `json:"score"`
+	Id        int64  `json:"id"`
+	Name      string `json:"name"`
+	Subject   int64  `json:"sid"`
+	Questions string `json:"questions"`
 }
 
 type ExamModel struct {
