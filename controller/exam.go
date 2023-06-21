@@ -36,8 +36,8 @@ func (ec ExamController) AddExam(ctx *gin.Context) {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	if form.User == 0 {
-		global.ReturnMessage(ctx, false, "用户编号不能为空")
+	if len(form.Name) == 0 {
+		global.ReturnMessage(ctx, false, "考试名称不能为空")
 		return
 	}
 	if form.Subject == 0 {
@@ -47,13 +47,6 @@ func (ec ExamController) AddExam(ctx *gin.Context) {
 	if len(form.Questions) == 0 {
 		global.ReturnMessage(ctx, false, "考题不能为空")
 		return
-	}
-	if len(form.Answers) == 0 {
-		global.ReturnMessage(ctx, false, "答案不能为空")
-		return
-	}
-	if form.Score == 0 {
-		form.Score = 1.0
 	}
 	state := ec.ExamService.ExamModel.AddExam(&form)
 	ctx.JSON(200, addResponse{State: state, Time: time.Now().Unix()})
@@ -84,8 +77,8 @@ func (ec ExamController) EditExam(ctx *gin.Context) {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	if form.User == 0 {
-		global.ReturnMessage(ctx, false, "用户编号不能为空")
+	if len(form.Name) == 0 {
+		global.ReturnMessage(ctx, false, "考试名称不能为空")
 		return
 	}
 	if form.Subject == 0 {
@@ -95,13 +88,6 @@ func (ec ExamController) EditExam(ctx *gin.Context) {
 	if len(form.Questions) == 0 {
 		global.ReturnMessage(ctx, false, "考题不能为空")
 		return
-	}
-	if len(form.Answers) == 0 {
-		global.ReturnMessage(ctx, false, "答案不能为空")
-		return
-	}
-	if form.Score == 0 {
-		form.Score = 1.0
 	}
 	form.Id = eid
 	state := ec.ExamService.ExamModel.EditExam(&form)
