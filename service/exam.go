@@ -9,8 +9,8 @@ type ExamService struct {
 	ExamModel model.ExamModel
 }
 
-func (service ExamService) GetExamList() ([]model.Exam, error) {
-	subs, err := service.ExamModel.GetExamList()
+func (service ExamService) GetExamList(sid int64) ([]model.Exam, error) {
+	subs, err := service.ExamModel.GetExamList(sid)
 	if err != nil {
 		return make([]model.Exam, 0), err
 	}

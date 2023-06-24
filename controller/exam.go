@@ -21,7 +21,15 @@ type examListResponse struct {
 
 // 获取考试列表
 func (ec ExamController) GetExamList(ctx *gin.Context) {
-	subs, err := ec.ExamService.GetExamList()
+	var err error
+	var subs []model.Exam
+	sid := ctx.Query("sid")
+	if len(sid) == 0 {
+		subs, err = ec.ExamService.GetExamList(-1)
+	} else {
+		iSid, _ := strconv.ParseInt(sid, 10, 64)
+		subs, err = ec.ExamService.GetExamList(iSid)
+	}
 	if err != nil {
 		global.ReturnError(ctx, global.Errors.ParamIllegalError)
 		return

@@ -28,9 +28,14 @@ func (model ExamModel) GetExam(id int64) (*Exam, error) {
 }
 
 // 获取考试列表
-func (model ExamModel) GetExamList() ([]Exam, error) {
+func (model ExamModel) GetExamList(sid int64) ([]Exam, error) {
+	var err error
 	var exams []Exam
-	err := model.DB.Find(&exams)
+	if sid < 0 {
+		err = model.DB.Find(&exams)
+	} else {
+		err = model.DB.Where("subject = ?", sid).Find(&exams)
+	}
 	if err != nil {
 		return nil, err
 	}
