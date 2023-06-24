@@ -71,6 +71,8 @@ go mod tidy
 
 go build -o quest -ldflags '-s -w'
 
+# MacOS
+CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o quest -ldflags '-s -w'
 # Linux
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o quest -ldflags '-s -w'
 # Windows
