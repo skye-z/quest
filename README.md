@@ -6,6 +6,7 @@ Quest is a ultra mini system for question bank management and mock exams.
 [![](https://img.shields.io/badge/Quest%20Service-1.0.0-green)](control)
 [![](https://img.shields.io/badge/Quest%20Page-1.0.0-blue)](https://github.com/skye-z/quest-page)
 [![](https://img.shields.io/badge/Quest%20Extension-1.0.0-red)](https://github.com/skye-z/quest-extension)
+[![](https://img.shields.io/badge/License-GPL%20v3.0-orange)](LICENSE)
 
 [![CodeQL](https://github.com/skye-z/quest/workflows/CodeQL/badge.svg)](https://github.com/skye-z/quest/security/code-scanning)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=skye-z_quest&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=skye-z_quest)
