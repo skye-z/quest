@@ -24,13 +24,13 @@ Quest is a ultra mini system for question bank management and mock exams.
     * [x] Subject
     * [x] Question
     * [x] Exam
-* [ ] Page
+* [x] Page
     * [x] Auth
     * [x] Home
     * [x] Admin
     * [x] Question
     * [x] Search
-    * [ ] Exam
+    * [x] Exam
 * [x] Extension
     * [x] Auth
     * [x] Inject
