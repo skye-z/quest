@@ -14,6 +14,7 @@ Quest is a ultra mini system for question bank management and mock exams.
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=skye-z_quest&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=skye-z_quest)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=skye-z_quest&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=skye-z_quest)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=skye-z_quest&metric=bugs)](https://sonarcloud.io/summary/new_code?id=skye-z_quest)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fskye-z%2Fquest.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fskye-z%2Fquest?ref=badge_shield)
 
 
 ## TODO
@@ -91,3 +92,6 @@ If you find that you cannot access other devices after startup, please check whe
 firewall-cmd --add-port=12999/tcp --permanent
 firewall-cmd --reload
 ```
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fskye-z%2Fquest.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fskye-z%2Fquest?ref=badge_large)
