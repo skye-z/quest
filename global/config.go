@@ -1,7 +1,7 @@
 /*
 全局配置服务
 
-BetaX Server Monitor
+BetaX Quest
 Copyright © 2023 SkyeZhang <skai-zhang@hotmail.com>
 */
 
