@@ -10,3 +10,4 @@ config.ini
 # vue
 node_modules/
 dist/
+out/
