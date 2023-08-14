@@ -62,8 +62,10 @@ func AuthHandler() gin.HandlerFunc {
 			return
 		}
 		user := model.User{
-			Id:   uid,
-			Name: subs[0],
+			Id:    uid,
+			Name:  subs[0],
+			Admin: subs[2] == "true",
+			Edit:  subs[3] == "true",
 		}
 		ctx.Set("user", user)
 	}
@@ -80,7 +82,7 @@ func GenerateToken(user *model.User) (string, int64, error) {
 		jwt.MapClaims{
 			"exp": exp,
 			"iss": IssuerName,
-			"sub": fmt.Sprintf("%s@%v", user.Name, user.Id),
+			"sub": fmt.Sprintf("%s@%v@%v@%v", user.Name, user.Id, user.Admin, user.Edit),
 		},
 	)
 	key, _ := base64.StdEncoding.DecodeString(secret)
