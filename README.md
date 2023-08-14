@@ -3,8 +3,8 @@
 Quest is a ultra mini system for question bank management and mock exams. 
 
 [![](https://img.shields.io/badge/Go-1.20+-%2300ADD8?style=flat&logo=go)](go.work)
-[![](https://img.shields.io/badge/Quest%20Service-1.0.0-green)](control)
-[![](https://img.shields.io/badge/Quest%20Page-1.0.0-blue)](https://github.com/skye-z/quest-page)
+[![](https://img.shields.io/badge/Quest%20Service-1.0.1-green)](control)
+[![](https://img.shields.io/badge/Quest%20Page-1.0.1-blue)](https://github.com/skye-z/quest-page)
 [![](https://img.shields.io/badge/Quest%20Extension-1.0.0-red)](https://github.com/skye-z/quest-extension)
 [![](https://img.shields.io/badge/License-GPL%20v3.0-orange)](LICENSE)
 
