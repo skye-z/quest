@@ -44,6 +44,11 @@ type addResponse struct {
 
 // 添加科目
 func (sc SubjectController) AddSubject(ctx *gin.Context) {
+	if !global.CheckAuth(ctx, true, false) {
+		global.ReturnMessage(ctx, false, "权限不足")
+		return
+	}
+
 	var form addRequest
 	if err := ctx.ShouldBindJSON(&form); err != nil {
 		ctx.JSON(400, gin.H{"error": err.Error()})
@@ -64,6 +69,11 @@ func (sc SubjectController) AddSubject(ctx *gin.Context) {
 
 // 删除科目
 func (sc SubjectController) DelSubject(ctx *gin.Context) {
+	if !global.CheckAuth(ctx, true, false) {
+		global.ReturnMessage(ctx, false, "权限不足")
+		return
+	}
+
 	sid := ctx.Param("id")
 	if len(sid) == 0 {
 		global.ReturnMessage(ctx, false, "科目编号不能为空")
@@ -76,6 +86,11 @@ func (sc SubjectController) DelSubject(ctx *gin.Context) {
 
 // 编辑科目
 func (sc SubjectController) EditSubject(ctx *gin.Context) {
+	if !global.CheckAuth(ctx, true, false) {
+		global.ReturnMessage(ctx, false, "权限不足")
+		return
+	}
+
 	id := ctx.Param("id")
 	if len(id) == 0 {
 		global.ReturnMessage(ctx, false, "科目编号不能为空")

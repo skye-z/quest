@@ -87,6 +87,11 @@ func (qc QuestionController) GetQuestionnNumber(ctx *gin.Context) {
 
 // 添加题目
 func (qc QuestionController) AddQuestion(ctx *gin.Context) {
+	if !global.CheckAuth(ctx, true, true) {
+		global.ReturnMessage(ctx, false, "权限不足")
+		return
+	}
+
 	var form model.Question
 	if err := ctx.ShouldBindJSON(&form); err != nil {
 		ctx.JSON(400, gin.H{"error": err.Error()})
@@ -120,6 +125,11 @@ func (qc QuestionController) AddQuestion(ctx *gin.Context) {
 
 // 删除题目
 func (qc QuestionController) DelQuestion(ctx *gin.Context) {
+	if !global.CheckAuth(ctx, true, true) {
+		global.ReturnMessage(ctx, false, "权限不足")
+		return
+	}
+
 	qid := ctx.Param("id")
 	if len(qid) == 0 {
 		global.ReturnMessage(ctx, false, "题目编号不能为空")
@@ -132,6 +142,11 @@ func (qc QuestionController) DelQuestion(ctx *gin.Context) {
 
 // 编辑题目
 func (qc QuestionController) EditQuestion(ctx *gin.Context) {
+	if !global.CheckAuth(ctx, true, true) {
+		global.ReturnMessage(ctx, false, "权限不足")
+		return
+	}
+
 	id := ctx.Param("id")
 	if len(id) == 0 {
 		global.ReturnMessage(ctx, false, "题目编号不能为空")

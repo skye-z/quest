@@ -39,6 +39,11 @@ func (ec ExamController) GetExamList(ctx *gin.Context) {
 
 // 添加考试
 func (ec ExamController) AddExam(ctx *gin.Context) {
+	if !global.CheckAuth(ctx, true, false) {
+		global.ReturnMessage(ctx, false, "权限不足")
+		return
+	}
+
 	var form model.Exam
 	if !check(ctx, &form) {
 		return
@@ -49,6 +54,11 @@ func (ec ExamController) AddExam(ctx *gin.Context) {
 
 // 删除考试
 func (ec ExamController) DelExam(ctx *gin.Context) {
+	if !global.CheckAuth(ctx, true, false) {
+		global.ReturnMessage(ctx, false, "权限不足")
+		return
+	}
+
 	eid := ctx.Param("id")
 	if len(eid) == 0 {
 		global.ReturnMessage(ctx, false, "考试编号不能为空")
@@ -61,6 +71,11 @@ func (ec ExamController) DelExam(ctx *gin.Context) {
 
 // 编辑考试
 func (ec ExamController) EditExam(ctx *gin.Context) {
+	if !global.CheckAuth(ctx, true, false) {
+		global.ReturnMessage(ctx, false, "权限不足")
+		return
+	}
+
 	id := ctx.Param("id")
 	if len(id) == 0 {
 		global.ReturnMessage(ctx, false, "考试编号不能为空")

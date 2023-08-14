@@ -60,6 +60,11 @@ type userListResponse struct {
 
 // 获取用户列表
 func (uc UserController) GetUserList(ctx *gin.Context) {
+	if !global.CheckAuth(ctx, true, false) {
+		global.ReturnMessage(ctx, false, "权限不足")
+		return
+	}
+
 	user, state := ctx.Keys["user"].(model.User)
 	if !state {
 		global.ReturnError(ctx, global.Errors.TokenIllegalError)
@@ -89,6 +94,11 @@ type FormUser struct {
 
 // 添加用户
 func (uc UserController) AddUser(ctx *gin.Context) {
+	if !global.CheckAuth(ctx, true, false) {
+		global.ReturnMessage(ctx, false, "权限不足")
+		return
+	}
+
 	var addObj FormUser
 	if err := ctx.ShouldBindJSON(&addObj); err != nil {
 		ctx.JSON(400, gin.H{"error": err.Error()})
@@ -127,6 +137,11 @@ func (uc UserController) AddUser(ctx *gin.Context) {
 
 // 删除用户
 func (uc UserController) DelUser(ctx *gin.Context) {
+	if !global.CheckAuth(ctx, true, false) {
+		global.ReturnMessage(ctx, false, "权限不足")
+		return
+	}
+
 	uid := ctx.Param("id")
 	if len(uid) == 0 {
 		global.ReturnMessage(ctx, false, "用户编号不能为空")
@@ -139,6 +154,11 @@ func (uc UserController) DelUser(ctx *gin.Context) {
 
 // 编辑用户
 func (uc UserController) EditUser(ctx *gin.Context) {
+	if !global.CheckAuth(ctx, true, false) {
+		global.ReturnMessage(ctx, false, "权限不足")
+		return
+	}
+
 	id := ctx.Param("id")
 	if len(id) == 0 {
 		global.ReturnMessage(ctx, false, "用户编号不能为空")

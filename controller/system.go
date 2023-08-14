@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"quest/global"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -31,6 +32,11 @@ type SystemInfo struct {
 }
 
 func (sc SystemController) GetSystemInfo(ctx *gin.Context) {
+	if !global.CheckAuth(ctx, true, false) {
+		global.ReturnMessage(ctx, false, "权限不足")
+		return
+	}
+
 	info, _ := host.Info()
 
 	physicalCnt, _ := cpu.Counts(false)
@@ -91,6 +97,11 @@ type SystemUse struct {
 }
 
 func (sc SystemController) GetSystemUse(ctx *gin.Context) {
+	if !global.CheckAuth(ctx, true, false) {
+		global.ReturnMessage(ctx, false, "权限不足")
+		return
+	}
+
 	cpuPercent, _ := cpu.Percent(0, false)
 	avg, _ := load.Avg()
 	memInfo, _ := mem.VirtualMemory()
