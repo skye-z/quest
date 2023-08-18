@@ -23,7 +23,7 @@ Username: admin
 Password: admin
 ```
 
-> Demo data is automatically reset after no one accesses it
+> The demo system will be deleted automatically when no one visits for 15 minutes, and deployed automatically when someone visits (very fast, don't worry).
 
 ## Features
 1. Allows users to import their own question banks and then generate test papers from them for mock exams;
