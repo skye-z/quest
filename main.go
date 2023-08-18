@@ -88,7 +88,7 @@ func getPort() string {
 		port = global.GetString("basic.port")
 	}
 	if port == "" {
-		port = "12999"
+		port = "80"
 	}
 	return port
 }

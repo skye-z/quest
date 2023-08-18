@@ -61,7 +61,7 @@ func createDefault() {
 	// 页面遮罩
 	viper.SetDefault("basic.mask", "")
 	// 服务进程号
-	viper.SetDefault("basic.port", "12999")
+	viper.SetDefault("basic.port", "80")
 	// 令牌密钥
 	secret, err := generateSecret()
 	if err != nil {

@@ -87,6 +87,6 @@ If you find that you cannot access other devices after startup, please check whe
 ### Firewall
 
 ```shell
-firewall-cmd --add-port=12999/tcp --permanent
+firewall-cmd --add-port=80/tcp --permanent
 firewall-cmd --reload
 ```
