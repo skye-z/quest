@@ -17,22 +17,13 @@ Quest is a ultra mini system for question bank management and mock exams.
 
 ## Experience
 
-[to Demo System](https://quest.betax.dev)
+[Demo](https://quest.betax.dev)
 ```
-Admin
 Username: admin
-Password: admin@github.com
-
-Demo User 1 (Can import questions using plugins)
-Username: demo
-Password: demo@github.com
-
-Demo User 2
-Username: user
-Password: user@github.com
+Password: admin
 ```
 
-> Do not modify the testing account
+> Demo data is automatically reset after no one accesses it
 
 ## Features
 1. Allows users to import their own question banks and then generate test papers from them for mock exams;
