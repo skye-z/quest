@@ -32,6 +32,8 @@ Username: user
 Password: user@github.com
 ```
 
+> Do not modify the testing account
+
 ## Features
 1. Allows users to import their own question banks and then generate test papers from them for mock exams;
 2. Automatically adjust the difficulty and scope of the test papers according to the user’s preferences and level;
