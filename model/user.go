@@ -56,7 +56,7 @@ func (model UserModel) EditUser(user *User) bool {
 	if user.Id == 0 {
 		return false
 	}
-	_, err := model.DB.ID(user.Id).Cols("edit").Cols("admin").Update(user)
+	_, err := model.DB.ID(user.Id).Update(user)
 	return err == nil
 }
 

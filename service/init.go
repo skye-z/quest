@@ -36,6 +36,7 @@ func InitDatabase(engine *xorm.Engine) {
 		}
 		userModel.AddUser(&adminUser)
 		global.Set("basic.install", "1")
+		log.Println("[DB] init data")
 	}
 	log.Println("[DB] loading completed")
 }
