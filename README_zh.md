@@ -1,8 +1,8 @@
-# Quest - Exercise Assistant
+# Quest - 在线题库与模拟考试
 
-[中文](README_zh.md)
+[English](README.md)
 
-Quest is a ultra mini system for question bank management and mock exams. 
+Quest 是一个用于题库管理和模拟考试的超小型系统.
 
 [![](https://img.shields.io/badge/Go-1.20+-%2300ADD8?style=flat&logo=go)](go.work)
 [![](https://img.shields.io/badge/Quest%20Service-1.0.1-green)](control)
@@ -17,29 +17,29 @@ Quest is a ultra mini system for question bank management and mock exams.
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=skye-z_quest&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=skye-z_quest)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=skye-z_quest&metric=bugs)](https://sonarcloud.io/summary/new_code?id=skye-z_quest)
 
-## Experience
+## 在线体验
 
-[Demo](https://quest.betax.dev)
+[演示系统](https://quest.betax.dev)
 ```
-Username: admin
-Password: admin
+账户: admin
+密码: admin
 ```
 
-> The demo system will be deleted automatically when no one visits for 15 minutes, and deployed automatically when someone visits (very fast, don't worry).
+> 演示系统在15分钟无人访问时自动删除, 在有人访问时自动部署(耗时10秒内).
 
-## Minimum System Requirements
+## 最低硬件要求
 
-Single core, 16MB RAM, 64MB storage is sufficient
+单核、16MB内存、64MB存储空间即可.
 
-This is a very low requirement for modern computers, You can run it on almost any device
+Quest 对硬件要求很低, 您几乎可以在任何设备上运行它.
 
-## Benchmark
+## 基准测试
 
-The following uses the query subject list api (login required) as the test interface, and each test cycles 10 times
+下面使用查询科目列表API(需登录)作为测试接口, 每轮测试循环10次.
 
-Test PC: Mac Mini 2018 (i3 4core 3.6GHz / 20G DDR4 2666)
+测试设备: Mac Mini 2018 (i3 4core 3.6GHz / 20G DDR4 2666)
 
-Test software: JMeter 5.5
+测试软件: JMeter 5.5
 
 | Thread | 90% | 95% | 99% | Error | QPS | CPU | Memory |
 | ------ | --- | --- | --- | ----- | --- | --- | --- |
@@ -47,28 +47,18 @@ Test software: JMeter 5.5
 | 3000 | 1255 | 1618 | 2242 | 0.09% | 4042.9/s | 172.3% | 275MB |
 | 1000 | 505 | 619 | 893 | 0.00% | 3125.0/s | 145.8% | 154MB |
 
-According to the test results, although you can run it on any device, if you want to get 3000QPS you'd better use a cpu with more than 2 cores and provide 1g of RAM
+根据测试结果, 虽然您可以在任何设备上运行它, 但如果您想获得3000QPS的速度, 最好使用2核以上的CPU并提供1G内存.
 
 ## Compile and package
 ```shell
-go mod download
-go mod tidy
-
-go build -o quest -ldflags '-s -w'
-
-# MacOS
-CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o quest -ldflags '-s -w'
-# Linux
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o quest -ldflags '-s -w'
-# Windows
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o quest -ldflags '-s -w'
+bash build.sh
 ```
 
-Default administrator account: admin / admin
+默认管理员账户: admin / admin
 
-## Firewall pass
+## 防火墙放行
 
-If you find that you cannot access other devices after startup, please check whether the firewall is enabled. If so, please pass the port
+如果您发现启动后无法在外部访问, 请检查防火墙是否启动, 如启动则请放行80端口
 
 ### Firewall
 

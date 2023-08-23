@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 echo "Start packaging..."
+
+go mod download
+go mod tidy
+
 mkdir ./out
 cp LICENSE ./out/LICENSE
 
