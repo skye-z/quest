@@ -49,8 +49,10 @@ Quest 对硬件要求很低, 您几乎可以在任何设备上运行它.
 
 根据测试结果, 虽然您可以在任何设备上运行它, 但如果您想获得3000QPS的速度, 最好使用2核以上的CPU并提供1G内存.
 
-## Compile and package
+## 从头构建
 ```shell
+git clone https://github.com/skye-z/quest.git
+cd quest
 bash build.sh
 ```
 

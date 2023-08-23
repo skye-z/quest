@@ -51,17 +51,9 @@ According to the test results, although you can run it on any device, if you wan
 
 ## Compile and package
 ```shell
-go mod download
-go mod tidy
-
-go build -o quest -ldflags '-s -w'
-
-# MacOS
-CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o quest -ldflags '-s -w'
-# Linux
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o quest -ldflags '-s -w'
-# Windows
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o quest -ldflags '-s -w'
+git clone https://github.com/skye-z/quest.git
+cd quest
+bash build.sh
 ```
 
 Default administrator account: admin / admin
