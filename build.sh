@@ -26,15 +26,15 @@ generate_exe(){
     cd ../
 }
 
-echo "[1] MacOS from amd64"
-generate darwin amd64
-echo "[2] MacOS from arm64"
-generate darwin arm64
+# echo "[1] MacOS from amd64"
+# generate darwin amd64
+# echo "[2] MacOS from arm64"
+# generate darwin arm64
 echo "[3] Linux from amd64"
 generate linux amd64
-echo "[4] Linux from arm64"
-generate linux arm64
-echo "[5] Windows from amd64"
-generate_exe amd64
-echo "[6] Windows from arm64"
-generate_exe arm64
+# echo "[4] Linux from arm64"
+# generate linux arm64
+# echo "[5] Windows from amd64"
+# generate_exe amd64
+# echo "[6] Windows from arm64"
+# generate_exe arm64
