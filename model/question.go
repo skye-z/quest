@@ -26,9 +26,9 @@ func (model QuestionModel) GetQuestionList(sid int64, keyword string, page int, 
 	if sid < 0 {
 		if len(keyword) > 0 {
 			cache = model.DB.Where("question LIKE ? OR options LIKE ?", keyword, keyword)
-			err = cache.Limit(page*num, (page-1)*num).Find(&questions)
+			err = cache.Limit(num, (page-1)*num).Find(&questions)
 		} else {
-			err = model.DB.Limit(page*num, (page-1)*num).Find(&questions)
+			err = model.DB.Limit(num, (page-1)*num).Find(&questions)
 		}
 	} else {
 		if len(keyword) > 0 {
@@ -36,7 +36,7 @@ func (model QuestionModel) GetQuestionList(sid int64, keyword string, page int, 
 		} else {
 			cache = model.DB.Where("subject = ?", sid)
 		}
-		err = cache.Limit(page*num, (page-1)*num).Find(&questions)
+		err = cache.Limit(num, (page-1)*num).Find(&questions)
 	}
 	if err != nil {
 		return nil, err
