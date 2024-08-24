@@ -51,7 +51,7 @@ According to the test results, although you can run it on any device, if you wan
 
 ## Compile and package
 ```shell
-git clone https://github.com/skye-z/quest.git
+git clone --recurse-submodules https://github.com/skye-z/quest.git
 cd quest
 bash build.sh
 ```

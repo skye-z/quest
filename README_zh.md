@@ -51,7 +51,7 @@ Quest 对硬件要求很低, 您几乎可以在任何设备上运行它.
 
 ## 从头构建
 ```shell
-git clone https://github.com/skye-z/quest.git
+git clone --recurse-submodules https://github.com/skye-z/quest.git
 cd quest
 bash build.sh
 ```

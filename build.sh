@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# check page
+if [ ! -d "./page/dist/" ]; then
+    echo "Build page..."
+    cd page
+    yarn run build
+    cd ../
+fi
+
 echo "Start packaging..."
 
 go mod download
@@ -26,8 +34,8 @@ generate_exe(){
     cd ../
 }
 
-# echo "[1] MacOS from amd64"
-# generate darwin amd64
+echo "[1] MacOS from amd64"
+generate darwin amd64
 # echo "[2] MacOS from arm64"
 # generate darwin arm64
 echo "[3] Linux from amd64"
